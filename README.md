@@ -7,7 +7,6 @@ AI-powered multi-agent pipeline for evaluating engineering reports (EE990/EE997/
 ## Installation
 
 ```bash
-cd engineering_evaluator
 python -m venv .venv
 
 # Windows
@@ -28,29 +27,34 @@ Copy `.env.example` to `.env` and fill in your values:
 cp .env.example .env
 ```
 
-### Using Groq (recommended)
+### Using Gemini
 
-1. Get a free API key at [console.groq.com](https://console.groq.com).
-2. Set `LLM_BACKEND=groq` and `GROQ_API_KEY=gsk_...` in `.env`.
-3. The default models (`llama-3.3-70b-versatile` / `llama-3.1-8b-instant`) are already configured.
+1. Get an API key at [aistudio.google.com](https://aistudio.google.com).
+2. Set `GEMINI_API_KEY=your_key_here` in `.env`.
+3. Optionally override the model with `GEMINI_MODEL=gemini-2.5-flash` (default).
 
-### Using Ollama (local development)
+### Environment variables
 
-1. Install Ollama from [ollama.com](https://ollama.com).
-2. Pull the models:
-   ```bash
-   ollama pull llama3.1:8b
-   ollama pull llama3.2:3b
-   ```
-3. Set `LLM_BACKEND=ollama` in `.env`.
-4. Start Ollama: `ollama serve`.
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `GEMINI_API_KEY` | *(required)* | Google Gemini API key |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | Model to use for all pipeline stages |
+| `REVIEWER_TEMPERATURE` | `0.3` | Temperature for reviewer agents |
+| `DETERMINISTIC_TEMPERATURE` | `0.0` | Temperature for deterministic stages |
+| `SELF_CONSISTENCY_RUNS` | `3` | Number of parallel reviewer runs per stage |
+| `MAX_DOCUMENT_CHARS` | `80000` | Maximum characters accepted per document |
+| `MAX_SECTION_CHARS` | `15000` | Maximum characters per document section |
+| `APP_HOST` | `0.0.0.0` | Server bind host |
+| `APP_PORT` | `8000` | Server bind port |
+| `APP_DEBUG` | `false` | Enable debug mode (verbose console logging) |
+| `SECRET_KEY` | `change_me` | Required for the `/evaluate/sync` endpoint |
 
 ---
 
 ## Running the server
 
 ```bash
-# Development (auto-reload)
+# Development (auto-reload + verbose logging)
 APP_DEBUG=true uvicorn main:app --reload --port 8000
 
 # Production
@@ -61,13 +65,46 @@ Interactive API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
+## Frontend
+
+A React SPA lives in `frontend/`. In development it proxies `/api` to the backend automatically.
+
+```bash
+cd frontend
+npm install
+npm run dev       # http://localhost:5173
+```
+
+For production, build the frontend first and the backend will serve it automatically:
+
+```bash
+cd frontend && npm run build
+# then start the backend — it detects frontend/dist/ and mounts it at /
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+---
+
+## Logging
+
+Structured logs are written to two sinks at startup:
+
+| Sink | Level | Details |
+|------|-------|---------|
+| Console (stderr) | `INFO` (or `DEBUG` when `APP_DEBUG=true`) | Human-readable |
+| `logs/pipeline.log` | `DEBUG` always | Rotating, 10 MB × 5 files |
+
+Each LLM call is logged with model name, temperature, prompt lengths, elapsed time, and response length. Retry attempts are logged at `WARNING` level.
+
+---
+
 ## Running the test suite
 
 ```bash
 pytest tests/ -v
 ```
 
-Tests that call the pipeline stages (test_pipeline.py) do **not** make real LLM calls — they only test the HTTP layer, XML parsing, and scoring formulas.
+Tests that call the pipeline stages (`test_pipeline.py`) do **not** make real LLM calls — they only test the HTTP layer, XML parsing, and scoring formulas.
 
 ---
 
@@ -144,7 +181,7 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
     "confidence_interval": [63.4, 71.4],
     "gate_triggered": false,
     "deferred": false,
-    "criterion_breakdown": { ... }
+    "criterion_breakdown": { "...": "..." }
   },
   "feedback": {
     "overall_assessment": "...",
@@ -158,8 +195,8 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
     "final_recommendation": "RELEASE",
     "injection_found": false
   },
-  "consensus": { "scores": { ... } },
-  "pipeline_metadata": { ... }
+  "consensus": { "scores": { "...": "..." } },
+  "pipeline_metadata": { "...": "..." }
 }
 ```
 
@@ -183,7 +220,7 @@ curl -X POST http://localhost:8000/api/v1/evaluate/sync \
 
 ```bash
 curl http://localhost:8000/api/v1/health
-# {"status":"ok","backend":"groq","model":"llama-3.3-70b-versatile","debug":false}
+# {"status":"ok","backend":"gemini","model":"gemini-2.5-flash","debug":false}
 ```
 
 ---

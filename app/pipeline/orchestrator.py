@@ -1,11 +1,10 @@
 """
 Pipeline orchestrator. Runs all 10 stages in sequence.
-Stages 2, 3, 4 run in parallel using asyncio.gather.
-Stages 5 and 6 run per-reviewer (three times each, also parallel).
 """
 
-import asyncio
-import sys
+import logging
+import time
+
 from app.services.llm_service import LLMService
 from app.services.document_service import DocumentService
 from app.pipeline import (
@@ -23,6 +22,12 @@ from app.pipeline import (
 from app.models.response_models import EvaluationResult
 from app.utils.job_store import job_store
 
+logger = logging.getLogger(__name__)
+
+
+def _elapsed(t0: float) -> str:
+    return f"{time.perf_counter() - t0:.2f}s"
+
 
 class PipelineOrchestrator:
 
@@ -31,72 +36,182 @@ class PipelineOrchestrator:
         self.doc_service = DocumentService()
 
     async def run(self, job_id: str, document_text: str) -> EvaluationResult:
-
+        pipeline_start = time.perf_counter()
+        logger.info(
+            "[%s] Pipeline started — document length=%d chars",
+            job_id,
+            len(document_text),
+        )
         job_store.update(job_id, status="running", stage="segmentation", progress=5)
 
         try:
-            # --- Stage 1: Segmentation ---
+            # ----------------------------------------------------------------
+            # Stage 1: Segmentation
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 1 (segmentation) — starting", job_id)
             sections = await stage1_segment.run(self.llm, document_text)
-            print(f"[{job_id}] Stage 1 complete — {len(sections)} sections found.", file=sys.stderr)
+            logger.info(
+                "[%s] Stage 1 complete — %d sections found (%s)",
+                job_id,
+                len(sections),
+                _elapsed(t),
+            )
+            for i, s in enumerate(sections):
+                logger.debug(
+                    "[%s]   section[%d] name=%r  type=%s  words=%d  status=%s",
+                    job_id,
+                    i,
+                    s.get("section_name"),
+                    s.get("section_type"),
+                    s.get("word_count", 0),
+                    s.get("status"),
+                )
             job_store.update(job_id, stage="reviewing", progress=15)
 
-            # --- Stages 2+3+4: Parallel reviewer pass ---
-            de_out, meth_out, comm_out = await asyncio.gather(
-                stage2_domain_expert.run(self.llm, sections),
-                stage3_methodologist.run(self.llm, sections),
-                stage4_communication.run(self.llm, sections),
+            # ----------------------------------------------------------------
+            # Stages 2+3+4: Sequential reviewer pass
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stages 2-4 (sequential reviewer pass) — starting", job_id)
+            de_out = await stage2_domain_expert.run(self.llm, sections)
+            meth_out = await stage3_methodologist.run(self.llm, sections)
+            comm_out = await stage4_communication.run(self.llm, sections)
+            logger.info(
+                "[%s] Stages 2-4 complete (%s) — DE scores=%s  METH scores=%s  COMM scores=%s",
+                job_id,
+                _elapsed(t),
+                {k: v.get("score") for k, v in de_out.get("scores", {}).items()},
+                {k: v.get("score") for k, v in meth_out.get("scores", {}).items()},
+                {k: v.get("score") for k, v in comm_out.get("scores", {}).items()},
             )
-            print(f"[{job_id}] Stages 2-4 complete.", file=sys.stderr)
             job_store.update(job_id, stage="auditing", progress=40)
 
-            # --- Stage 5: Self-critique (three parallel audits) ---
-            de_audit, meth_audit, comm_audit = await asyncio.gather(
-                stage5_self_critique.run(self.llm, "Domain Expert", de_out),
-                stage5_self_critique.run(self.llm, "Methodologist", meth_out),
-                stage5_self_critique.run(self.llm, "Communication Specialist", comm_out),
+            # ----------------------------------------------------------------
+            # Stage 5: Self-critique (sequential audits)
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 5 (self-critique audits) — starting", job_id)
+            de_audit = await stage5_self_critique.run(self.llm, "Domain Expert", de_out)
+            meth_audit = await stage5_self_critique.run(self.llm, "Methodologist", meth_out)
+            comm_audit = await stage5_self_critique.run(self.llm, "Communication Specialist", comm_out)
+            logger.info(
+                "[%s] Stage 5 complete (%s) — DE quality=%s  METH quality=%s  COMM quality=%s",
+                job_id,
+                _elapsed(t),
+                de_audit.get("overall_quality"),
+                meth_audit.get("overall_quality"),
+                comm_audit.get("overall_quality"),
             )
-            print(f"[{job_id}] Stage 5 complete.", file=sys.stderr)
+            for audit in (de_audit, meth_audit, comm_audit):
+                issues = audit.get("issues", [])
+                if issues:
+                    logger.debug(
+                        "[%s]   %s audit issues: %s",
+                        job_id,
+                        audit.get("reviewer_name"),
+                        [i.get("type") for i in issues],
+                    )
             job_store.update(job_id, stage="reflecting", progress=55)
 
-            # --- Stage 6: Reflection (three parallel reflections) ---
-            de_final, meth_final, comm_final = await asyncio.gather(
-                stage6_reflection.run(self.llm, "Domain Expert", de_out, de_audit, sections),
-                stage6_reflection.run(self.llm, "Methodologist", meth_out, meth_audit, sections),
-                stage6_reflection.run(self.llm, "Communication Specialist", comm_out, comm_audit, sections),
+            # ----------------------------------------------------------------
+            # Stage 6: Reflection (sequential reflections)
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 6 (reflection pass) — starting", job_id)
+            de_final = await stage6_reflection.run(self.llm, "Domain Expert", de_out, de_audit, sections)
+            meth_final = await stage6_reflection.run(self.llm, "Methodologist", meth_out, meth_audit, sections)
+            comm_final = await stage6_reflection.run(self.llm, "Communication Specialist", comm_out, comm_audit, sections)
+            logger.info(
+                "[%s] Stage 6 complete (%s) — DE final=%s  METH final=%s  COMM final=%s",
+                job_id,
+                _elapsed(t),
+                {k: v.get("score") for k, v in de_final.get("final_scores", {}).items()},
+                {k: v.get("score") for k, v in meth_final.get("final_scores", {}).items()},
+                {k: v.get("score") for k, v in comm_final.get("final_scores", {}).items()},
             )
-            print(f"[{job_id}] Stage 6 complete.", file=sys.stderr)
             job_store.update(job_id, stage="consensus", progress=68)
 
-            # --- Stage 7: Consensus ---
+            # ----------------------------------------------------------------
+            # Stage 7: Consensus
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 7 (consensus reconciliation) — starting", job_id)
             consensus_out = await stage7_consensus.run(
                 self.llm, de_final, meth_final, comm_final
             )
-            print(f"[{job_id}] Stage 7 complete.", file=sys.stderr)
+            logger.info(
+                "[%s] Stage 7 complete (%s) — scores=%s  deferral=%s",
+                job_id,
+                _elapsed(t),
+                {k: v.get("score") for k, v in consensus_out.get("scores", {}).items()},
+                consensus_out.get("deferral_assessment", {}).get("recommendation"),
+            )
             job_store.update(job_id, stage="scoring", progress=75)
 
-            # --- Stage 8: Scoring (pure Python, no LLM) ---
+            # ----------------------------------------------------------------
+            # Stage 8: Scoring (pure Python, no LLM)
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 8 (deterministic scoring) — starting", job_id)
             scoring_result = stage8_scoring.run(consensus_out)
-            print(
-                f"[{job_id}] Stage 8 complete — score={scoring_result['final_score']}, "
-                f"band={scoring_result['grade_band']}.",
-                file=sys.stderr,
+            logger.info(
+                "[%s] Stage 8 complete (%s) — final_score=%.1f  grade=%s  "
+                "gate=%s  deferred=%s  CI=%s",
+                job_id,
+                _elapsed(t),
+                scoring_result.get("final_score", 0),
+                scoring_result.get("grade_band"),
+                scoring_result.get("gate_triggered"),
+                scoring_result.get("deferred"),
+                scoring_result.get("confidence_interval"),
             )
             job_store.update(job_id, stage="feedback", progress=82)
 
-            # --- Stage 9: Feedback synthesis ---
+            # ----------------------------------------------------------------
+            # Stage 9: Feedback synthesis
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 9 (feedback synthesis) — starting", job_id)
             feedback_out = await stage9_feedback.run(
                 self.llm, consensus_out, scoring_result, sections
             )
-            print(f"[{job_id}] Stage 9 complete.", file=sys.stderr)
+            logger.info(
+                "[%s] Stage 9 complete (%s) — strengths=%d  improvements=%d",
+                job_id,
+                _elapsed(t),
+                len(feedback_out.get("strengths", [])),
+                len(feedback_out.get("areas_for_improvement", [])),
+            )
             job_store.update(job_id, stage="verification", progress=92)
 
-            # --- Stage 10: Verification guard ---
+            # ----------------------------------------------------------------
+            # Stage 10: Verification guard
+            # ----------------------------------------------------------------
+            t = time.perf_counter()
+            logger.info("[%s] Stage 10 (verification guard) — starting", job_id)
             verification_out = await stage10_verification.run(
                 self.llm, feedback_out, document_text
             )
-            print(f"[{job_id}] Stage 10 complete — integrity={verification_out.get('overall_integrity')}.", file=sys.stderr)
+            logger.info(
+                "[%s] Stage 10 complete (%s) — integrity=%s  recommendation=%s  injection=%s",
+                job_id,
+                _elapsed(t),
+                verification_out.get("overall_integrity"),
+                verification_out.get("final_recommendation"),
+                verification_out.get("injection_found"),
+            )
+            if verification_out.get("injection_found"):
+                logger.warning(
+                    "[%s] INJECTION DETECTED — patterns: %s",
+                    job_id,
+                    [p.get("type") for p in verification_out.get("detected_patterns", [])],
+                )
             job_store.update(job_id, stage="complete", progress=100)
 
+            # ----------------------------------------------------------------
+            # Assemble final result
+            # ----------------------------------------------------------------
             result = EvaluationResult(
                 job_id=job_id,
                 status="complete",
@@ -117,9 +232,23 @@ class PipelineOrchestrator:
                 },
             )
             job_store.set_result(job_id, result)
+
+            total = _elapsed(pipeline_start)
+            logger.info(
+                "[%s] Pipeline COMPLETE — total_time=%s  score=%.1f  grade=%s",
+                job_id,
+                total,
+                scoring_result.get("final_score", 0),
+                scoring_result.get("grade_band"),
+            )
             return result
 
-        except Exception as e:
-            print(f"[{job_id}] Pipeline failed at stage: {e}", file=sys.stderr)
-            job_store.update(job_id, status="failed", error=str(e))
+        except Exception as exc:
+            logger.exception(
+                "[%s] Pipeline FAILED — elapsed=%s  error=%s",
+                job_id,
+                _elapsed(pipeline_start),
+                exc,
+            )
+            job_store.update(job_id, status="failed", error=str(exc))
             raise

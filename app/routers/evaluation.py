@@ -8,6 +8,7 @@ POST /api/v1/evaluate/sync     — synchronous (dev/debug only, requires secret 
 GET  /api/v1/health            — liveness check
 """
 
+import logging
 import uuid
 import secrets
 from typing import Optional
@@ -18,6 +19,8 @@ from app.config import get_settings
 from app.pipeline.orchestrator import PipelineOrchestrator
 from app.services.document_service import DocumentService
 from app.utils.job_store import job_store
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1")
 orchestrator = PipelineOrchestrator()
@@ -69,6 +72,8 @@ async def evaluate(
     """
     text = await _resolve_text(file, raw_text)
     job_id = str(uuid.uuid4())
+    source = file.filename if file is not None else "raw_text"
+    logger.info("Evaluate request — job_id=%s  source=%r  doc_len=%d chars", job_id, source, len(text))
     job_store.create(job_id, status="queued", stage="pending", progress=0)
     background_tasks.add_task(orchestrator.run, job_id, text)
     return {"job_id": job_id, "status": "queued"}
@@ -130,26 +135,24 @@ async def evaluate_sync(
 
     text = await _resolve_text(file, raw_text)
     job_id = str(uuid.uuid4())
+    source = file.filename if file is not None else "raw_text"
+    logger.info("Evaluate/sync request — job_id=%s  source=%r  doc_len=%d chars", job_id, source, len(text))
     job_store.create(job_id, status="queued", stage="pending", progress=0)
 
     try:
         result = await orchestrator.run(job_id, text)
         return result
-    except Exception as e:
-        raise HTTPException(500, f"Pipeline error: {e}")
+    except Exception as exc:
+        logger.exception("Evaluate/sync — pipeline error for job_id=%s", job_id)
+        raise HTTPException(500, f"Pipeline error: {exc}")
 
 
 @router.get("/health", summary="Liveness check")
 async def health():
     settings = get_settings()
-    model = (
-        settings.groq_primary_model
-        if settings.llm_backend == "groq"
-        else settings.ollama_primary_model
-    )
     return {
         "status": "ok",
-        "backend": settings.llm_backend,
-        "model": model,
+        "backend": "gemini",
+        "model": settings.gemini_model,
         "debug": settings.app_debug,
     }

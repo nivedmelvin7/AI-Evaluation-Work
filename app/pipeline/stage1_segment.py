@@ -10,18 +10,23 @@ Self-consistency: No
 """
 
 import json
+import logging
 import re
-import sys
-from typing import List, Dict, Any
+import time
+from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
 from app.prompts.templates import SEGMENTATION_SYSTEM, SEGMENTATION_USER_TEMPLATE
 
+logger = logging.getLogger(__name__)
+
 
 async def run(llm: LLMService, document_text: str) -> List[Dict[str, Any]]:
     """Segment the document into labelled sections via LLM JSON output."""
+    logger.info("Stage 1 — segmenting document (%d chars)", len(document_text))
     user_prompt = SEGMENTATION_USER_TEMPLATE.format(document_text=document_text)
 
+    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=SEGMENTATION_SYSTEM,
@@ -29,9 +34,11 @@ async def run(llm: LLMService, document_text: str) -> List[Dict[str, Any]]:
             temperature=0.0,
             max_tokens=4096,
         )
-    except Exception as e:
-        print(f"[Stage 1] LLM call failed: {e}", file=sys.stderr)
+    except Exception:
+        logger.exception("Stage 1 — LLM call failed; using fallback single-section")
         return _fallback_section(document_text)
+
+    logger.debug("Stage 1 — LLM response received (%.2fs, %d chars)", time.perf_counter() - t0, len(raw))
 
     # Strip markdown fences
     raw = re.sub(r"```json\s*", "", raw)
@@ -43,12 +50,14 @@ async def run(llm: LLMService, document_text: str) -> List[Dict[str, Any]]:
     end = raw.rfind("]")
     if start != -1 and end != -1:
         raw = raw[start: end + 1]
+    else:
+        logger.warning("Stage 1 — could not find JSON array brackets in LLM response; using fallback")
+        return _fallback_section(document_text)
 
     try:
         sections = json.loads(raw)
         if not isinstance(sections, list) or len(sections) == 0:
             raise ValueError("Empty or non-list response")
-        # Validate required keys; fill defaults where missing
         validated = []
         for s in sections:
             validated.append({
@@ -58,14 +67,16 @@ async def run(llm: LLMService, document_text: str) -> List[Dict[str, Any]]:
                 "word_count": s.get("word_count", len(s.get("content", "").split())),
                 "status": s.get("status", "PRESENT"),
             })
+        logger.info("Stage 1 — parsed %d sections successfully", len(validated))
         return validated
-    except (json.JSONDecodeError, ValueError) as e:
-        print(f"[Stage 1] JSON parse failed: {e}", file=sys.stderr)
+    except (json.JSONDecodeError, ValueError) as exc:
+        logger.warning("Stage 1 — JSON parse failed (%s); using fallback single-section", exc)
         return _fallback_section(document_text)
 
 
 def _fallback_section(document_text: str) -> List[Dict[str, Any]]:
     """Return the entire document as one section when segmentation fails."""
+    logger.warning("Stage 1 — returning fallback single-section (%d words)", len(document_text.split()))
     return [{
         "section_name": "Full Document",
         "section_type": "OTHER",

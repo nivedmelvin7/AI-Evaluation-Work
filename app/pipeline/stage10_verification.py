@@ -17,12 +17,15 @@ Temperature: 0.0 (deterministic)
 Self-consistency: No
 """
 
-import sys
-from typing import Dict, Any
+import logging
+import time
+from typing import Any, Dict
 
 from app.services.llm_service import LLMService
 from app.prompts.templates import VERIFICATION_SYSTEM, VERIFICATION_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
+
+logger = logging.getLogger(__name__)
 
 # Cap document text sent to verifier to avoid token limits
 _VERIFICATION_DOC_CHAR_LIMIT = 20000
@@ -34,17 +37,27 @@ async def run(
     full_document_text: str,
 ) -> Dict[str, Any]:
     """Run factual verification and injection detection on the feedback."""
+    logger.info("Stage 10 (verification) — checking feedback integrity")
+
     feedback_xml = feedback_out.get("raw_xml", "")
     if not feedback_xml:
         feedback_xml = feedback_out.get("overall_assessment", str(feedback_out))
+        logger.debug("Stage 10 — no feedback XML; using overall_assessment text")
 
     doc_excerpt = full_document_text[:_VERIFICATION_DOC_CHAR_LIMIT]
+    if len(full_document_text) > _VERIFICATION_DOC_CHAR_LIMIT:
+        logger.debug(
+            "Stage 10 — document truncated from %d to %d chars for verifier",
+            len(full_document_text),
+            _VERIFICATION_DOC_CHAR_LIMIT,
+        )
 
     user_prompt = VERIFICATION_USER_TEMPLATE.format(
         feedback_output=feedback_xml,
         full_document_text=doc_excerpt,
     )
 
+    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=VERIFICATION_SYSTEM,
@@ -52,9 +65,11 @@ async def run(
             temperature=0.0,
             max_tokens=4096,
         )
-    except Exception as e:
-        print(f"[Stage 10] LLM call failed: {e}", file=sys.stderr)
+    except Exception:
+        logger.exception("Stage 10 — LLM call failed; defaulting to PASS/RELEASE")
         return _default_verification()
+
+    logger.debug("Stage 10 — LLM response received (%.2fs, %d chars)", time.perf_counter() - t0, len(raw))
 
     parsed = parse_xml_response(raw, "verification")
 
@@ -69,7 +84,7 @@ async def run(
     }
 
     if parsed is None:
-        print("[Stage 10] XML parse failed — defaulting to PASS/RELEASE.", file=sys.stderr)
+        logger.warning("Stage 10 — XML parse failed; defaulting to PASS/RELEASE")
         return result
 
     integrity_el = parsed.find("overall_integrity")
@@ -106,8 +121,25 @@ async def run(
         })
     result["detected_patterns"] = patterns
 
-    # If verification recommends REJECT, flag in result but do not suppress evaluation
+    logger.info(
+        "Stage 10 complete — integrity=%s  recommendation=%s  injection=%s  patterns=%d",
+        result["overall_integrity"],
+        result["final_recommendation"],
+        result["injection_found"],
+        len(patterns),
+    )
+
+    if result["injection_found"]:
+        logger.warning(
+            "Stage 10 — PROMPT INJECTION DETECTED — %d pattern(s): %s",
+            len(patterns),
+            [p.get("type") for p in patterns],
+        )
+
     if result["final_recommendation"] == "REJECT":
+        logger.error(
+            "Stage 10 — REJECT recommendation — evaluation should not be released without review"
+        )
         result["rejection_warning"] = (
             "Verification stage flagged this evaluation for rejection. "
             "Results are included but should not be released without manual review."

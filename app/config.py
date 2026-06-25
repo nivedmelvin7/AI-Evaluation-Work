@@ -3,25 +3,15 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # LLM backend
-    llm_backend: str = "groq"
-
-    # Groq
-    groq_api_key: str = "not_set"
-    groq_primary_model: str = "llama-3.3-70b-versatile"
-    groq_fast_model: str = "llama-3.1-8b-instant"
-    groq_base_url: str = "https://api.groq.com/openai/v1"
-
-    # Ollama
-    ollama_base_url: str = "http://localhost:11434"
-    ollama_primary_model: str = "llama3.1:8b"
-    ollama_fast_model: str = "llama3.2:3b"
+    # Gemini
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
 
     # Pipeline
     reviewer_temperature: float = 0.3
     deterministic_temperature: float = 0.0
     self_consistency_runs: int = 3
-    max_document_chars: int = 80000
+    max_document_chars: int = 200000
     max_section_chars: int = 15000
 
     # Server

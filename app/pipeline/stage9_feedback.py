@@ -18,13 +18,16 @@ Self-consistency: No
 """
 
 import json
-import sys
-from typing import Dict, Any, List
+import logging
+import time
+from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
 from app.prompts.templates import FEEDBACK_SYSTEM, FEEDBACK_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
 from app.pipeline import format_sections_for_prompt
+
+logger = logging.getLogger(__name__)
 
 
 async def run(
@@ -34,11 +37,18 @@ async def run(
     sections: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
     """Synthesise written feedback from consensus evaluation and scoring."""
+    logger.info(
+        "Stage 9 (feedback synthesis) — score=%.1f  grade=%s",
+        scoring_result.get("final_score", 0),
+        scoring_result.get("grade_band"),
+    )
+
     doc_sections_text = format_sections_for_prompt(sections)
 
     consensus_text = consensus_out.get("raw_xml", "")
     if not consensus_text:
         consensus_text = json.dumps(consensus_out.get("scores", {}), indent=2)
+        logger.debug("Stage 9 — no consensus XML; using JSON scores")
 
     scoring_text = json.dumps(
         {
@@ -62,6 +72,7 @@ async def run(
         document_sections=doc_sections_text,
     )
 
+    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=FEEDBACK_SYSTEM,
@@ -69,12 +80,20 @@ async def run(
             temperature=0.3,
             max_tokens=4096,
         )
-    except Exception as e:
-        print(f"[Stage 9] LLM call failed: {e}", file=sys.stderr)
-        return {"raw_xml": "", "overall_assessment": "Feedback generation failed.", "strengths": [], "areas_for_improvement": [], "recommended_actions": "", "closing": ""}
+    except Exception:
+        logger.exception("Stage 9 — LLM call failed; returning empty feedback")
+        return {
+            "raw_xml": "",
+            "overall_assessment": "Feedback generation failed.",
+            "strengths": [],
+            "areas_for_improvement": [],
+            "recommended_actions": "",
+            "closing": "",
+        }
+
+    logger.debug("Stage 9 — LLM response received (%.2fs, %d chars)", time.perf_counter() - t0, len(raw))
 
     parsed = parse_xml_response(raw, "feedback")
-
     feedback_dict: Dict[str, Any] = {"raw_xml": raw}
 
     if parsed is not None:
@@ -103,8 +122,14 @@ async def run(
         closing_el = parsed.find("closing")
         if closing_el is not None and closing_el.text:
             feedback_dict["closing"] = closing_el.text.strip()
+
+        logger.info(
+            "Stage 9 complete — strengths=%d  improvements=%d",
+            len(strengths),
+            len(improvements),
+        )
     else:
-        print("[Stage 9] XML parse failed — returning raw text.", file=sys.stderr)
+        logger.warning("Stage 9 — XML parse failed; returning raw text excerpt as assessment")
         feedback_dict["overall_assessment"] = raw[:500]
 
     return feedback_dict

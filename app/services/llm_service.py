@@ -1,20 +1,13 @@
-"""
-Unified LLM service supporting Groq (OpenAI-compatible) and Ollama.
-
-Usage:
-    from app.services.llm_service import LLMService
-    service = LLMService()
-    response = await service.complete(
-        system_prompt="...",
-        user_prompt="...",
-        temperature=0.3,
-        use_fast_model=False
-    )
-"""
-
-import httpx
 import asyncio
+import logging
+import time
+
+from google import genai
+from google.genai import types
+
 from app.config import get_settings
+
+logger = logging.getLogger(__name__)
 
 
 class LLMError(Exception):
@@ -25,6 +18,7 @@ class LLMService:
 
     def __init__(self):
         self.settings = get_settings()
+        self.client = genai.Client(api_key=self.settings.gemini_api_key)
 
     async def complete(
         self,
@@ -34,20 +28,38 @@ class LLMService:
         use_fast_model: bool = False,
         max_tokens: int = 4096,
     ) -> str:
-        """
-        Returns the raw text content of the LLM response.
-        Raises LLMError on failure.
-        """
-        if self.settings.llm_backend == "groq":
-            return await self._groq_complete(
-                system_prompt, user_prompt, temperature, use_fast_model, max_tokens
-            )
-        elif self.settings.llm_backend == "ollama":
-            return await self._ollama_complete(
-                system_prompt, user_prompt, temperature, use_fast_model, max_tokens
-            )
-        else:
-            raise ValueError(f"Unknown LLM_BACKEND: {self.settings.llm_backend}")
+        model_name = self.settings.gemini_model
+        config = types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            temperature=temperature,
+            max_output_tokens=max_tokens,
+        )
+
+        logger.debug(
+            "LLM call — model=%s  temp=%.1f  max_tokens=%d  "
+            "system_prompt_len=%d  user_prompt_len=%d",
+            model_name,
+            temperature,
+            max_tokens,
+            len(system_prompt),
+            len(user_prompt),
+        )
+
+        t0 = time.perf_counter()
+        response = await self.client.aio.models.generate_content(
+            model=model_name,
+            contents=user_prompt,
+            config=config,
+        )
+        elapsed = time.perf_counter() - t0
+        content = response.text
+        logger.debug(
+            "LLM response received — model=%s  elapsed=%.2fs  response_len=%d chars",
+            model_name,
+            elapsed,
+            len(content),
+        )
+        return content
 
     async def complete_with_retry(
         self,
@@ -59,71 +71,35 @@ class LLMService:
         retries: int = 3,
         delay: float = 2.0,
     ) -> str:
-        """Retry wrapper with exponential backoff."""
-        last_error = None
+        model_name = self.settings.gemini_model
+        last_error: Exception | None = None
+
         for attempt in range(retries):
             try:
+                if attempt > 0:
+                    wait = delay * (2 ** (attempt - 1))
+                    logger.warning(
+                        "LLM retry %d/%d for model=%s — waiting %.1fs after error: %s",
+                        attempt + 1,
+                        retries,
+                        model_name,
+                        wait,
+                        last_error,
+                    )
+                    await asyncio.sleep(wait)
+
                 return await self.complete(
                     system_prompt, user_prompt, temperature, use_fast_model, max_tokens
                 )
-            except Exception as e:
-                last_error = e
-                if attempt < retries - 1:
-                    await asyncio.sleep(delay * (2**attempt))
+            except Exception as exc:
+                last_error = exc
+                logger.error(
+                    "LLM attempt %d/%d failed — model=%s  error=%s",
+                    attempt + 1,
+                    retries,
+                    model_name,
+                    exc,
+                    exc_info=True,
+                )
+
         raise LLMError(f"All {retries} attempts failed: {last_error}")
-
-    async def _groq_complete(
-        self, system: str, user: str, temperature: float, fast: bool, max_tokens: int
-    ) -> str:
-        model = (
-            self.settings.groq_fast_model if fast else self.settings.groq_primary_model
-        )
-        headers = {
-            "Authorization": f"Bearer {self.settings.groq_api_key}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }
-        async with httpx.AsyncClient(timeout=120.0) as client:
-            resp = await client.post(
-                f"{self.settings.groq_base_url}/chat/completions",
-                headers=headers,
-                json=payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["choices"][0]["message"]["content"]
-
-    async def _ollama_complete(
-        self, system: str, user: str, temperature: float, fast: bool, max_tokens: int
-    ) -> str:
-        model = (
-            self.settings.ollama_fast_model if fast else self.settings.ollama_primary_model
-        )
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            "stream": False,
-            "options": {
-                "temperature": temperature,
-                "num_predict": max_tokens,
-            },
-        }
-        async with httpx.AsyncClient(timeout=300.0) as client:
-            resp = await client.post(
-                f"{self.settings.ollama_base_url}/api/chat",
-                json=payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["message"]["content"]

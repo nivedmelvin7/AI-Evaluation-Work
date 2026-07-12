@@ -48,6 +48,23 @@ export async function getResult(jobId) {
   return handleResponse(res);
 }
 
+export async function getDocumentMeta(jobId) {
+  const res = await fetch(`${BASE}/api/v1/document/${jobId}/meta`);
+  return handleResponse(res);
+}
+
+export async function getDocumentBlob(jobId) {
+  const res = await fetch(`${BASE}/api/v1/document/${jobId}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.blob();
+}
+
+export async function getDocumentHtml(jobId) {
+  const res = await fetch(`${BASE}/api/v1/document/${jobId}/html`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.text();
+}
+
 export async function evaluateSync({ file, rawText, secretKey }) {
   const form = new FormData();
   if (file) {

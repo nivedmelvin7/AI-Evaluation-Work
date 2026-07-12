@@ -35,7 +35,7 @@ class PipelineOrchestrator:
         self.llm = LLMService()
         self.doc_service = DocumentService()
 
-    async def run(self, job_id: str, document_text: str) -> EvaluationResult:
+    async def run(self, job_id: str, document_text: str, pages: list = None) -> EvaluationResult:
         pipeline_start = time.perf_counter()
         logger.info(
             "[%s] Pipeline started — document length=%d chars",
@@ -176,6 +176,18 @@ class PipelineOrchestrator:
             feedback_out = await stage9_feedback.run(
                 self.llm, consensus_out, scoring_result, sections
             )
+            # Enrich citations with page numbers from the original document
+            if pages:
+                for item in feedback_out.get("strengths", []):
+                    if isinstance(item, dict):
+                        for cit in item.get("citations", []):
+                            if cit.get("quote") and cit.get("page") is None:
+                                cit["page"] = self.doc_service.find_quote_page(pages, cit["quote"])
+                for item in feedback_out.get("areas_for_improvement", []):
+                    if isinstance(item, dict):
+                        for cit in item.get("citations", []):
+                            if cit.get("quote") and cit.get("page") is None:
+                                cit["page"] = self.doc_service.find_quote_page(pages, cit["quote"])
             logger.info(
                 "[%s] Stage 9 complete (%s) — strengths=%d  improvements=%d",
                 job_id,

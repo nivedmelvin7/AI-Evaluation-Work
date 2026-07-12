@@ -928,6 +928,255 @@ a:hover { text-decoration: underline; }
 .conf-medium { color: var(--warning); }
 .conf-low { color: var(--danger); }
 
+/* ── Result split layout ──────────────────────────────────────── */
+.result-split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(480px, 680px);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.result-preview-col {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+  .result-split-layout {
+    grid-template-columns: 1fr;
+  }
+  .result-preview-col {
+    position: static;
+    max-height: 60vh;
+  }
+}
+
+/* ── Document preview panel ───────────────────────────────────── */
+.doc-preview-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  max-height: 900px;
+  overflow: hidden;
+}
+
+.doc-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.doc-preview-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.doc-preview-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.doc-preview-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #1a1d26;
+}
+
+.doc-preview-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text-secondary);
+  height: 100%;
+}
+
+/* PDF canvas pages */
+.pdf-pages-container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pdf-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.pdf-page-num {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding-left: 2px;
+  font-family: var(--font-mono);
+}
+
+.pdf-canvas-wrap {
+  position: relative;
+  line-height: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+canvas.pdf-page {
+  display: block;
+  width: 100%;
+}
+
+canvas.pdf-highlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* HTML doc iframe */
+.doc-html-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+  display: block;
+}
+
+/* Citation spotlight bar */
+.citation-spotlight {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  background: rgba(91, 106, 240, 0.06);
+}
+
+.citation-spotlight-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.citation-spotlight-quote {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-style: italic;
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  padding: 0.4rem 0.65rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ── Citation chips in feedback ───────────────────────────────── */
+.citation-chips-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.citation-chip-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.citation-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  padding: 0.15em 0.55em;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid rgba(91, 106, 240, 0.3);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.citation-chip:hover {
+  background: rgba(91, 106, 240, 0.25);
+  border-color: var(--accent);
+}
+
+.citation-page {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Tooltip */
+.citation-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 0.75rem 0.9rem;
+  width: 280px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+
+.citation-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--border);
+}
+
+.citation-tooltip-section {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.citation-tooltip-quote {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.citation-tooltip-page {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
 /* ── Numeric tabular ──────────────────────────────────────────── */
 .num { font-variant-numeric: tabular-nums; }
 

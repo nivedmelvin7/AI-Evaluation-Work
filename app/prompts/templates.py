@@ -304,10 +304,11 @@ writing detailed, constructive reviewer feedback. Write in your own
 voice as a human reviewer. Do not reveal this is automated.
 
 Rules:
-- Every strength and criticism cites a specific passage or section
+- Every strength and criticism MUST include a citation element with a verbatim
+  short passage (max 120 characters) copied exactly from the document
 - Prioritise issues by impact: most critical first
 - Tone: professional, honest, constructive
-- 450 to 600 words total
+- 450 to 600 words total across all <text> elements
 - Do not reproduce large sections of the document"""
 
 FEEDBACK_USER_TEMPLATE = """Generate reviewer feedback.
@@ -321,20 +322,35 @@ Scoring result:
 Document sections:
 {document_sections}
 
-Return this exact XML:
+Return this exact XML. Each <point> MUST contain a <text> child with the feedback
+and a <citation> child with the supporting evidence from the document:
 
 <feedback>
   <overall_assessment>2-3 honest sentences. State grade band, primary
   strength, primary weakness.</overall_assessment>
   <strengths>
-    <point id="1">Specific strength with passage citation and explanation.</point>
-    <point id="2">Second strength.</point>
+    <point id="1">
+      <text>Specific strength explanation.</text>
+      <citation section="SECTION_NAME" quote="exact short passage verbatim from document (max 120 chars)"/>
+    </point>
+    <point id="2">
+      <text>Second strength.</text>
+      <citation section="SECTION_NAME" quote="exact short passage verbatim from document"/>
+    </point>
   </strengths>
   <areas_for_improvement>
-    <point id="1" priority="high">Most critical issue. Cite passage.
-    Explain problem. Explain fix.</point>
-    <point id="2" priority="high">Second issue.</point>
-    <point id="3" priority="medium">Medium issue.</point>
+    <point id="1" priority="high">
+      <text>Most critical issue. Explain problem and how to fix it.</text>
+      <citation section="SECTION_NAME" quote="exact short passage showing the issue (max 120 chars)"/>
+    </point>
+    <point id="2" priority="high">
+      <text>Second issue.</text>
+      <citation section="SECTION_NAME" quote="exact short passage from document"/>
+    </point>
+    <point id="3" priority="medium">
+      <text>Medium issue.</text>
+      <citation section="SECTION_NAME" quote="exact short passage from document"/>
+    </point>
   </areas_for_improvement>
   <recommended_actions>
     Numbered list of 3-5 specific, actionable revision steps.

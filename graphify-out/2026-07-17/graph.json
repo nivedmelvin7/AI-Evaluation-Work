@@ -776,7 +776,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus",
-      "community": 12,
+      "community": 11,
       "norm_label": "stage7_consensus.py"
     },
     {
@@ -786,7 +786,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_format_reviewer_scores",
-      "community": 12,
+      "community": 11,
       "norm_label": "_format_reviewer_scores()"
     },
     {
@@ -796,7 +796,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_py_any",
-      "community": 12,
+      "community": 11,
       "norm_label": "any"
     },
     {
@@ -806,7 +806,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_build_consensus_prompt",
-      "community": 12,
+      "community": 11,
       "norm_label": "_build_consensus_prompt()"
     },
     {
@@ -816,7 +816,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_run",
-      "community": 12,
+      "community": 11,
       "norm_label": "run()"
     },
     {
@@ -826,7 +826,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_fallback_consensus",
-      "community": 12,
+      "community": 11,
       "norm_label": "_fallback_consensus()"
     },
     {
@@ -836,7 +836,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_rationale_1",
-      "community": 12,
+      "community": 11,
       "norm_label": "stage 7: consensus reconciliation  input:  llm (llmservice),         de_final"
     },
     {
@@ -846,7 +846,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_rationale_109",
-      "community": 12,
+      "community": 11,
       "norm_label": "reconcile post-reflection reviewer scores into a single consensus."
     },
     {
@@ -856,7 +856,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "app_pipeline_stage7_consensus_rationale_202",
-      "community": 12,
+      "community": 11,
       "norm_label": "build a simple fallback consensus from available reviewer scores."
     },
     {
@@ -1066,7 +1066,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_prompts_rubric_backbone",
-      "community": 0,
+      "community": 11,
       "norm_label": "rubric_backbone.py"
     },
     {
@@ -1076,7 +1076,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_prompts_templates",
-      "community": 0,
+      "community": 11,
       "norm_label": "templates.py"
     },
     {
@@ -3036,286 +3036,6 @@
       "id": "claude_graphify",
       "community": 28,
       "norm_label": "graphify"
-    },
-    {
-      "label": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap",
-      "community": 7,
-      "norm_label": "odysseus_feature_roadmap.md"
-    },
-    {
-      "label": "Odysseus-Inspired Feature Roadmap",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_odysseus_inspired_feature_roadmap",
-      "community": 7,
-      "norm_label": "odysseus-inspired feature roadmap"
-    },
-    {
-      "label": "How to use this document",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_how_to_use_this_document",
-      "community": 7,
-      "norm_label": "how to use this document"
-    },
-    {
-      "label": "Assumptions (override any of these and I'll adjust the plan)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_assumptions_override_any_of_these_and_i_ll_adjust_the_plan",
-      "community": 7,
-      "norm_label": "assumptions (override any of these and i'll adjust the plan)"
-    },
-    {
-      "label": "Where this project stands today (baseline)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L33",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_where_this_project_stands_today_baseline",
-      "community": 7,
-      "norm_label": "where this project stands today (baseline)"
-    },
-    {
-      "label": "Feature map at a glance",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_feature_map_at_a_glance",
-      "community": 7,
-      "norm_label": "feature map at a glance"
-    },
-    {
-      "label": "Part 1 \u2014 UI Polish & Report Export",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L58",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_part_1_ui_polish_report_export",
-      "community": 7,
-      "norm_label": "part 1 \u2014 ui polish & report export"
-    },
-    {
-      "label": "Frontend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L72",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_frontend_work_this_repo",
-      "community": 7,
-      "norm_label": "frontend work (this repo)"
-    },
-    {
-      "label": "New dependencies",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L88",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_new_dependencies",
-      "community": 7,
-      "norm_label": "new dependencies"
-    },
-    {
-      "label": "Done when",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L92",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_done_when",
-      "community": 7,
-      "norm_label": "done when"
-    },
-    {
-      "label": "Part 2 \u2014 Persistence, History & Compare",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L102",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "community": 7,
-      "norm_label": "part 2 \u2014 persistence, history & compare"
-    },
-    {
-      "label": "Backend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L115",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_backend_work_this_repo",
-      "community": 7,
-      "norm_label": "backend work (this repo)"
-    },
-    {
-      "label": "Frontend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L131",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_frontend_work_this_repo_131",
-      "community": 7,
-      "norm_label": "frontend work (this repo)"
-    },
-    {
-      "label": "New dependencies",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L138",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_new_dependencies_138",
-      "community": 7,
-      "norm_label": "new dependencies"
-    },
-    {
-      "label": "Done when",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L141",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_done_when_141",
-      "community": 7,
-      "norm_label": "done when"
-    },
-    {
-      "label": "Part 3 \u2014 Improve Loop & Live Streaming",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L151",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "community": 7,
-      "norm_label": "part 3 \u2014 improve loop & live streaming"
-    },
-    {
-      "label": "Backend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L165",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_backend_work_this_repo_165",
-      "community": 7,
-      "norm_label": "backend work (this repo)"
-    },
-    {
-      "label": "Frontend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L170",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_frontend_work_this_repo_170",
-      "community": 7,
-      "norm_label": "frontend work (this repo)"
-    },
-    {
-      "label": "New dependencies",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L177",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_new_dependencies_177",
-      "community": 7,
-      "norm_label": "new dependencies"
-    },
-    {
-      "label": "Done when",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L180",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_done_when_180",
-      "community": 7,
-      "norm_label": "done when"
-    },
-    {
-      "label": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L190",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "community": 7,
-      "norm_label": "part 4 \u2014 batch grading, analytics, auth & hardening"
-    },
-    {
-      "label": "Backend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L204",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_backend_work_this_repo_204",
-      "community": 7,
-      "norm_label": "backend work (this repo)"
-    },
-    {
-      "label": "Frontend work (this repo)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L218",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_frontend_work_this_repo_218",
-      "community": 7,
-      "norm_label": "frontend work (this repo)"
-    },
-    {
-      "label": "New dependencies",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L223",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_new_dependencies_223",
-      "community": 7,
-      "norm_label": "new dependencies"
-    },
-    {
-      "label": "Done when",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L226",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_done_when_226",
-      "community": 7,
-      "norm_label": "done when"
-    },
-    {
-      "label": "Appendix A \u2014 Reusable asset inventory (copy-paste, minimal rewrite)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L237",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_appendix_a_reusable_asset_inventory_copy_paste_minimal_rewrite",
-      "community": 7,
-      "norm_label": "appendix a \u2014 reusable asset inventory (copy-paste, minimal rewrite)"
-    },
-    {
-      "label": "Appendix B \u2014 Explicitly out of scope (odysseus features that don't fit a report grader)",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L259",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_appendix_b_explicitly_out_of_scope_odysseus_features_that_don_t_fit_a_report_grader",
-      "community": 7,
-      "norm_label": "appendix b \u2014 explicitly out of scope (odysseus features that don't fit a report grader)"
-    },
-    {
-      "label": "Appendix C \u2014 Decisions to confirm before executing a part",
-      "file_type": "document",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L263",
-      "_origin": "ast",
-      "id": "odysseus_feature_roadmap_appendix_c_decisions_to_confirm_before_executing_a_part",
-      "community": 7,
-      "norm_label": "appendix c \u2014 decisions to confirm before executing a part"
     },
     {
       "label": "README.md",
@@ -9662,276 +9382,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap",
-      "target": "odysseus_feature_roadmap_odysseus_inspired_feature_roadmap",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L58",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap",
-      "target": "odysseus_feature_roadmap_part_1_ui_polish_report_export",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L102",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap",
-      "target": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L151",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap",
-      "target": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L190",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap",
-      "target": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L47",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_odysseus_inspired_feature_roadmap",
-      "target": "odysseus_feature_roadmap_feature_map_at_a_glance",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L9",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_odysseus_inspired_feature_roadmap",
-      "target": "odysseus_feature_roadmap_how_to_use_this_document",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L33",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_odysseus_inspired_feature_roadmap",
-      "target": "odysseus_feature_roadmap_where_this_project_stands_today_baseline",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L24",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_how_to_use_this_document",
-      "target": "odysseus_feature_roadmap_assumptions_override_any_of_these_and_i_ll_adjust_the_plan",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L92",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_1_ui_polish_report_export",
-      "target": "odysseus_feature_roadmap_done_when",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L72",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_1_ui_polish_report_export",
-      "target": "odysseus_feature_roadmap_frontend_work_this_repo",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L88",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_1_ui_polish_report_export",
-      "target": "odysseus_feature_roadmap_new_dependencies",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L115",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "target": "odysseus_feature_roadmap_backend_work_this_repo",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L141",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "target": "odysseus_feature_roadmap_done_when_141",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L131",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "target": "odysseus_feature_roadmap_frontend_work_this_repo_131",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L138",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_2_persistence_history_compare",
-      "target": "odysseus_feature_roadmap_new_dependencies_138",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L165",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "target": "odysseus_feature_roadmap_backend_work_this_repo_165",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L180",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "target": "odysseus_feature_roadmap_done_when_180",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L170",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "target": "odysseus_feature_roadmap_frontend_work_this_repo_170",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L177",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_3_improve_loop_live_streaming",
-      "target": "odysseus_feature_roadmap_new_dependencies_177",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L237",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_appendix_a_reusable_asset_inventory_copy_paste_minimal_rewrite",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L259",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_appendix_b_explicitly_out_of_scope_odysseus_features_that_don_t_fit_a_report_grader",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L263",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_appendix_c_decisions_to_confirm_before_executing_a_part",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L204",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_backend_work_this_repo_204",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L226",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_done_when_226",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L218",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_frontend_work_this_repo_218",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "ODYSSEUS_FEATURE_ROADMAP.md",
-      "source_location": "L223",
-      "weight": 1.0,
-      "source": "odysseus_feature_roadmap_part_4_batch_grading_analytics_auth_hardening",
-      "target": "odysseus_feature_roadmap_new_dependencies_223",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -10255,5 +9705,5 @@
       "source_file": "requirements.txt"
     }
   ],
-  "built_at_commit": "275b787f412092df31e884a4f54aaa882659d47b"
+  "built_at_commit": "c7d46807c02bd5be47d44392f9a992b0337b9e64"
 }

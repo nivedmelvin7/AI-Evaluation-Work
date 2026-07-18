@@ -1,16 +1,16 @@
-# Graph Report - AI-Evaluation-Work  (2026-07-17)
+# Graph Report - AI-Evaluation-Work  (2026-07-08)
 
 ## Corpus Check
-- 56 files · ~20,827 words
+- 55 files · ~18,077 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 387 nodes · 594 edges · 51 communities (24 shown, 27 thin omitted)
+- 359 nodes · 567 edges · 49 communities (22 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `275b787f`
+- Built from commit: `c7d46807`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,12 +22,10 @@
 - System Architecture Overview
 - Frontend API Client
 - Segmentation & Critique Stages
-- Part 4 — Batch Grading, Analytics, Auth & Hardening
 - Frontend Build Dependencies
 - Pipeline Concepts & Scoring Rules
 - Async Job Store
 - Consensus Reconciliation Stage
-- stage7_consensus.py
 - Request Models
 - Graphify Instructions
 - evaluation.py
@@ -89,7 +87,7 @@
 ## Hyperedges (group relationships)
 - **Multi-Format Document Parsing Stack** — requirements_pymupdf, requirements_python_docx, readme_stage1_segmentation [INFERRED 0.85]
 
-## Communities (51 total, 27 thin omitted)
+## Communities (49 total, 27 thin omitted)
 
 ### Community 0 - "App Config & Logging"
 Cohesion: 0.06
@@ -115,10 +113,6 @@ Nodes (9): FastAPI, google-genai SDK, httpx (Async HTTP Client), Pydantic v2, Py
 Cohesion: 0.13
 Nodes (20): evaluateSync(), getDocumentBlob(), getDocumentHtml(), getDocumentMeta(), getResult(), getStatus(), handleResponse(), health() (+12 more)
 
-### Community 7 - "Part 4 — Batch Grading, Analytics, Auth & Hardening"
-Cohesion: 0.07
-Nodes (27): Appendix A — Reusable asset inventory (copy-paste, minimal rewrite), Appendix B — Explicitly out of scope (odysseus features that don't fit a report grader), Appendix C — Decisions to confirm before executing a part, Assumptions (override any of these and I'll adjust the plan), Backend work (this repo), Backend work (this repo), Backend work (this repo), Done when (+19 more)
-
 ### Community 8 - "Frontend Build Dependencies"
 Cohesion: 0.12
 Nodes (15): dependencies, pdfjs-dist, react, react-dom, devDependencies, vite, @vitejs/plugin-react, name (+7 more)
@@ -128,12 +122,8 @@ Cohesion: 0.24
 Nodes (3): JobStore, Any, Thread-safe in-memory job store.     For production, replace _store and _results
 
 ### Community 11 - "Consensus Reconciliation Stage"
-Cohesion: 0.13
-Nodes (19): _default_verification(), Any, Stage 10: Verification Guard  Input:  llm (LLMService),         feedback_out, Run factual verification and injection detection on the feedback., run(), _fallback_section(), Any, Stage 1: Document Segmentation  Input:  llm (LLMService), document_text (str) Ou (+11 more)
-
-### Community 12 - "stage7_consensus.py"
-Cohesion: 0.39
-Nodes (8): _build_consensus_prompt(), _fallback_consensus(), _format_reviewer_scores(), Any, Stage 7: Consensus Reconciliation  Input:  llm (LLMService),         de_final, Reconcile post-reflection reviewer scores into a single consensus., Build a simple fallback consensus from available reviewer scores., run()
+Cohesion: 0.10
+Nodes (27): _default_verification(), Any, Stage 10: Verification Guard  Input:  llm (LLMService),         feedback_out, Run factual verification and injection detection on the feedback., run(), _fallback_section(), Any, Stage 1: Document Segmentation  Input:  llm (LLMService), document_text (str) Ou (+19 more)
 
 ### Community 13 - "Request Models"
 Cohesion: 0.67
@@ -156,7 +146,7 @@ Cohesion: 0.33
 Nodes (5): Build for production, Engineering Report Evaluation — Frontend, Environment variables, Getting started, Prerequisites
 
 ## Knowledge Gaps
-- **86 isolated node(s):** `Config`, `name`, `private`, `version`, `type` (+81 more)
+- **65 isolated node(s):** `Config`, `name`, `private`, `version`, `type` (+60 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -164,15 +154,15 @@ Nodes (5): Build for production, Engineering Report Evaluation — Frontend, Env
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `compute_score()` connect `Scoring Engine` to `App Config & Logging`?**
-  _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `parse_xml_response()` connect `App Config & Logging` to `Verification & Feedback Stages`, `Consensus Reconciliation Stage`, `stage7_consensus.py`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `parse_xml_response()` connect `App Config & Logging` to `Verification & Feedback Stages`, `Consensus Reconciliation Stage`?**
+  _High betweenness centrality (0.054) - this node is a cross-community bridge._
 - **Why does `get_settings()` connect `evaluation.py` to `App Config & Logging`, `Consensus Reconciliation Stage`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+  _High betweenness centrality (0.048) - this node is a cross-community bridge._
 - **What connects `Config`, `Centralised logging configuration.  Call setup_logging() once at application sta`, `Shared pipeline utilities: section formatting and self-consistency scoring.` to the rest of the system?**
-  _145 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _124 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App Config & Logging` be split into smaller, more focused modules?**
-  _Cohesion score 0.060451977401129946 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06170598911070781 - nodes in this community are weakly interconnected._
 - **Should `Scoring Engine` be split into smaller, more focused modules?**
   _Cohesion score 0.10084033613445378 - nodes in this community are weakly interconnected._
 - **Should `Frontend UI Components` be split into smaller, more focused modules?**

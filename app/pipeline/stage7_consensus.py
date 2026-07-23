@@ -19,7 +19,7 @@ import time
 from typing import Any, Dict
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import CONSENSUS_SYSTEM
+from app.prompts.stage7_consensus_prompts import CONSENSUS_SYSTEM
 from app.utils.xml_parser import parse_xml_response
 
 logger = logging.getLogger(__name__)

@@ -24,7 +24,7 @@ import time
 from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import FEEDBACK_SYSTEM, FEEDBACK_USER_TEMPLATE
+from app.prompts.stage9_feedback_prompts import FEEDBACK_SYSTEM, FEEDBACK_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
 from app.pipeline import format_sections_for_prompt
 
@@ -32,6 +32,12 @@ logger = logging.getLogger(__name__)
 
 _TAG_RE = re.compile(r"<[^>]+>")
 _POINT_RE = re.compile(r"<point([^>]*)>(.*?)</point>", re.DOTALL)
+# New form: <citation section="X"><quote><![CDATA[...]]></quote></citation>
+_CITATION_NEW_RE = re.compile(
+    r'<citation[^>]*section="([^"]*)"[^>]*>.*?<quote>\s*(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?\s*</quote>',
+    re.DOTALL,
+)
+# Legacy form: <citation section="X" quote="..."/>
 _CITATION_LINE_RE = re.compile(
     r'<citation[^>]*section="([^"]*)"[^>]*quote="(.*)"\s*/?>'
 )
@@ -39,6 +45,24 @@ _CITATION_LINE_RE = re.compile(
 
 def _strip_tags(text: str) -> str:
     return _TAG_RE.sub("", text).strip()
+
+
+def _read_citations(parent_el) -> List[Dict[str, Any]]:
+    """Read <citation> children, supporting both the CDATA <quote> child form
+    and the legacy quote="..." attribute form."""
+    citations = []
+    for cit_el in parent_el.findall("citation"):
+        quote_el = cit_el.find("quote")
+        if quote_el is not None and quote_el.text:
+            quote = quote_el.text.strip()
+        else:
+            quote = cit_el.get("quote", "")
+        citations.append({
+            "section": cit_el.get("section", ""),
+            "quote": quote,
+            "page": None,
+        })
+    return citations
 
 
 def _extract_block(raw: str, tag: str) -> str:
@@ -56,6 +80,12 @@ def _extract_point_text(point_body: str) -> str:
 
 def _extract_citations(point_body: str) -> List[Dict[str, Any]]:
     citations = []
+    # Preferred: nested <quote> (optionally CDATA-wrapped), may span lines.
+    for m in _CITATION_NEW_RE.finditer(point_body):
+        citations.append({"section": m.group(1), "quote": m.group(2).strip(), "page": None})
+    if citations:
+        return citations
+    # Legacy: single-line quote="..." attribute.
     for line in point_body.split("\n"):
         m = _CITATION_LINE_RE.search(line)
         if m:
@@ -141,10 +171,11 @@ async def run(
         {
             "final_score": scoring_result.get("final_score"),
             "grade_band": scoring_result.get("grade_band"),
-            "penalised_score": scoring_result.get("penalised_score"),
-            "confidence_interval": scoring_result.get("confidence_interval"),
+            "achievement_score": scoring_result.get("achievement_score"),
+            "uncertainty_band": scoring_result.get("uncertainty_band"),
             "gate_triggered": scoring_result.get("gate_triggered"),
             "deferred": scoring_result.get("deferred"),
+            "holistic_validation": scoring_result.get("holistic_validation"),
             "criterion_breakdown": {
                 k: {"score": v["level"], "confidence": v["confidence"]}
                 for k, v in scoring_result.get("criterion_breakdown", {}).items()
@@ -196,13 +227,7 @@ async def run(
             else:
                 # Backward-compat: old format had text directly in <point>
                 text = (point_el.text or "").strip()
-            citations = []
-            for cit_el in point_el.findall("citation"):
-                citations.append({
-                    "section": cit_el.get("section", ""),
-                    "quote": cit_el.get("quote", ""),
-                    "page": None,
-                })
+            citations = _read_citations(point_el)
             if text:
                 strengths.append({"text": text, "citations": citations})
         feedback_dict["strengths"] = strengths
@@ -214,13 +239,7 @@ async def run(
                 text = text_el.text.strip()
             else:
                 text = (point_el.text or "").strip()
-            citations = []
-            for cit_el in point_el.findall("citation"):
-                citations.append({
-                    "section": cit_el.get("section", ""),
-                    "quote": cit_el.get("quote", ""),
-                    "page": None,
-                })
+            citations = _read_citations(point_el)
             if text:
                 improvements.append({
                     "priority": point_el.get("priority", "medium"),
@@ -228,6 +247,21 @@ async def run(
                     "citations": citations,
                 })
         feedback_dict["areas_for_improvement"] = improvements
+
+        # Criterion-level commentary (new; optional — enriches the report).
+        commentary: List[Dict] = []
+        for crit_el in parsed.findall(".//criterion_commentary/criterion"):
+            comment_el = crit_el.find("comment")
+            comment = comment_el.text.strip() if comment_el is not None and comment_el.text else ""
+            if not comment:
+                continue
+            commentary.append({
+                "criterion": crit_el.get("id", ""),
+                "score": crit_el.get("score", ""),
+                "comment": comment,
+                "citations": _read_citations(crit_el),
+            })
+        feedback_dict["criterion_commentary"] = commentary
 
         rec_el = parsed.find("recommended_actions")
         if rec_el is not None and rec_el.text:

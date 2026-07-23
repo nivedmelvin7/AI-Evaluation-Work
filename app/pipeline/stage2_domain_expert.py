@@ -18,7 +18,7 @@ from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
 from app.config import get_settings
-from app.prompts.templates import DOMAIN_EXPERT_SYSTEM, DOMAIN_EXPERT_USER_TEMPLATE
+from app.prompts.stage2_domain_expert_prompts import DOMAIN_EXPERT_SYSTEM, DOMAIN_EXPERT_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response, extract_scores_from_review
 from app.pipeline import format_sections_for_prompt, compute_median_scores
 

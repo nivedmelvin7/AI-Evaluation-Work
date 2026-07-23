@@ -9,6 +9,7 @@ export default function SubmitForm({ onSubmitAsync, onSubmitSync, isSubmitting }
   const [rawText, setRawText] = useState('');
   const [secretKey, setSecretKey] = useState('');
   const [dragOver, setDragOver] = useState(false);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const fileRef = useRef(null);
 
   const charCount = rawText.length;
@@ -142,50 +143,65 @@ export default function SubmitForm({ onSubmitAsync, onSubmitSync, isSubmitting }
 
         <div className="section-divider" />
 
-        {/* Evaluation mode toggle */}
-        <div>
-          <div className="form-label" style={{ marginBottom: '0.5rem' }}>Evaluation mode</div>
-          <div className="toggle-group">
-            <button
-              type="button"
-              className={`toggle-btn ${evalMode === 'async' ? 'active' : ''}`}
-              onClick={() => setEvalMode('async')}
-            >
-              Async <span style={{ opacity: 0.7, fontSize: '0.75em' }}>(recommended)</span>
-            </button>
-            <button
-              type="button"
-              className={`toggle-btn ${evalMode === 'sync' ? 'active' : ''}`}
-              onClick={() => setEvalMode('sync')}
-            >
-              Sync
-            </button>
-          </div>
-          <div className="form-hint mt-1">
-            {evalMode === 'async'
-              ? 'Submits in the background; you can track progress stage by stage.'
-              : 'Waits for the full pipeline to finish (may take 30–120 s).'}
-          </div>
-        </div>
+        {/* Advanced / developer options — synchronous mode is a debug path,
+            not part of the ordinary submission flow, so it stays tucked away. */}
+        <div className="advanced-section">
+          <button
+            type="button"
+            className="advanced-toggle"
+            onClick={() => setAdvancedOpen((v) => !v)}
+            aria-expanded={advancedOpen}
+          >
+            <span>⚙ Advanced / developer options</span>
+            <span className={`collapsible-icon ${advancedOpen ? 'open' : ''}`} aria-hidden="true">▼</span>
+          </button>
+          {advancedOpen && (
+            <div className="advanced-body">
+              <div>
+                <div className="form-label" style={{ marginBottom: '0.5rem' }}>Evaluation mode</div>
+                <div className="toggle-group">
+                  <button
+                    type="button"
+                    className={`toggle-btn ${evalMode === 'async' ? 'active' : ''}`}
+                    onClick={() => setEvalMode('async')}
+                  >
+                    Async <span style={{ opacity: 0.7, fontSize: '0.75em' }}>(recommended)</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`toggle-btn ${evalMode === 'sync' ? 'active' : ''}`}
+                    onClick={() => setEvalMode('sync')}
+                  >
+                    Sync
+                  </button>
+                </div>
+                <div className="form-hint mt-1">
+                  {evalMode === 'async'
+                    ? 'Submits in the background; you can track progress stage by stage.'
+                    : 'Waits for the full pipeline to finish in one request (may take 30–120 s) — useful for scripting or debugging, not recommended for normal use.'}
+                </div>
+              </div>
 
-        {/* Secret key (sync only) */}
-        {evalMode === 'sync' && (
-          <div className="form-group">
-            <label className="form-label" htmlFor="secret-key">
-              Secret key <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span>
-            </label>
-            <input
-              id="secret-key"
-              type="password"
-              className="form-input"
-              placeholder="x_secret_key"
-              value={secretKey}
-              onChange={(e) => setSecretKey(e.target.value)}
-              autoComplete="off"
-            />
-            <div className="form-hint">Leave blank if your backend does not require a key.</div>
-          </div>
-        )}
+              {evalMode === 'sync' && (
+                <div className="form-group">
+                  <label className="form-label" htmlFor="secret-key">
+                    Secret key <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span>
+                  </label>
+                  <input
+                    id="secret-key"
+                    type="password"
+                    className="form-input"
+                    placeholder="x_secret_key"
+                    value={secretKey}
+                    onChange={(e) => setSecretKey(e.target.value)}
+                    autoComplete="off"
+                  />
+                  <div className="form-hint">Leave blank if your backend does not require a key.</div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Submit button */}
         <button

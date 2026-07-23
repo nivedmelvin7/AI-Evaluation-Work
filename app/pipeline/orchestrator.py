@@ -21,6 +21,7 @@ from app.pipeline import (
 )
 from app.models.response_models import EvaluationResult
 from app.utils.job_store import job_store
+from app.security.prompt_injection_scanner import scan_document
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,21 @@ class PipelineOrchestrator:
         job_store.update(job_id, status="running", stage="segmentation", progress=5)
 
         try:
+            # ----------------------------------------------------------------
+            # Security scan (deterministic, no LLM call) — runs before any
+            # stage sees the document. Its verdict is threaded through to
+            # Stage 10, where it is combined with factual verification.
+            # ----------------------------------------------------------------
+            injection_scan = scan_document(document_text)
+            if injection_scan.injection_found:
+                logger.warning(
+                    "[%s] Security scan — risk=%s recommendation=%s patterns=%s",
+                    job_id,
+                    injection_scan.risk_level.value,
+                    injection_scan.recommendation,
+                    [p.type for p in injection_scan.detected_patterns],
+                )
+
             # ----------------------------------------------------------------
             # Stage 1: Segmentation
             # ----------------------------------------------------------------
@@ -157,14 +173,14 @@ class PipelineOrchestrator:
             scoring_result = stage8_scoring.run(consensus_out)
             logger.info(
                 "[%s] Stage 8 complete (%s) — final_score=%.1f  grade=%s  "
-                "gate=%s  deferred=%s  CI=%s",
+                "gate=%s  deferred=%s  uncertainty_band=%s",
                 job_id,
                 _elapsed(t),
                 scoring_result.get("final_score", 0),
                 scoring_result.get("grade_band"),
                 scoring_result.get("gate_triggered"),
                 scoring_result.get("deferred"),
-                scoring_result.get("confidence_interval"),
+                scoring_result.get("uncertainty_band"),
             )
             job_store.update(job_id, stage="feedback", progress=82)
 
@@ -203,7 +219,7 @@ class PipelineOrchestrator:
             t = time.perf_counter()
             logger.info("[%s] Stage 10 (verification guard) — starting", job_id)
             verification_out = await stage10_verification.run(
-                self.llm, feedback_out, document_text
+                self.llm, feedback_out, document_text, injection_scan
             )
             logger.info(
                 "[%s] Stage 10 complete (%s) — integrity=%s  recommendation=%s  injection=%s",

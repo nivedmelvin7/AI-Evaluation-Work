@@ -173,8 +173,8 @@ async def health():
     settings = get_settings()
     return {
         "status": "ok",
-        "backend": "gemini",
-        "model": settings.gemini_model,
+        "backend": "openrouter",
+        "model": settings.openrouter_model,
         "debug": settings.app_debug,
     }
 

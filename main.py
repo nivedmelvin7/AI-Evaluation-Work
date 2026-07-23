@@ -45,7 +45,7 @@ if __name__ == "__main__":
         settings.app_host,
         settings.app_port,
         settings.app_debug,
-        settings.gemini_model,
+        settings.openrouter_model,
     )
     uvicorn.run(
         "main:app",

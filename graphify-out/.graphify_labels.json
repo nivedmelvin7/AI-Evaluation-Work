@@ -26,6 +26,7 @@
   "24": "Engineering Report Evaluation API",
   "25": "DocumentService",
   "26": "Engineering Report Evaluation — Frontend",
+  "27": "Part 5 — Improve, Version, Re-evaluate, and Measure Progress",
   "28": "CLAUDE.md",
   "29": "frontend/index.html (SPA Entry Point)",
   "30": "React SPA Frontend",
@@ -49,5 +50,8 @@
   "48": "Stage 9: Feedback Synthesis",
   "49": "GET /api/v1/status/{job_id}",
   "50": "POST /api/v1/evaluate/sync (Protected)",
-  "52": "run.sh"
+  "51": "rubric_backbone.py",
+  "52": "run.sh",
+  "53": "AGENTS.md",
+  "54": "security/__init__.py"
 }

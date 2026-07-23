@@ -18,7 +18,7 @@ from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
 from app.config import get_settings
-from app.prompts.templates import COMMUNICATION_SYSTEM, COMMUNICATION_USER_TEMPLATE
+from app.prompts.stage4_communication_prompts import COMMUNICATION_SYSTEM, COMMUNICATION_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response, extract_scores_from_review
 from app.pipeline import format_sections_for_prompt, compute_median_scores
 

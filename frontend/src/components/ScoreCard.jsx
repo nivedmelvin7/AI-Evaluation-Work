@@ -1,11 +1,11 @@
 import React from 'react';
 
 function gradeMeta(grade) {
-  const g = (grade || '').toUpperCase();
-  if (g === 'DISTINCTION') return { cls: 'distinction', badgeCls: 'grade-distinction' };
-  if (g === 'MERIT')       return { cls: 'merit',       badgeCls: 'grade-merit' };
-  if (g === 'PASS')        return { cls: 'pass',        badgeCls: 'grade-pass' };
-  if (g === 'DEFERRED')    return { cls: 'deferred',    badgeCls: 'grade-deferred' };
+  const value = (grade || '').toUpperCase();
+  if (value === 'DISTINCTION') return { cls: 'distinction', badgeCls: 'grade-distinction' };
+  if (value === 'MERIT') return { cls: 'merit', badgeCls: 'grade-merit' };
+  if (value === 'PASS') return { cls: 'pass', badgeCls: 'grade-pass' };
+  if (value === 'DEFERRED') return { cls: 'deferred', badgeCls: 'grade-deferred' };
   return { cls: 'fail', badgeCls: 'grade-fail' };
 }
 
@@ -15,64 +15,56 @@ export default function ScoreCard({ scoring }) {
   const {
     final_score,
     grade_band,
-    penalised_score,
-    baseline_score,
+    achievement_score,
     aggregate_uncertainty_U,
-    confidence_interval,
+    uncertainty_band,
     gate_triggered,
     gate_reason,
     deferred,
     deferral_reason,
+    holistic_validation,
   } = scoring;
-
   const { cls, badgeCls } = gradeMeta(grade_band);
-
-  const ciStr = Array.isArray(confidence_interval) && confidence_interval.length === 2
-    ? `${confidence_interval[0].toFixed(1)} – ${confidence_interval[1].toFixed(1)}`
-    : '—';
+  const uncertaintyText = Array.isArray(uncertainty_band) && uncertainty_band.length === 2
+    ? `${uncertainty_band[0].toFixed(1)} - ${uncertainty_band[1].toFixed(1)}`
+    : '-';
+  const holisticText = !holistic_validation?.available
+    ? 'Unavailable'
+    : holistic_validation.requires_moderation ? 'Review needed' : 'Aligned';
 
   return (
     <div>
       <div className="score-hero">
-        {/* Big score */}
         <div className="score-big">
-          <div className={`score-number ${cls}`}>{final_score ?? '—'}</div>
+          <div className={`score-number ${cls}`}>{final_score ?? '-'}</div>
           <span className={`grade-badge ${badgeCls}`}>{grade_band || 'Unknown'}</span>
         </div>
-
-        {/* Meta tiles */}
         <div className="score-meta-grid">
           <div className="score-meta-item">
-            <div className="score-meta-label">Penalised score</div>
-            <div className="score-meta-value num">{penalised_score?.toFixed(1) ?? '—'}</div>
+            <div className="score-meta-label">Weighted score</div>
+            <div className="score-meta-value num">{achievement_score?.toFixed(1) ?? '-'}</div>
           </div>
           <div className="score-meta-item">
-            <div className="score-meta-label">Baseline score</div>
-            <div className="score-meta-value num">{baseline_score?.toFixed(1) ?? '—'}</div>
+            <div className="score-meta-label">Uncertainty band</div>
+            <div className="score-meta-value num">{uncertaintyText}</div>
           </div>
           <div className="score-meta-item">
-            <div className="score-meta-label">Confidence interval</div>
-            <div className="score-meta-value num">{ciStr}</div>
+            <div className="score-meta-label">Uncertainty index (U)</div>
+            <div className="score-meta-value num">{aggregate_uncertainty_U?.toFixed(3) ?? '-'}</div>
           </div>
           <div className="score-meta-item">
-            <div className="score-meta-label">Uncertainty (U)</div>
-            <div className="score-meta-value num">{aggregate_uncertainty_U?.toFixed(3) ?? '—'}</div>
+            <div className="score-meta-label">Holistic check</div>
+            <div className="score-meta-value">{holisticText}</div>
           </div>
         </div>
       </div>
 
-      {/* Flag chips */}
-      {(gate_triggered || deferred) && (
+      {(gate_triggered || deferred || holistic_validation?.requires_moderation) && (
         <div className="flag-chips">
-          {gate_triggered && (
-            <span className="badge badge-amber">
-              ⚠ Gate triggered{gate_reason ? `: ${gate_reason}` : ''}
-            </span>
-          )}
-          {deferred && (
-            <span className="badge badge-purple">
-              ⏸ Deferred{deferral_reason ? `: ${deferral_reason}` : ''}
-            </span>
+          {gate_triggered && <span className="badge badge-amber">Gate triggered{gate_reason ? `: ${gate_reason}` : ''}</span>}
+          {deferred && <span className="badge badge-purple">Deferred{deferral_reason ? `: ${deferral_reason}` : ''}</span>}
+          {holistic_validation?.requires_moderation && (
+            <span className="badge badge-amber">Moderation needed: holistic grade is {holistic_validation.expected_grade_band}</span>
           )}
         </div>
       )}

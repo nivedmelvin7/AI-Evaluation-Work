@@ -3,9 +3,9 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # Gemini
-    gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.5-flash"
+    # OpenRouter (sole LLM provider)
+    openrouter_api_key: str = ""
+    openrouter_model: str = "qwen/qwen3.7-plus"
 
     # Pipeline
     reviewer_temperature: float = 0.3

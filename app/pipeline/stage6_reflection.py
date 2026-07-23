@@ -20,7 +20,7 @@ import time
 from typing import Any, Dict, List
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import REFLECTION_SYSTEM, REFLECTION_USER_TEMPLATE
+from app.prompts.stage6_reflection_prompts import REFLECTION_SYSTEM, REFLECTION_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
 from app.pipeline import format_sections_for_prompt
 

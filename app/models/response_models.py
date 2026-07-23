@@ -16,13 +16,14 @@ class ScoringResult(BaseModel):
     criterion_breakdown: Dict[str, CriterionScore]
     weighted_sum_A: float
     baseline_score: float
+    achievement_score: float
     aggregate_uncertainty_U: float
-    penalised_score: float
-    confidence_interval: List[float]
+    uncertainty_band: List[float]
     gate_triggered: bool
     gate_reason: Optional[str]
     deferred: bool
     deferral_reason: Optional[str]
+    holistic_validation: Dict[str, Any]
     final_score: int
     grade_band: str
 

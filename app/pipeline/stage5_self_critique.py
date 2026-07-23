@@ -18,7 +18,7 @@ import time
 from typing import Any, Dict
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import SELF_CRITIQUE_SYSTEM, SELF_CRITIQUE_USER_TEMPLATE
+from app.prompts.stage5_self_critique_prompts import SELF_CRITIQUE_SYSTEM, SELF_CRITIQUE_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
 
 logger = logging.getLogger(__name__)

@@ -27,18 +27,18 @@ Copy `.env.example` to `.env` and fill in your values:
 cp .env.example .env
 ```
 
-### Using Gemini
+### Using OpenRouter
 
-1. Get an API key at [aistudio.google.com](https://aistudio.google.com).
-2. Set `GEMINI_API_KEY=your_key_here` in `.env`.
-3. Optionally override the model with `GEMINI_MODEL=gemini-2.5-flash` (default).
+1. Get an API key at [openrouter.ai](https://openrouter.ai/keys).
+2. Set `OPENROUTER_API_KEY=your_key_here` in `.env`.
+3. Optionally override the model with `OPENROUTER_MODEL=qwen/qwen3.7-plus` (default).
 
 ### Environment variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `GEMINI_API_KEY` | *(required)* | Google Gemini API key |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Model to use for all pipeline stages |
+| `OPENROUTER_API_KEY` | *(required)* | OpenRouter API key |
+| `OPENROUTER_MODEL` | `qwen/qwen3.7-plus` | Model to use for all pipeline stages |
 | `REVIEWER_TEMPERATURE` | `0.3` | Temperature for reviewer agents |
 | `DETERMINISTIC_TEMPERATURE` | `0.0` | Temperature for deterministic stages |
 | `SELF_CONSISTENCY_RUNS` | `3` | Number of parallel reviewer runs per stage |
@@ -177,10 +177,11 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
   "scoring": {
     "final_score": 68,
     "grade_band": "Merit",
-    "penalised_score": 67.4,
-    "confidence_interval": [63.4, 71.4],
+    "achievement_score": 68.0,
+    "uncertainty_band": [66.4, 69.6],
     "gate_triggered": false,
     "deferred": false,
+    "holistic_validation": {"requires_moderation": false},
     "criterion_breakdown": { "...": "..." }
   },
   "feedback": {
@@ -220,7 +221,7 @@ curl -X POST http://localhost:8000/api/v1/evaluate/sync \
 
 ```bash
 curl http://localhost:8000/api/v1/health
-# {"status":"ok","backend":"gemini","model":"gemini-2.5-flash","debug":false}
+# {"status":"ok","backend":"openrouter","model":"qwen/qwen3.7-plus","debug":false}
 ```
 
 ---
@@ -233,13 +234,15 @@ The scoring stage (Stage 8) is pure Python — no LLM call.
 |---------|------|------------|
 | F1 | Normalise | `s_i = level_i / 4` |
 | F2 | Weighted sum | `A = Σ(w_i × s_i)` |
-| F3 | Baseline score | `Score = 100 × A` |
+| F3 | Achievement score | `Score = 100 × A` |
 | F4 | Uncertainty mapping | `u_i = {high→0.05, medium→0.20, low→0.45}` |
 | F5 | Aggregate uncertainty | `U = Σ(w_i × u_i)` |
-| F6 | Penalised score | `Score_pen = Score − 15 × U` |
-| F7 | Confidence interval | `[Score_pen − 8U, Score_pen + 8U]` |
-| F8 | Non-compensatory gate | If `technical_accuracy < level 2`: cap `Score_pen` at 49 |
-| F9 | Deferral rule | If `U > 0.25` OR any critical criterion (technical_accuracy, methodology) has `confidence = low`: mark `DEFERRED` |
+| F6 | Uncertainty band | `[Score − 8U, Score + 8U]`, bounded to the valid score range; this is not a statistical confidence interval |
+| F7 | Non-compensatory gate | If technical accuracy or methodology is below level 2: cap the final score at 49 |
+| F8 | Deferral rule | If `U > 0.25`, a critical criterion has low confidence, or consensus recommends deferral: mark `DEFERRED` |
+| F9 | Holistic validation | A disagreement between the validation-only holistic band and calculated band requires moderation; it does not adjust the score automatically |
+
+Grade bands are calculated from the final bounded score: Distinction `80+`, Merit `65–79`, Pass `50–64`, and Fail below `50`. A deferred result remains unbanded until review.
 
 **Criterion weights:**
 
@@ -249,11 +252,11 @@ The scoring stage (Stage 8) is pure Python — no LLM call.
 | Methodology | 15% |
 | Critical Thinking | 14% |
 | Evidence Quality | 12% |
-| Structure | 10% |
+| Structure | 12% |
 | Clarity | 10% |
 | Referencing | 8% |
 | Originality | 7% |
-| Professionalism | 6% |
+| Professionalism | 4% |
 | Holistic Quality | validation only |
 
 ---

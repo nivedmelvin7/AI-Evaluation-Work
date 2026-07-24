@@ -1609,6 +1609,96 @@ canvas.pdf-highlight {
 
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes drawer-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes drawer-in-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+/* Evaluation history drawer (right-hand side) */
+.sessions-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(360px, 90vw);
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  z-index: calc(var(--z-drawer) + 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: drawer-in-right var(--duration-base) var(--easing);
+}
+
+.sessions-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.sessions-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sessions-drawer-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card-alt);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.sessions-drawer-item:hover { border-color: var(--accent); background: var(--accent-light); }
+
+.sessions-drawer-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sessions-drawer-item-title {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sessions-drawer-item-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.sessions-drawer-item-archive {
+  align-self: flex-end;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+.sessions-drawer-item-archive:hover { color: var(--danger); }
+
+@media (max-width: 480px) {
+  .sessions-drawer { width: 100vw; }
+}
 
 @media (min-width: 901px) {
   .mobile-drawer-backdrop, .mobile-drawer { display: none; }

@@ -65,6 +65,31 @@ export async function getDocumentHtml(jobId) {
   return res.text();
 }
 
+export async function listSessions({ includeArchived = false } = {}) {
+  const res = await fetch(`${BASE}/api/v1/sessions?include_archived=${includeArchived}`);
+  return handleResponse(res);
+}
+
+export async function getSession(sessionId) {
+  const res = await fetch(`${BASE}/api/v1/sessions/${sessionId}`);
+  return handleResponse(res);
+}
+
+export async function reevaluateSession(sessionId) {
+  const res = await fetch(`${BASE}/api/v1/sessions/${sessionId}/reevaluate`, { method: 'POST' });
+  return handleResponse(res);
+}
+
+export async function archiveSession(sessionId) {
+  const res = await fetch(`${BASE}/api/v1/sessions/${sessionId}`, { method: 'DELETE' });
+  return handleResponse(res);
+}
+
+export async function unarchiveSession(sessionId) {
+  const res = await fetch(`${BASE}/api/v1/sessions/${sessionId}/unarchive`, { method: 'POST' });
+  return handleResponse(res);
+}
+
 export async function evaluateSync({ file, rawText, secretKey }) {
   const form = new FormData();
   if (file) {

@@ -1,29 +1,36 @@
 """
 REST API routes for the evaluation pipeline.
 
-POST /api/v1/evaluate          — async, returns job_id
-GET  /api/v1/status/{job_id}   — poll job status
-GET  /api/v1/result/{job_id}   — retrieve finished result
-POST /api/v1/evaluate/sync     — synchronous (dev/debug only, requires secret key)
-GET  /api/v1/health            — liveness check
+POST /api/v1/evaluate               — async, returns session_id + job_id
+GET  /api/v1/status/{job_id}        — poll job status
+GET  /api/v1/result/{job_id}        — retrieve finished result
+POST /api/v1/evaluate/sync          — synchronous (dev/debug only, requires secret key)
+GET  /api/v1/health                 — liveness check
 GET  /api/v1/document/{job_id}      — serve original uploaded file
 GET  /api/v1/document/{job_id}/meta — file type, name, page count
 GET  /api/v1/document/{job_id}/html — HTML rendering for DOCX/TXT preview
+
+GET    /api/v1/sessions                     — list evaluation sessions (history drawer)
+GET    /api/v1/sessions/{session_id}        — session detail + all versions
+POST   /api/v1/sessions/{session_id}/reevaluate — re-run the pipeline, keeping prior versions
+DELETE /api/v1/sessions/{session_id}        — archive (soft delete, never destroys history)
+POST   /api/v1/sessions/{session_id}/unarchive  — restore an archived session
 """
 
 import logging
-import uuid
 import secrets
+import uuid
 from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse, Response
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
+from app.db.session import get_db
 from app.pipeline.orchestrator import PipelineOrchestrator
+from app.services import session_service
 from app.services.document_service import DocumentService
-from app.utils.job_store import job_store
-from app.utils.file_store import file_store
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +44,44 @@ _CONTENT_TYPE_MAP = {
     ".doc": "application/msword",
     ".txt": "text/plain; charset=utf-8",
 }
+
+
+def _parse_uuid(value: str, label: str = "id") -> uuid.UUID:
+    try:
+        return uuid.UUID(value)
+    except ValueError:
+        raise HTTPException(400, f"Invalid {label} '{value}'.")
+
+
+def _version_summary(version) -> dict:
+    return {
+        "job_id": str(version.id),
+        "version_number": version.version_number,
+        "is_current": version.is_current,
+        "status": version.status,
+        "stage": version.stage,
+        "progress": version.progress,
+        "error": version.error,
+        "final_score": version.final_score,
+        "grade_band": version.grade_band,
+        "created_at": version.created_at.isoformat() if version.created_at else None,
+        "completed_at": version.completed_at.isoformat() if version.completed_at else None,
+    }
+
+
+def _session_summary(session_row) -> dict:
+    versions = sorted(session_row.versions, key=lambda v: v.version_number)
+    latest = versions[-1] if versions else None
+    return {
+        "session_id": str(session_row.id),
+        "filename": session_row.filename,
+        "content_type": session_row.content_type,
+        "created_at": session_row.created_at.isoformat() if session_row.created_at else None,
+        "updated_at": session_row.updated_at.isoformat() if session_row.updated_at else None,
+        "archived": session_row.archived_at is not None,
+        "version_count": len(versions),
+        "latest": _version_summary(latest) if latest else None,
+    }
 
 
 async def _resolve_text_and_meta(
@@ -82,53 +127,67 @@ async def _resolve_text_and_meta(
     return text, pages, file_bytes, content_type, filename
 
 
+async def _run_pipeline_background(version_id: uuid.UUID, text: str, pages: Optional[list]):
+    """Background-task entrypoint — the orchestrator opens its own DB session
+    since the request (and its session) is already gone by the time this runs."""
+    await orchestrator.run(version_id, text, pages)
+
+
 @router.post("/evaluate", summary="Submit document for asynchronous evaluation")
 async def evaluate(
     background_tasks: BackgroundTasks,
     file: Optional[UploadFile] = File(None),
     raw_text: Optional[str] = Form(None),
+    db: AsyncSession = Depends(get_db),
 ):
     text, pages, file_bytes, content_type, filename = await _resolve_text_and_meta(file, raw_text)
-    job_id = str(uuid.uuid4())
     source = filename or "raw_text"
-    logger.info("Evaluate request — job_id=%s  source=%r  doc_len=%d chars", job_id, source, len(text))
 
-    if file_bytes is not None:
-        file_store.save(job_id, file_bytes, content_type, filename, pages)
+    session_row, version = await session_service.create_session(
+        db,
+        document_text=text,
+        filename=filename,
+        content_type=content_type,
+        content=file_bytes,
+        pages=pages,
+    )
+    logger.info(
+        "Evaluate request — session_id=%s job_id=%s source=%r doc_len=%d chars",
+        session_row.id, version.id, source, len(text),
+    )
 
-    job_store.create(job_id, status="queued", stage="pending", progress=0)
-    background_tasks.add_task(orchestrator.run, job_id, text, pages)
-    return {"job_id": job_id, "status": "queued"}
+    background_tasks.add_task(_run_pipeline_background, version.id, text, pages)
+    return {"session_id": str(session_row.id), "job_id": str(version.id), "status": "queued"}
 
 
 @router.get("/status/{job_id}", summary="Poll evaluation job status")
-async def get_status(job_id: str):
-    job = job_store.get(job_id)
-    if not job:
+async def get_status(job_id: str, db: AsyncSession = Depends(get_db)):
+    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"))
+    if not version:
         raise HTTPException(404, f"Job '{job_id}' not found.")
     return {
-        "job_id": job["job_id"],
-        "status": job.get("status", "unknown"),
-        "stage": job.get("stage", ""),
-        "progress": job.get("progress", 0),
-        "error": job.get("error"),
+        "job_id": str(version.id),
+        "session_id": str(version.session_id),
+        "version_number": version.version_number,
+        "status": version.status,
+        "stage": version.stage,
+        "progress": version.progress,
+        "error": version.error,
     }
 
 
 @router.get("/result/{job_id}", summary="Retrieve completed evaluation result")
-async def get_result(job_id: str):
-    job = job_store.get(job_id)
-    if not job:
+async def get_result(job_id: str, db: AsyncSession = Depends(get_db)):
+    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"))
+    if not version:
         raise HTTPException(404, f"Job '{job_id}' not found.")
-    if job.get("status") == "failed":
-        raise HTTPException(500, f"Evaluation failed: {job.get('error', 'unknown error')}")
-    if job.get("status") != "complete":
+    if version.status == "failed":
+        raise HTTPException(500, f"Evaluation failed: {version.error or 'unknown error'}")
+    if version.status != "complete":
         raise HTTPException(202, "Evaluation not complete yet. Poll /status for progress.")
-
-    result = job_store.get_result(job_id)
-    if result is None:
+    if version.result_json is None:
         raise HTTPException(500, "Result record missing despite complete status.")
-    return result
+    return version.result_json
 
 
 @router.post(
@@ -139,6 +198,7 @@ async def evaluate_sync(
     file: Optional[UploadFile] = File(None),
     raw_text: Optional[str] = Form(None),
     x_secret_key: Optional[str] = Form(None),
+    db: AsyncSession = Depends(get_db),
 ):
     settings = get_settings()
 
@@ -151,20 +211,26 @@ async def evaluate_sync(
             )
 
     text, pages, file_bytes, content_type, filename = await _resolve_text_and_meta(file, raw_text)
-    job_id = str(uuid.uuid4())
     source = filename or "raw_text"
-    logger.info("Evaluate/sync request — job_id=%s  source=%r  doc_len=%d chars", job_id, source, len(text))
 
-    if file_bytes is not None:
-        file_store.save(job_id, file_bytes, content_type, filename, pages)
-
-    job_store.create(job_id, status="queued", stage="pending", progress=0)
+    session_row, version = await session_service.create_session(
+        db,
+        document_text=text,
+        filename=filename,
+        content_type=content_type,
+        content=file_bytes,
+        pages=pages,
+    )
+    logger.info(
+        "Evaluate/sync request — session_id=%s job_id=%s source=%r doc_len=%d chars",
+        session_row.id, version.id, source, len(text),
+    )
 
     try:
-        result = await orchestrator.run(job_id, text, pages)
+        result = await orchestrator.run(version.id, text, pages)
         return result
     except Exception as exc:
-        logger.exception("Evaluate/sync — pipeline error for job_id=%s", job_id)
+        logger.exception("Evaluate/sync — pipeline error for job_id=%s", version.id)
         raise HTTPException(500, f"Pipeline error: {exc}")
 
 
@@ -179,32 +245,116 @@ async def health():
     }
 
 
+# ── Session history (drawer) endpoints ─────────────────────────────────────────
+
+@router.get("/sessions", summary="List evaluation sessions")
+async def list_sessions(
+    include_archived: bool = False,
+    limit: int = 50,
+    offset: int = 0,
+    db: AsyncSession = Depends(get_db),
+):
+    sessions = await session_service.list_sessions(
+        db, include_archived=include_archived, limit=limit, offset=offset
+    )
+    return {"sessions": [_session_summary(s) for s in sessions]}
+
+
+@router.get("/sessions/{session_id}", summary="Session detail with full version history")
+async def get_session_detail(session_id: str, db: AsyncSession = Depends(get_db)):
+    session_row = await session_service.get_session(db, _parse_uuid(session_id, "session_id"))
+    if not session_row:
+        raise HTTPException(404, f"Session '{session_id}' not found.")
+    versions = sorted(session_row.versions, key=lambda v: v.version_number)
+    return {
+        "session_id": str(session_row.id),
+        "filename": session_row.filename,
+        "content_type": session_row.content_type,
+        "created_at": session_row.created_at.isoformat() if session_row.created_at else None,
+        "updated_at": session_row.updated_at.isoformat() if session_row.updated_at else None,
+        "archived": session_row.archived_at is not None,
+        "versions": [_version_summary(v) for v in versions],
+    }
+
+
+@router.post("/sessions/{session_id}/reevaluate", summary="Re-run the pipeline for a session")
+async def reevaluate_session(
+    session_id: str,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
+    sid = _parse_uuid(session_id, "session_id")
+    try:
+        version = await session_service.create_reevaluation(db, sid)
+    except LookupError as exc:
+        raise HTTPException(404, str(exc))
+
+    document = await session_service.get_document(db, sid)
+    logger.info(
+        "Re-evaluate request — session_id=%s job_id=%s version=%d",
+        sid, version.id, version.version_number,
+    )
+    background_tasks.add_task(
+        _run_pipeline_background, version.id, document.document_text, document.pages
+    )
+    return {
+        "session_id": str(sid),
+        "job_id": str(version.id),
+        "version_number": version.version_number,
+        "status": "queued",
+    }
+
+
+@router.delete("/sessions/{session_id}", summary="Archive a session (history is preserved)")
+async def delete_session(session_id: str, db: AsyncSession = Depends(get_db)):
+    ok = await session_service.archive_session(db, _parse_uuid(session_id, "session_id"))
+    if not ok:
+        raise HTTPException(404, f"Session '{session_id}' not found.")
+    return {"session_id": session_id, "archived": True}
+
+
+@router.post("/sessions/{session_id}/unarchive", summary="Restore an archived session")
+async def unarchive_session(session_id: str, db: AsyncSession = Depends(get_db)):
+    ok = await session_service.unarchive_session(db, _parse_uuid(session_id, "session_id"))
+    if not ok:
+        raise HTTPException(404, f"Session '{session_id}' not found.")
+    return {"session_id": session_id, "archived": False}
+
+
 # ── Document preview endpoints ─────────────────────────────────────────────────
 
 @router.get("/document/{job_id}/meta", summary="Document metadata for preview")
-async def document_meta(job_id: str):
-    meta = file_store.get_meta(job_id)
-    if meta is None:
+async def document_meta(job_id: str, db: AsyncSession = Depends(get_db)):
+    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+    if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job (text-input evaluation).")
-    return meta
+    ct = document.content_type or ""
+    if "pdf" in ct:
+        file_type = "pdf"
+    elif "openxmlformats" in ct or "msword" in ct or "docx" in ct or "doc" in ct:
+        file_type = "docx"
+    else:
+        file_type = "txt"
+    return {
+        "type": file_type,
+        "filename": document.filename,
+        "num_pages": len(document.pages or []),
+    }
 
 
 @router.get("/document/{job_id}", summary="Serve original uploaded document")
-async def document_file(job_id: str):
-    result = file_store.get_content(job_id)
-    if result is None:
+async def document_file(job_id: str, db: AsyncSession = Depends(get_db)):
+    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+    if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job.")
-    content, content_type = result
-    return Response(content=content, media_type=content_type)
+    return Response(content=document.content, media_type=document.content_type)
 
 
 @router.get("/document/{job_id}/html", summary="HTML rendering of document for preview")
-async def document_html(job_id: str):
-    result = file_store.get_content(job_id)
-    if result is None:
+async def document_html(job_id: str, db: AsyncSession = Depends(get_db)):
+    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+    if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job.")
-    content, _ = result
-    meta = file_store.get_meta(job_id)
-    filename = meta["filename"] if meta else "document.txt"
-    html_str = doc_service.to_html(content, filename)
+    filename = document.filename or "document.txt"
+    html_str = doc_service.to_html(document.content, filename)
     return HTMLResponse(content=html_str)

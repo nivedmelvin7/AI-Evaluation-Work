@@ -14,7 +14,7 @@ import DocumentPreview from '../components/DocumentPreview.jsx';
 import ReportDocument from '../components/ReportDocument.jsx';
 import { useToast } from '../components/Toast.jsx';
 import { useTopBarConfig } from '../context/TopBarContext.jsx';
-import { getResult, getDocumentMeta } from '../api.js';
+import { getResult, getDocumentMeta, getStatus, reevaluateSession } from '../api.js';
 import { humanizeCriterion } from '../utils.js';
 
 const CRITERION_ORDER = ['technical_accuracy', 'methodology', 'critical_thinking', 'evidence_quality', 'structure', 'clarity', 'referencing', 'originality', 'professionalism'];
@@ -103,6 +103,8 @@ export default function ResultWorkspace() {
   const [activeTab, setActiveTab] = useState('overview');
   const [activeQuote, setActiveQuote] = useState(null);
   const [activePage, setActivePage] = useState(null);
+  const [sessionMeta, setSessionMeta] = useState(null);
+  const [reevaluating, setReevaluating] = useState(false);
   const reportRef = useRef(null);
 
   useEffect(() => {
@@ -128,8 +130,25 @@ export default function ResultWorkspace() {
       if (!cancelled) setDocFilename(meta?.filename || null);
     }).catch(() => {});
 
+    getStatus(jobId).then((status) => {
+      if (!cancelled) setSessionMeta({ sessionId: status.session_id, versionNumber: status.version_number });
+    }).catch(() => {});
+
     return () => { cancelled = true; };
   }, [jobId, navigate]);
+
+  async function handleReevaluate() {
+    if (!sessionMeta?.sessionId || reevaluating) return;
+    setReevaluating(true);
+    try {
+      const data = await reevaluateSession(sessionMeta.sessionId);
+      toast.success('Re-evaluation started — the previous result stays available in Evaluation history.');
+      navigate(`/evaluate/${data.job_id}/run`);
+    } catch (err) {
+      toast.error(err.message || 'Could not start re-evaluation.');
+      setReevaluating(false);
+    }
+  }
 
   const topBarAction = useMemo(() => (
     <button type="button" className="btn btn-primary btn-sm" onClick={() => navigate('/evaluate/new')}>
@@ -240,10 +259,19 @@ export default function ResultWorkspace() {
           </div>
           <div className="result-job-id">
             {docFilename ? `${docFilename} · ` : ''}Job: {jobId}
+            {sessionMeta?.versionNumber ? ` · Version ${sessionMeta.versionNumber}` : ''}
           </div>
         </div>
         <div className="result-actions">
           <div className="export-menu" aria-label="Export report">
+            <button
+              className="btn btn-secondary"
+              onClick={handleReevaluate}
+              disabled={!sessionMeta?.sessionId || reevaluating}
+              title="Re-run the pipeline. This result stays saved in Evaluation history."
+            >
+              {reevaluating ? 'Starting…' : '↻ Re-evaluate'}
+            </button>
             <button className="btn btn-secondary" onClick={exportPdf}>Export PDF</button>
             <button className="btn btn-secondary" onClick={exportDocx}>DOCX</button>
             <button className="btn btn-secondary" onClick={exportXlsx}>XLSX</button>

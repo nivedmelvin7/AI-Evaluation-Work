@@ -8359,3 +8359,595 @@ TypeError: object of type 'NoneType' has no len()
 2026-07-21 23:55:01 [INFO    ] app.pipeline.orchestrator — [c14b16ee-9961-4fde-96d9-d002bd0fb2ca] Stage 10 complete (17.78s) — integrity=FAIL  recommendation=REJECT  injection=True
 2026-07-21 23:55:01 [WARNING ] app.pipeline.orchestrator — [c14b16ee-9961-4fde-96d9-d002bd0fb2ca] INJECTION DETECTED — patterns: ['TYPE_4_OBFUSCATION_INVISIBLE_CHARS']
 2026-07-21 23:55:01 [INFO    ] app.pipeline.orchestrator — [c14b16ee-9961-4fde-96d9-d002bd0fb2ca] Pipeline COMPLETE — total_time=403.68s  score=79.0  grade=Merit
+2026-07-24 17:52:01 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 17:52:14 [INFO    ] app.routers.evaluation — Evaluate request — session_id=3d7cbda9-24d5-4a90-98f7-5c37c9b3d03b job_id=bd8d009a-4e21-4b85-b64f-611c776d8c40 source='raw_text' doc_len=799 chars
+2026-07-24 17:52:14 [INFO    ] app.pipeline.orchestrator — [bd8d009a-4e21-4b85-b64f-611c776d8c40] Pipeline started — document length=799 chars
+2026-07-24 17:54:11 [INFO    ] app.routers.evaluation — Evaluate request — session_id=ff1262d1-e3a2-420d-9c0b-74924b6a1339 job_id=e1915bd3-3434-4851-bc7a-090e40805b04 source='raw_text' doc_len=799 chars
+2026-07-24 17:54:11 [INFO    ] app.pipeline.orchestrator — [e1915bd3-3434-4851-bc7a-090e40805b04] Pipeline started — document length=799 chars
+2026-07-24 17:55:17 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 17:55:40 [INFO    ] app.routers.evaluation — Evaluate request — session_id=1e2da52b-f676-4166-b54d-7b868b836ec9 job_id=08ed928c-671f-44c6-945f-81253687a0be source='raw_text' doc_len=799 chars
+2026-07-24 17:55:40 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Pipeline started — document length=799 chars
+2026-07-24 17:55:40 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 1 (segmentation) — starting
+2026-07-24 17:55:40 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (799 chars)
+2026-07-24 17:55:49 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.32s  response_len=2443 chars
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (9.32s, 2443 chars)
+2026-07-24 17:55:49 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 13 sections (6 present)
+2026-07-24 17:55:49 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 1 complete — 13 sections found (9.32s)
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[0] name='Title'  type=OTHER  words=8  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[1] name='Introduction'  type=INTRODUCTION  words=19  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[2] name='Methodology'  type=METHODOLOGY  words=30  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[3] name='Results'  type=RESULTS  words=14  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[4] name='Discussion'  type=DISCUSSION  words=18  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[5] name='Conclusion'  type=CONCLUSIONS  words=17  status=PRESENT
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[6] name='Abstract'  type=ABSTRACT  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[7] name='Background'  type=BACKGROUND  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[8] name='Literature Review'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[9] name='Experimental Setup'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[10] name='Analysis'  type=ANALYSIS  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[11] name='References'  type=REFERENCES  words=0  status=MISSING
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   section[12] name='Appendix'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 17:55:49 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 17:55:49 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 17:55:49 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 17:56:07 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.32s  response_len=4557 chars
+2026-07-24 17:56:07 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (17.32s) — scores={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1}
+2026-07-24 17:56:07 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1}
+2026-07-24 17:56:07 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 17:56:07 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 17:56:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.44s  response_len=4328 chars
+2026-07-24 17:56:24 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (17.44s) — scores={'methodology': 2, 'critical_thinking': 1, 'evidence_quality': 2}
+2026-07-24 17:56:24 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 2, 'critical_thinking': 1, 'evidence_quality': 2}
+2026-07-24 17:56:24 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 17:56:24 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 17:56:49 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=24.49s  response_len=6446 chars
+2026-07-24 17:56:49 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (24.49s) — scores={'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}
+2026-07-24 17:56:49 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}
+2026-07-24 17:56:49 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stages 2-4 complete (59.26s) — DE scores={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1}  METH scores={'methodology': 2, 'critical_thinking': 1, 'evidence_quality': 2}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}
+2026-07-24 17:56:49 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 5 (self-critique audits) — starting
+2026-07-24 17:56:49 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 17:56:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.47s  response_len=1203 chars
+2026-07-24 17:56:55 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (6.48s, 1203 chars)
+2026-07-24 17:56:55 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-24 17:56:55 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 17:56:55 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 17:57:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.57s  response_len=1156 chars
+2026-07-24 17:57:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (6.57s, 1156 chars)
+2026-07-24 17:57:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-24 17:57:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 17:57:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 17:57:07 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.20s  response_len=1802 chars
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (5.20s, 1802 chars)
+2026-07-24 17:57:07 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=High  issues=6
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 17:57:07 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 5 complete (18.25s) — DE quality=High  METH quality=High  COMM quality=High
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 17:57:07 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 6 (reflection pass) — starting
+2026-07-24 17:57:07 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 17:57:07 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-24 17:57:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=10.22s  response_len=2267 chars
+2026-07-24 17:57:17 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (10.22s, 2267 chars)
+2026-07-24 17:57:17 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1}
+2026-07-24 17:57:17 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 17:57:17 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-24 17:57:25 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=8.31s  response_len=2461 chars
+2026-07-24 17:57:25 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (8.31s, 2461 chars)
+2026-07-24 17:57:25 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 2, 'critical_thinking': 1, 'evidence_quality': 2}
+2026-07-24 17:57:25 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 17:57:25 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=High
+2026-07-24 17:57:38 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=13.01s  response_len=3054 chars
+2026-07-24 17:57:38 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (13.01s, 3054 chars)
+2026-07-24 17:57:38 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}
+2026-07-24 17:57:38 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 6 complete (31.54s) — DE final={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1}  METH final={'methodology': 2, 'critical_thinking': 1, 'evidence_quality': 2}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}
+2026-07-24 17:57:38 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 7 (consensus reconciliation) — starting
+2026-07-24 17:57:38 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:06:51 [INFO    ] app.routers.evaluation — Re-evaluate request — session_id=9b4b50d2-c3e0-45a9-9807-be42047241ad job_id=c6e4f099-775d-4e69-b89f-d977fb5875c7 version=3
+2026-07-24 18:06:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Pipeline started — document length=45 chars
+2026-07-24 18:06:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 1 (segmentation) — starting
+2026-07-24 18:06:51 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (45 chars)
+2026-07-24 18:06:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.24s  response_len=1758 chars
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (6.24s, 1758 chars)
+2026-07-24 18:06:57 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 13 sections (1 present)
+2026-07-24 18:06:57 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 1 complete — 13 sections found (6.24s)
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[0] name='Synthetic doc A for terminal-path smoke test.'  type=OTHER  words=7  status=PRESENT
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[1] name='ABSTRACT'  type=ABSTRACT  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[2] name='INTRODUCTION'  type=INTRODUCTION  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[3] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[4] name='LITERATURE_REVIEW'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[5] name='METHODOLOGY'  type=METHODOLOGY  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[6] name='EXPERIMENTAL_SETUP'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[7] name='RESULTS'  type=RESULTS  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[8] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[9] name='DISCUSSION'  type=DISCUSSION  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[10] name='CONCLUSIONS'  type=CONCLUSIONS  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[11] name='REFERENCES'  type=REFERENCES  words=0  status=MISSING
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   section[12] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 18:06:57 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 18:06:57 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 18:06:57 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 18:07:19 [INFO    ] app.routers.evaluation — Evaluate request — session_id=1345d55e-f72d-4e40-b567-893f0491888b job_id=5c1ee0bb-cbb0-4f1f-ad96-804def040ecc source='test_doc.txt' doc_len=142 chars
+2026-07-24 18:07:19 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Pipeline started — document length=142 chars
+2026-07-24 18:07:19 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 1 (segmentation) — starting
+2026-07-24 18:07:19 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (142 chars)
+2026-07-24 18:07:26 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.24s  response_len=1756 chars
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (7.24s, 1756 chars)
+2026-07-24 18:07:26 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 13 sections (1 present)
+2026-07-24 18:07:26 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 1 complete — 13 sections found (7.24s)
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[0] name='Title'  type=OTHER  words=26  status=PRESENT
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[1] name='Abstract'  type=ABSTRACT  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[2] name='Introduction'  type=INTRODUCTION  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[3] name='Background'  type=BACKGROUND  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[4] name='Literature Review'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[5] name='Methodology'  type=METHODOLOGY  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[6] name='Experimental Setup'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[7] name='Results'  type=RESULTS  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[8] name='Analysis'  type=ANALYSIS  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[9] name='Discussion'  type=DISCUSSION  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[10] name='Conclusions'  type=CONCLUSIONS  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[11] name='References'  type=REFERENCES  words=0  status=MISSING
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   section[12] name='Appendix'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 18:07:26 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 18:07:26 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 18:07:26 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 18:07:36 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.69s  response_len=3268 chars
+2026-07-24 18:07:36 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (9.69s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:07:36 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:07:36 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 18:07:36 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 18:07:46 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=10.94s  response_len=2556 chars
+2026-07-24 18:07:46 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (10.95s) — scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:07:46 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:07:46 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 18:07:46 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 18:08:07 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=20.07s  response_len=5867 chars
+2026-07-24 18:08:07 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (20.07s) — scores={'structure': 0, 'clarity': 4, 'referencing': 0, 'originality': 0, 'professionalism': 4, 'holistic_quality': 0}
+2026-07-24 18:08:07 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 0, 'clarity': 4, 'referencing': 0, 'originality': 0, 'professionalism': 4, 'holistic_quality': 0}
+2026-07-24 18:08:07 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stages 2-4 complete (40.71s) — DE scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}  COMM scores={'structure': 0, 'clarity': 4, 'referencing': 0, 'originality': 0, 'professionalism': 4, 'holistic_quality': 0}
+2026-07-24 18:08:07 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 5 (self-critique audits) — starting
+2026-07-24 18:08:07 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 18:08:16 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.11s  response_len=2030 chars
+2026-07-24 18:08:16 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (9.11s, 2030 chars)
+2026-07-24 18:08:16 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=Medium  issues=3
+2026-07-24 18:08:16 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['INTERNAL_CONSISTENCY', 'NONE', 'NONE']
+2026-07-24 18:08:16 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 18:08:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.58s  response_len=1158 chars
+2026-07-24 18:08:21 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (5.58s, 1158 chars)
+2026-07-24 18:08:21 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-24 18:08:21 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:08:21 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 18:08:33 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=96.33s  response_len=3181 chars
+2026-07-24 18:08:33 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (96.33s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:08:33 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:08:33 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 18:08:33 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 18:08:39 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.85s  response_len=3925 chars
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (17.85s, 3925 chars)
+2026-07-24 18:08:39 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=Medium  issues=6
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'RUBRIC_ADHERENCE', 'NONE', 'NONE', 'RUBRIC_ADHERENCE', 'MISSING_COVERAGE']
+2026-07-24 18:08:39 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 5 complete (32.55s) — DE quality=Medium  METH quality=High  COMM quality=Medium
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   Domain Expert audit issues: ['INTERNAL_CONSISTENCY', 'NONE', 'NONE']
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc]   Communication Specialist audit issues: ['NONE', 'RUBRIC_ADHERENCE', 'NONE', 'NONE', 'RUBRIC_ADHERENCE', 'MISSING_COVERAGE']
+2026-07-24 18:08:39 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 6 (reflection pass) — starting
+2026-07-24 18:08:39 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 18:08:39 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=Medium
+2026-07-24 18:08:43 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.40s  response_len=2658 chars
+2026-07-24 18:08:43 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (9.40s) — scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:08:43 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:08:43 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 18:08:43 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 18:08:47 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=8.31s  response_len=2804 chars
+2026-07-24 18:08:47 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (8.31s, 2804 chars)
+2026-07-24 18:08:47 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:08:47 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 18:08:47 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-24 18:08:52 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=4.29s  response_len=1727 chars
+2026-07-24 18:08:52 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (4.29s, 1727 chars)
+2026-07-24 18:08:52 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:08:52 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 18:08:52 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=Medium
+2026-07-24 18:08:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=14.31s  response_len=4144 chars
+2026-07-24 18:08:57 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (14.31s) — scores={'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}
+2026-07-24 18:08:57 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}
+2026-07-24 18:08:57 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stages 2-4 complete (120.04s) — DE scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}  COMM scores={'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}
+2026-07-24 18:08:57 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 5 (self-critique audits) — starting
+2026-07-24 18:08:57 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 18:09:03 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.42s  response_len=1170 chars
+2026-07-24 18:09:03 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (6.42s, 1170 chars)
+2026-07-24 18:09:03 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-24 18:09:03 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:09:03 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 18:09:08 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=4.33s  response_len=1094 chars
+2026-07-24 18:09:08 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (4.33s, 1094 chars)
+2026-07-24 18:09:08 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-24 18:09:08 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:09:08 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 18:09:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.11s  response_len=1838 chars
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (9.11s, 1838 chars)
+2026-07-24 18:09:17 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=High  issues=6
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:09:17 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 5 complete (19.86s) — DE quality=High  METH quality=High  COMM quality=High
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:09:17 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 6 (reflection pass) — starting
+2026-07-24 18:09:17 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 18:09:17 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-24 18:09:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.46s  response_len=1832 chars
+2026-07-24 18:09:24 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (7.46s, 1832 chars)
+2026-07-24 18:09:24 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:09:24 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 18:09:24 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-24 18:09:30 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.82s  response_len=1972 chars
+2026-07-24 18:09:30 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (5.82s, 1972 chars)
+2026-07-24 18:09:30 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}
+2026-07-24 18:09:30 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 18:09:30 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=High
+2026-07-24 18:09:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.84s  response_len=3468 chars
+2026-07-24 18:09:40 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (9.84s, 3468 chars)
+2026-07-24 18:09:40 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}
+2026-07-24 18:09:40 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 6 complete (23.12s) — DE final={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH final={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}  COMM final={'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}
+2026-07-24 18:09:40 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 7 (consensus reconciliation) — starting
+2026-07-24 18:09:40 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:09:51 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.45s  response_len=4257 chars
+2026-07-24 18:09:51 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (11.45s, 4257 chars)
+2026-07-24 18:09:51 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-24 18:09:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 7 complete (11.45s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0, 'critical_thinking': 0, 'structure': 0, 'clarity': 0, 'referencing': 0, 'originality': 0, 'professionalism': 0, 'holistic_quality': 0}  deferral=PROCEED
+2026-07-24 18:09:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:09:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 8 complete (0.00s) — final_score=0.0  grade=Fail  gate=True  deferred=False  uncertainty_band=[0.0, 0.4]
+2026-07-24 18:09:51 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:09:51 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=0.0  grade=Fail
+2026-07-24 18:10:03 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.02s  response_len=3918 chars
+2026-07-24 18:10:03 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (11.02s, 3918 chars)
+2026-07-24 18:10:03 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=1  improvements=3
+2026-07-24 18:10:03 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 9 complete (11.02s) — strengths=1  improvements=3
+2026-07-24 18:10:03 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 10 (verification guard) — starting
+2026-07-24 18:10:03 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:10:07 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=4.85s  response_len=2451 chars
+2026-07-24 18:10:07 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (4.85s, 2451 chars)
+2026-07-24 18:10:07 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-07-24 18:10:07 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Stage 10 complete (4.85s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-07-24 18:10:07 [INFO    ] app.pipeline.orchestrator — [c6e4f099-775d-4e69-b89f-d977fb5875c7] Pipeline COMPLETE — total_time=196.64s  score=0.0  grade=Fail
+2026-07-24 18:10:14 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 18:10:37 [INFO    ] app.routers.evaluation — Evaluate request — session_id=0da41220-9360-4319-a7e0-ce0f12f959b2 job_id=75f61c3b-4f3c-45d9-9abc-a1229b120cd8 source='raw_text' doc_len=294 chars
+2026-07-24 18:10:37 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Pipeline started — document length=294 chars
+2026-07-24 18:10:37 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 1 (segmentation) — starting
+2026-07-24 18:10:37 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (294 chars)
+2026-07-24 18:10:37 [INFO    ] app.routers.evaluation — Evaluate request — session_id=81028147-14ad-4e3e-a5c5-a3e7b8e87d02 job_id=c878db0d-9bab-4aca-9e7c-e07e45de1ad5 source='raw_text' doc_len=252 chars
+2026-07-24 18:10:37 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Pipeline started — document length=252 chars
+2026-07-24 18:10:37 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 1 (segmentation) — starting
+2026-07-24 18:10:37 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (252 chars)
+2026-07-24 18:10:44 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.23s  response_len=1940 chars
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (7.23s, 1940 chars)
+2026-07-24 18:10:44 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 13 sections (2 present)
+2026-07-24 18:10:44 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 1 complete — 13 sections found (7.23s)
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[0] name='Title'  type=OTHER  words=6  status=PRESENT
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[1] name='Abstract'  type=ABSTRACT  words=26  status=PRESENT
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[2] name='Introduction'  type=INTRODUCTION  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[3] name='Background'  type=BACKGROUND  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[4] name='Literature Review'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[5] name='Methodology'  type=METHODOLOGY  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[6] name='Experimental Setup'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[7] name='Results'  type=RESULTS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[8] name='Analysis'  type=ANALYSIS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[9] name='Discussion'  type=DISCUSSION  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[10] name='Conclusions'  type=CONCLUSIONS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[11] name='References'  type=REFERENCES  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   section[12] name='Appendix'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 18:10:44 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 18:10:44 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 18:10:44 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.42s  response_len=1856 chars
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (7.42s, 1856 chars)
+2026-07-24 18:10:44 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 13 sections (2 present)
+2026-07-24 18:10:44 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 1 complete — 13 sections found (7.42s)
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[0] name='Title'  type=OTHER  words=7  status=PRESENT
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[1] name='Abstract'  type=ABSTRACT  words=30  status=PRESENT
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[2] name='Introduction'  type=INTRODUCTION  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[3] name='Background'  type=BACKGROUND  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[4] name='Literature Review'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[5] name='Methodology'  type=METHODOLOGY  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[6] name='Experimental Setup'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[7] name='Results'  type=RESULTS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[8] name='Analysis'  type=ANALYSIS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[9] name='Discussion'  type=DISCUSSION  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[10] name='Conclusions'  type=CONCLUSIONS  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[11] name='References'  type=REFERENCES  words=0  status=MISSING
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   section[12] name='Appendix'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 18:10:44 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 18:10:44 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 18:10:44 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 18:10:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.11s  response_len=4001 chars
+2026-07-24 18:10:55 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (11.11s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:10:55 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:10:55 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 18:10:55 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 18:11:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.55s  response_len=5090 chars
+2026-07-24 18:11:02 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (17.55s) — scores={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1}
+2026-07-24 18:11:02 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1}
+2026-07-24 18:11:02 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 18:11:02 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 18:11:06 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=10.85s  response_len=3646 chars
+2026-07-24 18:11:06 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (10.85s) — scores={'methodology': 0, 'critical_thinking': 1, 'evidence_quality': 0}
+2026-07-24 18:11:06 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 0, 'critical_thinking': 1, 'evidence_quality': 0}
+2026-07-24 18:11:06 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 18:11:06 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 18:11:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.76s  response_len=4069 chars
+2026-07-24 18:11:17 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (15.76s) — scores={'methodology': 1, 'critical_thinking': 1, 'evidence_quality': 1}
+2026-07-24 18:11:17 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 1, 'critical_thinking': 1, 'evidence_quality': 1}
+2026-07-24 18:11:17 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 18:11:17 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 18:11:38 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=21.04s  response_len=7598 chars
+2026-07-24 18:11:38 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (21.04s) — scores={'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}
+2026-07-24 18:11:38 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}
+2026-07-24 18:11:38 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stages 2-4 complete (54.35s) — DE scores={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1}  METH scores={'methodology': 1, 'critical_thinking': 1, 'evidence_quality': 1}  COMM scores={'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}
+2026-07-24 18:11:38 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 5 (self-critique audits) — starting
+2026-07-24 18:11:38 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 18:11:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=34.44s  response_len=8644 chars
+2026-07-24 18:11:40 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (34.44s) — scores={'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}
+2026-07-24 18:11:40 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}
+2026-07-24 18:11:40 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stages 2-4 complete (56.41s) — DE scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH scores={'methodology': 0, 'critical_thinking': 1, 'evidence_quality': 0}  COMM scores={'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}
+2026-07-24 18:11:40 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 5 (self-critique audits) — starting
+2026-07-24 18:11:40 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 18:11:43 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=3.14s  response_len=1170 chars
+2026-07-24 18:11:43 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (3.14s, 1170 chars)
+2026-07-24 18:11:43 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-24 18:11:43 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:11:43 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 18:11:45 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.38s  response_len=1275 chars
+2026-07-24 18:11:45 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (6.38s, 1275 chars)
+2026-07-24 18:11:45 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-24 18:11:45 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:11:45 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 18:11:47 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=2.56s  response_len=1164 chars
+2026-07-24 18:11:47 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (2.56s, 1164 chars)
+2026-07-24 18:11:47 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-24 18:11:47 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:11:47 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 18:11:49 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.75s  response_len=1154 chars
+2026-07-24 18:11:49 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (5.75s, 1154 chars)
+2026-07-24 18:11:49 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-24 18:11:49 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:11:49 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 18:12:01 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=14.08s  response_len=4705 chars
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (14.08s, 4705 chars)
+2026-07-24 18:12:01 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=Medium  issues=6
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['MISSING_COVERAGE', 'NONE', 'NONE', 'UNGROUNDED_CLAIM', 'NONE', 'HALO_EFFECT']
+2026-07-24 18:12:01 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 5 complete (23.02s) — DE quality=High  METH quality=High  COMM quality=Medium
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8]   Communication Specialist audit issues: ['MISSING_COVERAGE', 'NONE', 'NONE', 'UNGROUNDED_CLAIM', 'NONE', 'HALO_EFFECT']
+2026-07-24 18:12:01 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 6 (reflection pass) — starting
+2026-07-24 18:12:01 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 18:12:01 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-24 18:12:07 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.69s  response_len=4425 chars
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (17.69s, 4425 chars)
+2026-07-24 18:12:07 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=Medium  issues=7
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['INTERNAL_CONSISTENCY', 'UNGROUNDED_CLAIM', 'NONE', 'UNGROUNDED_CLAIM', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:12:07 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 5 complete (26.59s) — DE quality=High  METH quality=High  COMM quality=Medium
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5]   Communication Specialist audit issues: ['INTERNAL_CONSISTENCY', 'UNGROUNDED_CLAIM', 'NONE', 'UNGROUNDED_CLAIM', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:12:07 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 6 (reflection pass) — starting
+2026-07-24 18:12:07 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 18:12:07 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-24 18:12:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.76s  response_len=2480 chars
+2026-07-24 18:12:13 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (11.76s, 2480 chars)
+2026-07-24 18:12:13 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1}
+2026-07-24 18:12:13 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 18:12:13 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-24 18:12:14 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.32s  response_len=1943 chars
+2026-07-24 18:12:14 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (7.32s, 1943 chars)
+2026-07-24 18:12:14 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}
+2026-07-24 18:12:14 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 18:12:14 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-24 18:12:19 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.00s  response_len=2116 chars
+2026-07-24 18:12:19 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (6.00s, 2116 chars)
+2026-07-24 18:12:19 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 1, 'critical_thinking': 1, 'evidence_quality': 1}
+2026-07-24 18:12:19 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 18:12:19 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=Medium
+2026-07-24 18:12:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.39s  response_len=1974 chars
+2026-07-24 18:12:24 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (9.39s, 1974 chars)
+2026-07-24 18:12:24 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 0, 'critical_thinking': 1, 'evidence_quality': 0}
+2026-07-24 18:12:24 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 18:12:24 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 7 issue(s), quality=Medium
+2026-07-24 18:12:48 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=24.56s  response_len=7858 chars
+2026-07-24 18:12:48 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (24.56s, 7858 chars)
+2026-07-24 18:12:48 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 1, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}
+2026-07-24 18:12:48 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 6 complete (41.28s) — DE final={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH final={'methodology': 0, 'critical_thinking': 1, 'evidence_quality': 0}  COMM final={'structure': 1, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}
+2026-07-24 18:12:48 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 7 (consensus reconciliation) — starting
+2026-07-24 18:12:48 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:12:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=35.60s  response_len=8831 chars
+2026-07-24 18:12:55 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (35.60s, 8831 chars)
+2026-07-24 18:12:55 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}
+2026-07-24 18:12:55 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 6 complete (53.36s) — DE final={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1}  METH final={'methodology': 1, 'critical_thinking': 1, 'evidence_quality': 1}  COMM final={'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}
+2026-07-24 18:12:55 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 7 (consensus reconciliation) — starting
+2026-07-24 18:12:55 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:12:56 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=7.73s  response_len=4264 chars
+2026-07-24 18:12:56 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (7.73s, 4264 chars)
+2026-07-24 18:12:56 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-24 18:12:56 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 7 complete (7.73s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0, 'critical_thinking': 1, 'structure': 1, 'clarity': 3, 'referencing': 0, 'originality': 1, 'professionalism': 3, 'holistic_quality': 0}  deferral=PROCEED
+2026-07-24 18:12:56 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:12:56 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 8 complete (0.00s) — final_score=19.0  grade=Fail  gate=True  deferred=False  uncertainty_band=[18.2, 19.8]
+2026-07-24 18:12:56 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:12:56 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=19.0  grade=Fail
+2026-07-24 18:13:05 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=9.77s  response_len=4232 chars
+2026-07-24 18:13:05 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (9.77s, 4232 chars)
+2026-07-24 18:13:05 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-24 18:13:05 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 7 complete (9.77s) — scores={'technical_accuracy': 1, 'methodology': 1, 'evidence_quality': 1, 'critical_thinking': 1, 'structure': 2, 'clarity': 4, 'referencing': 0, 'originality': 2, 'professionalism': 4, 'holistic_quality': 2}  deferral=PROCEED
+2026-07-24 18:13:05 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:13:05 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 8 complete (0.00s) — final_score=38.0  grade=Fail  gate=True  deferred=False  uncertainty_band=[36.8, 39.2]
+2026-07-24 18:13:05 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:13:05 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=38.0  grade=Fail
+2026-07-24 18:13:10 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=14.59s  response_len=5028 chars
+2026-07-24 18:13:10 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (14.59s, 5028 chars)
+2026-07-24 18:13:10 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=2  improvements=3
+2026-07-24 18:13:10 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 9 complete (14.59s) — strengths=2  improvements=3
+2026-07-24 18:13:10 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 10 (verification guard) — starting
+2026-07-24 18:13:10 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:13:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=19.58s  response_len=4824 chars
+2026-07-24 18:13:24 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (19.58s, 4824 chars)
+2026-07-24 18:13:24 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=2  improvements=3
+2026-07-24 18:13:24 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 9 complete (19.58s) — strengths=2  improvements=3
+2026-07-24 18:13:24 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 10 (verification guard) — starting
+2026-07-24 18:13:24 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:13:27 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=16.98s  response_len=5111 chars
+2026-07-24 18:13:27 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (16.98s, 5111 chars)
+2026-07-24 18:13:27 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-07-24 18:13:27 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Stage 10 complete (16.98s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-07-24 18:13:27 [INFO    ] app.pipeline.orchestrator — [c878db0d-9bab-4aca-9e7c-e07e45de1ad5] Pipeline COMPLETE — total_time=170.87s  score=19.0  grade=Fail
+2026-07-24 18:13:35 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.27s  response_len=4313 chars
+2026-07-24 18:13:35 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (11.27s, 4313 chars)
+2026-07-24 18:13:35 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=FLAG  scan=NONE  combined=FLAG/HOLD  patterns=0
+2026-07-24 18:13:35 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Stage 10 complete (11.27s) — integrity=FLAG  recommendation=HOLD  injection=False
+2026-07-24 18:13:35 [INFO    ] app.pipeline.orchestrator — [75f61c3b-4f3c-45d9-9abc-a1229b120cd8] Pipeline COMPLETE — total_time=178.85s  score=38.0  grade=Fail
+2026-07-24 18:15:43 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 18:15:48 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 18:16:21 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-24 18:17:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=1185.61s  response_len=3658 chars
+2026-07-24 18:17:24 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (1185.61s, 3658 chars)
+2026-07-24 18:17:24 [WARNING ] app.pipeline.stage7_consensus — Stage 7 — XML parse failed; using fallback consensus
+2026-07-24 18:17:24 [WARNING ] app.pipeline.stage7_consensus — Stage 7 — building emergency fallback consensus from reviewer scores
+2026-07-24 18:17:24 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 7 complete (1185.61s) — scores={'technical_accuracy': 1, 'methodology': 2, 'evidence_quality': 1, 'critical_thinking': 1, 'structure': 3, 'clarity': 3, 'referencing': 0, 'originality': 2, 'professionalism': 3, 'holistic_quality': 2}  deferral=DEFER
+2026-07-24 18:17:24 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:17:24 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 8 complete (0.00s) — final_score=42.0  grade=DEFERRED  gate=True  deferred=True  uncertainty_band=[38.4, 45.6]
+2026-07-24 18:17:24 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:17:24 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=42.0  grade=DEFERRED
+2026-07-24 18:17:24 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — no consensus XML; using JSON scores
+2026-07-24 18:17:25 [INFO    ] app.routers.evaluation — Evaluate request — session_id=fb51fe10-5695-4639-92a5-8c0cb506b8b2 job_id=0af9e14d-dcd3-480b-8bd1-29af8d64c830 source='2607.06544v1.pdf' doc_len=150854 chars
+2026-07-24 18:17:25 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Pipeline started — document length=150854 chars
+2026-07-24 18:17:25 [WARNING ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Security scan — risk=MEDIUM recommendation=FLAG patterns=['TYPE_7_REPETITION_FLOODING']
+2026-07-24 18:17:25 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 1 (segmentation) — starting
+2026-07-24 18:17:25 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (150854 chars)
+2026-07-24 18:17:35 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=522.81s  response_len=5834 chars
+2026-07-24 18:17:35 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (522.81s, 5834 chars)
+2026-07-24 18:17:35 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 0, 'professionalism': 1, 'holistic_quality': 0}
+2026-07-24 18:17:35 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 6 complete (535.42s) — DE final={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0}  METH final={'methodology': 0, 'critical_thinking': 0, 'evidence_quality': 0}  COMM final={'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 0, 'professionalism': 1, 'holistic_quality': 0}
+2026-07-24 18:17:35 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 7 (consensus reconciliation) — starting
+2026-07-24 18:17:35 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:17:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=14.43s  response_len=4150 chars
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (14.43s, 4150 chars)
+2026-07-24 18:17:40 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 12 sections (11 present)
+2026-07-24 18:17:40 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 1 complete — 12 sections found (14.43s)
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[0] name='Title and Authors'  type=OTHER  words=26  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[1] name='Abstract'  type=ABSTRACT  words=265  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[2] name='CCS Concepts and Keywords'  type=OTHER  words=43  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[3] name='1. Introduction'  type=INTRODUCTION  words=1117  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[4] name='2. Characteristics of Indic Languages'  type=BACKGROUND  words=2004  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[5] name='3. Historical Context: Evolution of Indic NLP'  type=LITERATURE_REVIEW  words=5606  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[6] name='4. Challenges for Indic NLP'  type=DISCUSSION  words=1924  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[7] name='5. Language and Culture'  type=METHODOLOGY  words=2657  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[8] name='6. Conclusions'  type=CONCLUSIONS  words=274  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[9] name='Ethics and Privacy Statement'  type=OTHER  words=143  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[10] name='References'  type=REFERENCES  words=5857  status=PRESENT
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   section[11] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-07-24 18:17:40 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-24 18:17:40 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-24 18:17:40 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-24 18:17:42 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.82s  response_len=4975 chars
+2026-07-24 18:17:42 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (17.82s, 4975 chars)
+2026-07-24 18:17:42 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=2  improvements=3
+2026-07-24 18:17:42 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 9 complete (17.82s) — strengths=2  improvements=3
+2026-07-24 18:17:42 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 10 (verification guard) — starting
+2026-07-24 18:17:42 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:17:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.71s  response_len=4251 chars
+2026-07-24 18:17:50 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (15.71s, 4251 chars)
+2026-07-24 18:17:50 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-24 18:17:50 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 7 complete (15.71s) — scores={'technical_accuracy': 0, 'methodology': 0, 'evidence_quality': 0, 'critical_thinking': 0, 'structure': 0, 'clarity': 3, 'referencing': 0, 'originality': 0, 'professionalism': 1, 'holistic_quality': 0}  deferral=PROCEED
+2026-07-24 18:17:50 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:17:50 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 8 complete (0.00s) — final_score=8.0  grade=Fail  gate=True  deferred=False  uncertainty_band=[7.6, 8.4]
+2026-07-24 18:17:50 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:17:50 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=8.0  grade=Fail
+2026-07-24 18:17:53 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.06s  response_len=3933 chars
+2026-07-24 18:17:53 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (11.06s, 3933 chars)
+2026-07-24 18:17:53 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-07-24 18:17:53 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Stage 10 complete (11.06s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-07-24 18:17:53 [INFO    ] app.pipeline.orchestrator — [08ed928c-671f-44c6-945f-81253687a0be] Pipeline COMPLETE — total_time=1332.93s  score=42.0  grade=DEFERRED
+2026-07-24 18:18:05 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=14.44s  response_len=4086 chars
+2026-07-24 18:18:05 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (14.44s, 4086 chars)
+2026-07-24 18:18:05 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=1  improvements=3
+2026-07-24 18:18:05 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 9 complete (14.44s) — strengths=1  improvements=3
+2026-07-24 18:18:05 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 10 (verification guard) — starting
+2026-07-24 18:18:05 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:18:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.85s  response_len=2893 chars
+2026-07-24 18:18:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=31.62s  response_len=8676 chars
+2026-07-24 18:18:12 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (6.85s, 2893 chars)
+2026-07-24 18:18:12 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-07-24 18:18:12 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (31.62s) — scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}
+2026-07-24 18:18:12 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Stage 10 complete (6.85s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-07-24 18:18:12 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}
+2026-07-24 18:18:12 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-24 18:18:12 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-24 18:18:12 [INFO    ] app.pipeline.orchestrator — [5c1ee0bb-cbb0-4f1f-ad96-804def040ecc] Pipeline COMPLETE — total_time=652.97s  score=8.0  grade=Fail
+2026-07-24 18:18:39 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.44s  response_len=7358 chars
+2026-07-24 18:18:39 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (27.44s) — scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}
+2026-07-24 18:18:39 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}
+2026-07-24 18:18:39 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-24 18:18:39 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-24 18:19:19 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=40.32s  response_len=11083 chars
+2026-07-24 18:19:19 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (40.32s) — scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-24 18:19:19 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-24 18:19:19 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stages 2-4 complete (99.38s) — DE scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-24 18:19:19 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 5 (self-critique audits) — starting
+2026-07-24 18:19:19 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-24 18:19:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=4.30s  response_len=1100 chars
+2026-07-24 18:19:24 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (4.30s, 1100 chars)
+2026-07-24 18:19:24 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-24 18:19:24 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:19:24 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-24 18:19:29 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.56s  response_len=2081 chars
+2026-07-24 18:19:29 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (5.56s, 2081 chars)
+2026-07-24 18:19:29 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=Medium  issues=3
+2026-07-24 18:19:29 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'INTERNAL_CONSISTENCY', 'NONE']
+2026-07-24 18:19:29 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-24 18:19:34 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.18s  response_len=1868 chars
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (5.18s, 1868 chars)
+2026-07-24 18:19:34 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=High  issues=6
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:19:34 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 5 complete (15.04s) — DE quality=High  METH quality=Medium  COMM quality=High
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   Methodologist audit issues: ['NONE', 'INTERNAL_CONSISTENCY', 'NONE']
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-24 18:19:34 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 6 (reflection pass) — starting
+2026-07-24 18:19:34 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-24 18:19:34 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-24 18:20:37 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=62.65s  response_len=2233 chars
+2026-07-24 18:20:37 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (62.65s, 2233 chars)
+2026-07-24 18:20:37 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}
+2026-07-24 18:20:37 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-24 18:20:37 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=Medium
+2026-07-24 18:21:10 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.84s  response_len=4447 chars
+2026-07-24 18:21:10 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (32.84s, 4447 chars)
+2026-07-24 18:21:10 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}
+2026-07-24 18:21:10 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-24 18:21:10 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=High
+2026-07-24 18:23:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=164.67s  response_len=4444 chars
+2026-07-24 18:23:55 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (164.67s, 4444 chars)
+2026-07-24 18:23:55 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-24 18:23:55 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 6 complete (260.16s) — DE final={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH final={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-24 18:23:55 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 7 (consensus reconciliation) — starting
+2026-07-24 18:23:55 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-24 18:24:06 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.20s  response_len=4635 chars
+2026-07-24 18:24:06 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (11.20s, 4635 chars)
+2026-07-24 18:24:06 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-24 18:24:06 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 7 complete (11.20s) — scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 2, 'critical_thinking': 2, 'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}  deferral=PROCEED
+2026-07-24 18:24:06 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 8 (deterministic scoring) — starting
+2026-07-24 18:24:06 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 8 complete (0.00s) — final_score=65.0  grade=Merit  gate=False  deferred=False  uncertainty_band=[64.0, 66.0]
+2026-07-24 18:24:06 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 9 (feedback synthesis) — starting
+2026-07-24 18:24:06 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=65.0  grade=Merit
+2026-07-24 18:24:35 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.81s  response_len=6762 chars
+2026-07-24 18:24:35 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (28.81s, 6762 chars)
+2026-07-24 18:24:35 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-07-24 18:24:35 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 9 complete (28.81s) — strengths=3  improvements=3
+2026-07-24 18:24:35 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 10 (verification guard) — starting
+2026-07-24 18:24:35 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-24 18:24:35 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 150854 to 20000 chars for factual verifier
+2026-07-24 18:24:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.50s  response_len=6207 chars
+2026-07-24 18:24:50 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (15.50s, 6207 chars)
+2026-07-24 18:24:50 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=FLAG  scan=MEDIUM  combined=FLAG/HOLD  patterns=1
+2026-07-24 18:24:50 [WARNING ] app.pipeline.stage10_verification — Stage 10 — SECURITY SCAN FLAGGED 1 pattern(s): ['TYPE_7_REPETITION_FLOODING']
+2026-07-24 18:24:50 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Stage 10 complete (15.50s) — integrity=FLAG  recommendation=HOLD  injection=True
+2026-07-24 18:24:50 [WARNING ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] INJECTION DETECTED — patterns: ['TYPE_7_REPETITION_FLOODING']
+2026-07-24 18:24:50 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Pipeline COMPLETE — total_time=444.85s  score=65.0  grade=Merit
+2026-07-24 19:01:11 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     app_debug: bool = False
     secret_key: str = "change_me"
 
+    # Database
+    database_url: str = "postgresql+asyncpg://eval_user:eval_password@localhost:5432/eval_platform"
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

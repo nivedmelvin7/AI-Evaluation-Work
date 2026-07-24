@@ -3,7 +3,7 @@ import HealthBadge from '../HealthBadge.jsx';
 import { useTheme } from '../../theme/ThemeContext.jsx';
 import { useTopBar } from '../../context/TopBarContext.jsx';
 
-export default function TopBar({ onOpenDrawer }) {
+export default function TopBar({ onOpenDrawer, onOpenSessions }) {
   const { title, action } = useTopBar();
   const { theme, setTheme, themes } = useTheme();
 
@@ -21,6 +21,15 @@ export default function TopBar({ onOpenDrawer }) {
         <span className="app-topbar-title">{title}</span>
       </div>
       <div className="app-topbar-right">
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={onOpenSessions}
+          aria-label="Open evaluation history"
+          title="Evaluation history"
+        >
+          🕘 History
+        </button>
         <HealthBadge />
         <label className="theme-selector">
           <span className="sr-only">Choose colour theme</span>

@@ -169,7 +169,7 @@ def test_gate_caps_at_49():
     scores["technical_accuracy"] = {"score": 1, "confidence": "high"}
     result = compute_score(scores)
     assert result["gate_triggered"] is True
-    assert result["penalised_score"] <= 49.0
+    assert result["final_score"] <= 49
 
 
 # ---------------------------------------------------------------------------

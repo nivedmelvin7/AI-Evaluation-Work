@@ -2,6 +2,50 @@ from lxml import etree
 from typing import Optional, Dict, Any
 import re
 
+_ATTR_START_RE = re.compile(r'\w+="')
+
+
+def _escape_attr_value(value: str) -> str:
+    # `&` is handled separately (see _fix_ampersands) so entities that are
+    # already well-formed (e.g. "&amp;") aren't double-escaped here.
+    return value.replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def _repair_attribute_values(xml_str: str) -> str:
+    """
+    LLM output frequently embeds verbatim document text inside attribute
+    values (e.g. a citation's quote="..."). That text often contains
+    characters like <, >, or " (e.g. "p < 0.05", a quoted term) which break
+    attribute parsing if left as-is. Re-escape attribute values, scanning
+    line by line, bounding each value between its own opening `attr="` and
+    the next attribute's start (or end of line) so a fix for one attribute
+    can't swallow neighboring ones on the same line.
+    """
+    def fix_line(line: str) -> str:
+        starts = list(_ATTR_START_RE.finditer(line))
+        if not starts:
+            return line
+        pieces = []
+        cursor = 0
+        for i, m in enumerate(starts):
+            value_start = m.end()
+            window_end = starts[i + 1].start() if i + 1 < len(starts) else len(line)
+            window = line[value_start:window_end]
+            last_quote = window.rfind('"')
+            if last_quote == -1:
+                continue
+            pieces.append(line[cursor:value_start])
+            pieces.append(_escape_attr_value(window[:last_quote]))
+            pieces.append('"')
+            cursor = value_start + last_quote + 1
+        pieces.append(line[cursor:])
+        return "".join(pieces)
+    return "\n".join(fix_line(line) for line in xml_str.split("\n"))
+
+
+def _fix_ampersands(xml_str: str) -> str:
+    return re.sub(r"&(?!amp;|lt;|gt;|quot;|apos;)", "&amp;", xml_str)
+
 
 def parse_xml_response(raw: str, root_tag: str) -> Optional[etree._Element]:
     """
@@ -21,12 +65,22 @@ def parse_xml_response(raw: str, root_tag: str) -> Optional[etree._Element]:
     try:
         return etree.fromstring(xml_str.encode("utf-8"))
     except etree.XMLSyntaxError:
-        # Attempt light repair: escape unescaped ampersands
-        xml_str = re.sub(r"&(?!amp;|lt;|gt;|quot;|apos;)", "&amp;", xml_str)
-        try:
-            return etree.fromstring(xml_str.encode("utf-8"))
-        except Exception:
-            return None
+        pass
+
+    # Repair 1: re-escape attribute values (the usual break — verbatim
+    # quotes copied from the source document containing <, >, or ").
+    repaired = _repair_attribute_values(xml_str)
+    try:
+        return etree.fromstring(repaired.encode("utf-8"))
+    except etree.XMLSyntaxError:
+        pass
+
+    # Repair 2: escape stray ampersands anywhere else in the document
+    repaired = _fix_ampersands(repaired)
+    try:
+        return etree.fromstring(repaired.encode("utf-8"))
+    except Exception:
+        return None
 
 
 def extract_scores_from_review(

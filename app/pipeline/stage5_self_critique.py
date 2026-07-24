@@ -13,12 +13,15 @@ Temperature: 0.0 (deterministic)
 Self-consistency: No
 """
 
-import sys
-from typing import Dict, Any
+import logging
+import time
+from typing import Any, Dict
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import SELF_CRITIQUE_SYSTEM, SELF_CRITIQUE_USER_TEMPLATE
+from app.prompts.stage5_self_critique_prompts import SELF_CRITIQUE_SYSTEM, SELF_CRITIQUE_USER_TEMPLATE
 from app.utils.xml_parser import parse_xml_response
+
+logger = logging.getLogger(__name__)
 
 
 async def run(
@@ -27,20 +30,23 @@ async def run(
     reviewer_out: Dict[str, Any],
 ) -> Dict[str, Any]:
     """Audit reviewer output for quality issues."""
+    logger.info("Stage 5 (self-critique) — auditing %r", reviewer_name)
+
     raw_xml = reviewer_out.get("raw_xml", "")
     if not raw_xml:
-        # Fallback: format scores as text if no raw XML captured
         scores = reviewer_out.get("scores", {})
         raw_xml = "\n".join(
             f"{crit}: score={data.get('score', '?')}, confidence={data.get('confidence', '?')}"
             for crit, data in scores.items()
         )
+        logger.debug("Stage 5 (%s) — no raw XML found; formatted scores as text (%d chars)", reviewer_name, len(raw_xml))
 
     user_prompt = SELF_CRITIQUE_USER_TEMPLATE.format(
         reviewer_name=reviewer_name,
         reviewer_output=raw_xml,
     )
 
+    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=SELF_CRITIQUE_SYSTEM,
@@ -48,9 +54,11 @@ async def run(
             temperature=0.0,
             max_tokens=4096,
         )
-    except Exception as e:
-        print(f"[Stage 5] LLM call failed for {reviewer_name}: {e}", file=sys.stderr)
+    except Exception:
+        logger.exception("Stage 5 — LLM call failed for %r", reviewer_name)
         return _empty_audit(reviewer_name)
+
+    logger.debug("Stage 5 (%s) — LLM response received (%.2fs, %d chars)", reviewer_name, time.perf_counter() - t0, len(raw))
 
     parsed = parse_xml_response(raw, "audit")
 
@@ -78,8 +86,19 @@ async def run(
         summary_el = parsed.find("audit_summary")
         if summary_el is not None and summary_el.text:
             audit_summary = summary_el.text.strip()
+
+        logger.info(
+            "Stage 5 (%s) — audit complete: quality=%s  issues=%d",
+            reviewer_name, overall_quality, len(issues),
+        )
+        if issues:
+            logger.debug(
+                "Stage 5 (%s) — issue types: %s",
+                reviewer_name,
+                [i["type"] for i in issues],
+            )
     else:
-        print(f"[Stage 5] XML parse failed for {reviewer_name} audit.", file=sys.stderr)
+        logger.warning("Stage 5 — XML parse failed for %r audit; proceeding with empty issues", reviewer_name)
 
     return {
         "reviewer_name": reviewer_name,

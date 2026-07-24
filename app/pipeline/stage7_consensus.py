@@ -14,12 +14,15 @@ Temperature: 0.0 (deterministic)
 Self-consistency: No
 """
 
-import sys
-from typing import Dict, Any
+import logging
+import time
+from typing import Any, Dict
 
 from app.services.llm_service import LLMService
-from app.prompts.templates import CONSENSUS_SYSTEM
+from app.prompts.stage7_consensus_prompts import CONSENSUS_SYSTEM
 from app.utils.xml_parser import parse_xml_response
+
+logger = logging.getLogger(__name__)
 
 ALL_CRITERIA = [
     "technical_accuracy",
@@ -104,8 +107,10 @@ async def run(
     comm_final: Dict[str, Any],
 ) -> Dict[str, Any]:
     """Reconcile post-reflection reviewer scores into a single consensus."""
+    logger.info("Stage 7 (consensus) — reconciling 3 reviewer outputs")
     user_prompt = _build_consensus_prompt(de_final, meth_final, comm_final)
 
+    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=CONSENSUS_SYSTEM,
@@ -113,9 +118,11 @@ async def run(
             temperature=0.0,
             max_tokens=4096,
         )
-    except Exception as e:
-        print(f"[Stage 7] LLM call failed: {e}", file=sys.stderr)
+    except Exception:
+        logger.exception("Stage 7 — LLM call failed; using fallback consensus")
         return _fallback_consensus(de_final, meth_final, comm_final)
+
+    logger.debug("Stage 7 — LLM response received (%.2fs, %d chars)", time.perf_counter() - t0, len(raw))
 
     parsed = parse_xml_response(raw, "consensus")
 
@@ -151,8 +158,16 @@ async def run(
                 "recommendation": rec_el.text.strip() if rec_el is not None and rec_el.text else "PROCEED",
                 "deferral_reason": reason_el.text.strip() if reason_el is not None and reason_el.text else None,
             }
+
+        logger.info(
+            "Stage 7 complete — %d criteria parsed — deferral=%s",
+            len(scores),
+            deferral_assessment.get("recommendation"),
+        )
+        if deferral_assessment.get("recommendation") == "DEFER":
+            logger.warning("Stage 7 — DEFER recommended: %s", deferral_assessment.get("deferral_reason"))
     else:
-        print("[Stage 7] XML parse failed — using fallback consensus.", file=sys.stderr)
+        logger.warning("Stage 7 — XML parse failed; using fallback consensus")
         return _fallback_consensus(de_final, meth_final, comm_final)
 
     # Fill any missing criteria from reviewer scores
@@ -162,10 +177,15 @@ async def run(
             if crit not in all_reviewer_final:
                 all_reviewer_final[crit] = data
 
+    missing = []
     for crit in ALL_CRITERIA:
         if crit not in scores:
             fallback = all_reviewer_final.get(crit, {"score": 2, "confidence": "low"})
             scores[crit] = {"score": fallback["score"], "confidence": "low"}
+            missing.append(crit)
+
+    if missing:
+        logger.warning("Stage 7 — filled %d missing criteria from reviewer fallback: %s", len(missing), missing)
 
     return {
         "raw_xml": raw,
@@ -180,6 +200,7 @@ def _fallback_consensus(
     comm_final: Dict[str, Any],
 ) -> Dict[str, Any]:
     """Build a simple fallback consensus from available reviewer scores."""
+    logger.warning("Stage 7 — building emergency fallback consensus from reviewer scores")
     merged: Dict[str, Dict[str, Any]] = {}
     for reviewer_out in [de_final, meth_final, comm_final]:
         for crit, data in reviewer_out.get("final_scores", {}).items():

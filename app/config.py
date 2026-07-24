@@ -3,25 +3,15 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # LLM backend
-    llm_backend: str = "groq"
-
-    # Groq
-    groq_api_key: str = "not_set"
-    groq_primary_model: str = "llama-3.3-70b-versatile"
-    groq_fast_model: str = "llama-3.1-8b-instant"
-    groq_base_url: str = "https://api.groq.com/openai/v1"
-
-    # Ollama
-    ollama_base_url: str = "http://localhost:11434"
-    ollama_primary_model: str = "llama3.1:8b"
-    ollama_fast_model: str = "llama3.2:3b"
+    # OpenRouter (sole LLM provider)
+    openrouter_api_key: str = ""
+    openrouter_model: str = "qwen/qwen3.7-plus"
 
     # Pipeline
     reviewer_temperature: float = 0.3
     deterministic_temperature: float = 0.0
     self_consistency_runs: int = 3
-    max_document_chars: int = 80000
+    max_document_chars: int = 200000
     max_section_chars: int = 15000
 
     # Server
@@ -29,6 +19,9 @@ class Settings(BaseSettings):
     app_port: int = 8000
     app_debug: bool = False
     secret_key: str = "change_me"
+
+    # Database
+    database_url: str = "postgresql+asyncpg://eval_user:eval_password@localhost:5432/eval_platform"
 
     class Config:
         env_file = ".env"

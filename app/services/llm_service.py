@@ -1,20 +1,14 @@
-"""
-Unified LLM service supporting Groq (OpenAI-compatible) and Ollama.
-
-Usage:
-    from app.services.llm_service import LLMService
-    service = LLMService()
-    response = await service.complete(
-        system_prompt="...",
-        user_prompt="...",
-        temperature=0.3,
-        use_fast_model=False
-    )
-"""
+import asyncio
+import logging
+import time
 
 import httpx
-import asyncio
+
 from app.config import get_settings
+
+logger = logging.getLogger(__name__)
+
+_OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
 class LLMError(Exception):
@@ -22,32 +16,86 @@ class LLMError(Exception):
 
 
 class LLMService:
+    """OpenRouter-backed LLM client used by every pipeline stage."""
 
     def __init__(self):
         self.settings = get_settings()
+        if not self.settings.openrouter_api_key:
+            logger.warning(
+                "OPENROUTER_API_KEY not set — every LLM call will fail until it is configured."
+            )
+        # Reused across calls for connection pooling — LLMService is a
+        # long-lived singleton (constructed once by PipelineOrchestrator).
+        self._http = httpx.AsyncClient(timeout=120.0)
 
-    async def complete(
+    async def _complete(
         self,
         system_prompt: str,
         user_prompt: str,
-        temperature: float = 0.0,
-        use_fast_model: bool = False,
-        max_tokens: int = 4096,
+        temperature: float,
+        max_tokens: int,
     ) -> str:
-        """
-        Returns the raw text content of the LLM response.
-        Raises LLMError on failure.
-        """
-        if self.settings.llm_backend == "groq":
-            return await self._groq_complete(
-                system_prompt, user_prompt, temperature, use_fast_model, max_tokens
+        if not self.settings.openrouter_api_key:
+            raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+
+        model_name = self.settings.openrouter_model
+        t0 = time.perf_counter()
+
+        resp = await self._http.post(
+            _OPENROUTER_URL,
+            headers={
+                "Authorization": f"Bearer {self.settings.openrouter_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": model_name,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                # The pipeline needs a final JSON/XML response.  GPT-OSS can
+                # spend its completion budget on visible reasoning and return
+                # content=null, which leaves no structured result to parse.
+                "reasoning": {"enabled": False},
+            },
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+        try:
+            choice = data["choices"][0]
+            message = choice["message"]
+            content = message["content"]
+        except (KeyError, IndexError, TypeError) as exc:
+            raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+
+        # A successful HTTP response is not necessarily a usable completion.
+        # Treat null, whitespace-only, and non-text content as a retryable LLM
+        # failure so every pipeline stage reaches its existing fallback logic.
+        if not isinstance(content, str) or not content.strip():
+            finish_reason = choice.get("finish_reason", "unknown")
+            reasoning = message.get("reasoning") or message.get("reasoning_content") or ""
+            logger.warning(
+                "OpenRouter returned no final text — model=%s finish_reason=%s reasoning_len=%d",
+                model_name,
+                finish_reason,
+                len(reasoning) if isinstance(reasoning, str) else 0,
             )
-        elif self.settings.llm_backend == "ollama":
-            return await self._ollama_complete(
-                system_prompt, user_prompt, temperature, use_fast_model, max_tokens
+            raise LLMError(
+                "OpenRouter returned no final text "
+                f"(model={model_name}, finish_reason={finish_reason})"
             )
-        else:
-            raise ValueError(f"Unknown LLM_BACKEND: {self.settings.llm_backend}")
+
+        elapsed = time.perf_counter() - t0
+        logger.debug(
+            "LLM response received — model=%s  elapsed=%.2fs  response_len=%d chars",
+            model_name,
+            elapsed,
+            len(content or ""),
+        )
+        return content
 
     async def complete_with_retry(
         self,
@@ -59,71 +107,24 @@ class LLMService:
         retries: int = 3,
         delay: float = 2.0,
     ) -> str:
-        """Retry wrapper with exponential backoff."""
-        last_error = None
+        model_name = self.settings.openrouter_model
+        last_error: Exception | None = None
+
         for attempt in range(retries):
             try:
-                return await self.complete(
-                    system_prompt, user_prompt, temperature, use_fast_model, max_tokens
+                if attempt > 0:
+                    wait = delay * (2 ** (attempt - 1))
+                    logger.warning(
+                        "LLM retry %d/%d for model=%s — waiting %.1fs after error: %s",
+                        attempt + 1, retries, model_name, wait, last_error,
+                    )
+                    await asyncio.sleep(wait)
+                return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+            except Exception as exc:
+                last_error = exc
+                logger.error(
+                    "LLM attempt %d/%d failed — model=%s  error=%s",
+                    attempt + 1, retries, model_name, exc, exc_info=True,
                 )
-            except Exception as e:
-                last_error = e
-                if attempt < retries - 1:
-                    await asyncio.sleep(delay * (2**attempt))
+
         raise LLMError(f"All {retries} attempts failed: {last_error}")
-
-    async def _groq_complete(
-        self, system: str, user: str, temperature: float, fast: bool, max_tokens: int
-    ) -> str:
-        model = (
-            self.settings.groq_fast_model if fast else self.settings.groq_primary_model
-        )
-        headers = {
-            "Authorization": f"Bearer {self.settings.groq_api_key}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }
-        async with httpx.AsyncClient(timeout=120.0) as client:
-            resp = await client.post(
-                f"{self.settings.groq_base_url}/chat/completions",
-                headers=headers,
-                json=payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["choices"][0]["message"]["content"]
-
-    async def _ollama_complete(
-        self, system: str, user: str, temperature: float, fast: bool, max_tokens: int
-    ) -> str:
-        model = (
-            self.settings.ollama_fast_model if fast else self.settings.ollama_primary_model
-        )
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            "stream": False,
-            "options": {
-                "temperature": temperature,
-                "num_predict": max_tokens,
-            },
-        }
-        async with httpx.AsyncClient(timeout=300.0) as client:
-            resp = await client.post(
-                f"{self.settings.ollama_base_url}/api/chat",
-                json=payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data["message"]["content"]

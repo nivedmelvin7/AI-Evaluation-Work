@@ -6,6 +6,8 @@ AI-powered multi-agent pipeline for evaluating engineering reports (EE990/EE997/
 
 ## Installation
 
+Requires Python 3.11+ and Docker (for the local Postgres database — see [Database](#database) below).
+
 ```bash
 python -m venv .venv
 
@@ -42,12 +44,45 @@ cp .env.example .env
 | `REVIEWER_TEMPERATURE` | `0.3` | Temperature for reviewer agents |
 | `DETERMINISTIC_TEMPERATURE` | `0.0` | Temperature for deterministic stages |
 | `SELF_CONSISTENCY_RUNS` | `3` | Number of parallel reviewer runs per stage |
-| `MAX_DOCUMENT_CHARS` | `80000` | Maximum characters accepted per document |
+| `MAX_DOCUMENT_CHARS` | `200000` | Maximum characters accepted per document |
 | `MAX_SECTION_CHARS` | `15000` | Maximum characters per document section |
 | `APP_HOST` | `0.0.0.0` | Server bind host |
 | `APP_PORT` | `8000` | Server bind port |
 | `APP_DEBUG` | `false` | Enable debug mode (verbose console logging) |
 | `SECRET_KEY` | `change_me` | Required for the `/evaluate/sync` endpoint |
+| `DATABASE_URL` | `postgresql+asyncpg://eval_user:eval_password@localhost:5432/eval_platform` | Postgres connection string (async) |
+
+---
+
+## Database
+
+Sessions, evaluation versions, and uploaded documents are persisted in Postgres via SQLAlchemy + Alembic. The server will not start correctly without a reachable database.
+
+### Start Postgres (Docker Compose)
+
+```bash
+docker compose up -d postgres
+```
+
+This starts `postgres:16-alpine` on `localhost:5432` with the credentials baked into `docker-compose.yml` (`eval_user` / `eval_password` / `eval_platform`), matching the default `DATABASE_URL` above. Data persists in the `postgres_data` volume across restarts.
+
+```bash
+docker compose ps                 # check container health
+docker compose logs -f postgres   # tail logs
+docker compose down               # stop (keeps the volume/data)
+```
+
+### Apply migrations
+
+```bash
+alembic upgrade head
+```
+
+Run this once after the container is healthy, and again after pulling changes that add new migrations under `alembic/versions/`. To generate a new migration after changing `app/db/models.py`:
+
+```bash
+alembic revision --autogenerate -m "describe the change"
+```
 
 ---
 
@@ -112,7 +147,7 @@ Tests that call the pipeline stages (`test_pipeline.py`) do **not** make real LL
 
 ### `POST /api/v1/evaluate`
 
-Submit a document for asynchronous evaluation.
+Submit a document for asynchronous evaluation. Creates a new session (and its first version) in the database.
 
 **Body** (multipart/form-data):
 - `file` — PDF, DOCX, or TXT file **or**
@@ -120,7 +155,7 @@ Submit a document for asynchronous evaluation.
 
 **Response:**
 ```json
-{"job_id": "uuid", "status": "queued"}
+{"session_id": "uuid", "job_id": "uuid", "status": "queued"}
 ```
 
 **Example:**
@@ -144,6 +179,8 @@ Poll the job status.
 ```json
 {
   "job_id": "uuid",
+  "session_id": "uuid",
+  "version_number": 1,
   "status": "running",
   "stage": "reviewing",
   "progress": 40,
@@ -222,6 +259,75 @@ curl -X POST http://localhost:8000/api/v1/evaluate/sync \
 ```bash
 curl http://localhost:8000/api/v1/health
 # {"status":"ok","backend":"openrouter","model":"qwen/qwen3.7-plus","debug":false}
+```
+
+---
+
+### Sessions
+
+A **session** is created per uploaded document; each pipeline run against it (initial evaluation or re-evaluation) is a **version**. History is never destroyed — archiving a session only hides it from the default listing.
+
+#### `GET /api/v1/sessions`
+
+List evaluation sessions (used by the history drawer). Each entry includes its latest version summary.
+
+**Query params:** `include_archived` (bool, default `false`), `limit` (default `50`), `offset` (default `0`)
+
+```bash
+curl "http://localhost:8000/api/v1/sessions?include_archived=false&limit=50"
+```
+
+#### `GET /api/v1/sessions/{session_id}`
+
+Session detail with the full version history.
+
+```bash
+curl http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
+```
+
+#### `POST /api/v1/sessions/{session_id}/reevaluate`
+
+Re-run the pipeline against the session's stored document, creating a new version and preserving all prior ones.
+
+**Response:**
+```json
+{"session_id": "uuid", "job_id": "uuid", "version_number": 2, "status": "queued"}
+```
+
+```bash
+curl -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/reevaluate
+```
+
+#### `DELETE /api/v1/sessions/{session_id}`
+
+Archive a session (soft delete — history is preserved and can be restored).
+
+```bash
+curl -X DELETE http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
+```
+
+#### `POST /api/v1/sessions/{session_id}/unarchive`
+
+Restore an archived session.
+
+```bash
+curl -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/unarchive
+```
+
+---
+
+### Document preview
+
+Available only for file uploads (not `raw_text` submissions), keyed by `job_id`.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/v1/document/{job_id}/meta` | File type (`pdf`/`docx`/`txt`), filename, page count |
+| `GET /api/v1/document/{job_id}` | Serves the original uploaded file bytes |
+| `GET /api/v1/document/{job_id}/html` | HTML rendering for in-browser preview |
+
+```bash
+curl http://localhost:8000/api/v1/document/YOUR_JOB_ID/meta
 ```
 
 ---

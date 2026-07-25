@@ -524,33 +524,6 @@ a:hover { text-decoration: underline; }
 .step-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.1rem; }
 
 /* ── Score card ───────────────────────────────────────────────── */
-.score-hero {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.score-big {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.score-number {
-  font-size: 4.5rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.score-number.distinction { color: var(--success); }
-.score-number.merit { color: var(--info); }
-.score-number.pass { color: var(--warning); }
-.score-number.fail { color: var(--danger); }
-.score-number.deferred { color: var(--purple); }
-
 .grade-badge {
   font-size: 0.8rem;
   font-weight: 700;
@@ -568,10 +541,8 @@ a:hover { text-decoration: underline; }
 
 .score-meta-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  flex: 1;
-  min-width: 240px;
 }
 
 .score-meta-item {
@@ -602,6 +573,13 @@ a:hover { text-decoration: underline; }
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1rem;
+}
+
+.flag-chips .badge {
+  white-space: normal;
+  text-align: left;
+  border-radius: var(--radius-md);
+  max-width: 100%;
 }
 
 /* ── Criterion table ──────────────────────────────────────────── */
@@ -1394,7 +1372,8 @@ canvas.pdf-highlight {
 .score-gauge-value { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
 .score-gauge-value strong { font-size: 2.4rem; line-height: 1; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .score-gauge-value span { color: var(--text-muted); font-size: 0.72rem; margin-top: 0.3rem; }
-.confidence-band-wrap { margin: -0.25rem 0 0.4rem; }
+.score-gauge-badge { display: block; width: fit-content; margin: 0.8rem auto 1rem; }
+.confidence-band-wrap { margin: 0 0 0.4rem; }
 .confidence-band-label { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.7rem; margin-bottom: 0.4rem; }
 .confidence-band-label span { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .confidence-band-track { position: relative; height: 7px; border-radius: 99px; background: var(--gauge-track); }

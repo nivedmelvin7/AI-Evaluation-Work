@@ -1,20 +1,9 @@
 import React from 'react';
 
-function gradeMeta(grade) {
-  const value = (grade || '').toUpperCase();
-  if (value === 'DISTINCTION') return { cls: 'distinction', badgeCls: 'grade-distinction' };
-  if (value === 'MERIT') return { cls: 'merit', badgeCls: 'grade-merit' };
-  if (value === 'PASS') return { cls: 'pass', badgeCls: 'grade-pass' };
-  if (value === 'DEFERRED') return { cls: 'deferred', badgeCls: 'grade-deferred' };
-  return { cls: 'fail', badgeCls: 'grade-fail' };
-}
-
 export default function ScoreCard({ scoring }) {
   if (!scoring) return null;
 
   const {
-    final_score,
-    grade_band,
     achievement_score,
     aggregate_uncertainty_U,
     uncertainty_band,
@@ -24,7 +13,6 @@ export default function ScoreCard({ scoring }) {
     deferral_reason,
     holistic_validation,
   } = scoring;
-  const { cls, badgeCls } = gradeMeta(grade_band);
   const uncertaintyText = Array.isArray(uncertainty_band) && uncertainty_band.length === 2
     ? `${uncertainty_band[0].toFixed(1)} - ${uncertainty_band[1].toFixed(1)}`
     : '-';
@@ -34,28 +22,22 @@ export default function ScoreCard({ scoring }) {
 
   return (
     <div>
-      <div className="score-hero">
-        <div className="score-big">
-          <div className={`score-number ${cls}`}>{final_score ?? '-'}</div>
-          <span className={`grade-badge ${badgeCls}`}>{grade_band || 'Unknown'}</span>
+      <div className="score-meta-grid">
+        <div className="score-meta-item">
+          <div className="score-meta-label">Weighted score</div>
+          <div className="score-meta-value num">{achievement_score?.toFixed(1) ?? '-'}</div>
         </div>
-        <div className="score-meta-grid">
-          <div className="score-meta-item">
-            <div className="score-meta-label">Weighted score</div>
-            <div className="score-meta-value num">{achievement_score?.toFixed(1) ?? '-'}</div>
-          </div>
-          <div className="score-meta-item">
-            <div className="score-meta-label">Uncertainty band</div>
-            <div className="score-meta-value num">{uncertaintyText}</div>
-          </div>
-          <div className="score-meta-item">
-            <div className="score-meta-label">Uncertainty index (U)</div>
-            <div className="score-meta-value num">{aggregate_uncertainty_U?.toFixed(3) ?? '-'}</div>
-          </div>
-          <div className="score-meta-item">
-            <div className="score-meta-label">Holistic check</div>
-            <div className="score-meta-value">{holisticText}</div>
-          </div>
+        <div className="score-meta-item">
+          <div className="score-meta-label">Uncertainty band</div>
+          <div className="score-meta-value num">{uncertaintyText}</div>
+        </div>
+        <div className="score-meta-item">
+          <div className="score-meta-label">Uncertainty index (U)</div>
+          <div className="score-meta-value num">{aggregate_uncertainty_U?.toFixed(3) ?? '-'}</div>
+        </div>
+        <div className="score-meta-item">
+          <div className="score-meta-label">Holistic check</div>
+          <div className="score-meta-value">{holisticText}</div>
         </div>
       </div>
 

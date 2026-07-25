@@ -1,5 +1,6 @@
 import React from 'react';
-import { RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
+import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from 'recharts';
+import { gradeBadgeClass } from '../utils.js';
 
 const GRADE_COLORS = {
   distinction: '#3ecf8e',
@@ -22,10 +23,11 @@ export default function ScoreGauge({ scoring }) {
   const color = gradeColor(scoring.grade_band);
 
   return (
-    <div className="score-gauge" aria-label={`Final score: ${score} out of 100`}>
+    <div className="score-gauge" aria-label={`Final score: ${score} out of 100, grade ${scoring.grade_band || 'unknown'}`}>
       <div className="score-gauge-chart">
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart cx="50%" cy="50%" innerRadius="72%" outerRadius="100%" startAngle={90} endAngle={-270} barSize={14} data={[{ value: score, fill: color }]}>
+            <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} axisLine={false} />
             <RadialBar background={{ fill: 'var(--gauge-track)' }} dataKey="value" cornerRadius={8} />
           </RadialBarChart>
         </ResponsiveContainer>
@@ -34,6 +36,7 @@ export default function ScoreGauge({ scoring }) {
           <span>out of 100</span>
         </div>
       </div>
+      <span className={`grade-badge score-gauge-badge ${gradeBadgeClass(scoring.grade_band)}`}>{scoring.grade_band || 'Unknown'}</span>
       {interval.length === 2 && Number.isFinite(low) && Number.isFinite(high) && (
         <div className="confidence-band-wrap">
           <div className="confidence-band-label">Uncertainty band <span>{low.toFixed(1)}–{high.toFixed(1)}</span></div>

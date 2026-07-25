@@ -6,6 +6,7 @@ its own EvaluationVersion row. Versions are never deleted, so past analyses
 always remain retrievable even after a re-evaluation produces a new one.
 """
 
+import hashlib
 import uuid
 from datetime import datetime, timezone
 from typing import Optional, Sequence
@@ -20,6 +21,32 @@ from app.models.response_models import EvaluationResult
 
 def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def hash_document(content: Optional[bytes], document_text: str) -> str:
+    """Content-identity hash for a submitted document. Uses the raw file
+    bytes when available (uploads) so re-uploading the exact same file is
+    detected regardless of how the text was extracted; falls back to the
+    extracted text for pasted-text submissions, which have no file bytes."""
+    if content is not None:
+        return hashlib.sha256(content).hexdigest()
+    return hashlib.sha256(document_text.encode("utf-8")).hexdigest()
+
+
+async def find_session_by_document_hash(
+    db: AsyncSession, document_hash: str
+) -> Optional[Session]:
+    """Find a non-archived session whose stored document has an identical
+    content hash, so a fresh upload of an already-evaluated file nests into
+    the existing session instead of creating a duplicate one."""
+    result = await db.execute(
+        select(Session)
+        .join(Document, Document.session_id == Session.id)
+        .where(Document.document_hash == document_hash, Session.archived_at.is_(None))
+        .order_by(Session.created_at.asc())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
 
 
 async def create_session(
@@ -44,6 +71,7 @@ async def create_session(
             content_type=content_type,
             filename=filename,
             pages=pages,
+            document_hash=hash_document(content, document_text),
         )
     )
 

@@ -8951,3 +8951,5 @@ TypeError: object of type 'NoneType' has no len()
 2026-07-24 18:24:50 [WARNING ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] INJECTION DETECTED — patterns: ['TYPE_7_REPETITION_FLOODING']
 2026-07-24 18:24:50 [INFO    ] app.pipeline.orchestrator — [0af9e14d-dcd3-480b-8bd1-29af8d64c830] Pipeline COMPLETE — total_time=444.85s  score=65.0  grade=Merit
 2026-07-24 19:01:11 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-25 12:11:16 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-25 12:14:19 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log

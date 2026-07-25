@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { NAV_ITEMS } from './navItems.js';
+import HistoryTree from './HistoryTree.jsx';
 
 export default function MobileDrawer({ open, onClose }) {
   const panelRef = useRef(null);
@@ -53,6 +54,8 @@ export default function MobileDrawer({ open, onClose }) {
             </NavLink>
           ))}
         </nav>
+
+        <HistoryTree onNavigate={onClose} />
       </div>
     </>
   );

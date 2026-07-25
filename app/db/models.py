@@ -90,5 +90,6 @@ class Document(Base):
     content_type: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     filename: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     pages: Mapped[Optional[list]] = mapped_column(JSONB, nullable=True)
+    document_hash: Mapped[Optional[str]] = mapped_column(String(64), nullable=True, index=True)
 
     session: Mapped["Session"] = relationship(back_populates="document")

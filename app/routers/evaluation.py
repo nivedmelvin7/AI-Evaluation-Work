@@ -142,19 +142,33 @@ async def evaluate(
 ):
     text, pages, file_bytes, content_type, filename = await _resolve_text_and_meta(file, raw_text)
     source = filename or "raw_text"
+    doc_hash = session_service.hash_document(file_bytes, text)
 
-    session_row, version = await session_service.create_session(
-        db,
-        document_text=text,
-        filename=filename,
-        content_type=content_type,
-        content=file_bytes,
-        pages=pages,
-    )
-    logger.info(
-        "Evaluate request — session_id=%s job_id=%s source=%r doc_len=%d chars",
-        session_row.id, version.id, source, len(text),
-    )
+    existing_session = await session_service.find_session_by_document_hash(db, doc_hash)
+    if existing_session is not None:
+        # Same document already evaluated before (byte-identical re-upload) —
+        # nest this run as a new version under the existing session/folder
+        # instead of creating a duplicate one.
+        session_row = existing_session
+        version = await session_service.create_reevaluation(db, session_row.id)
+        logger.info(
+            "Evaluate request — matched existing session_id=%s by content hash, "
+            "job_id=%s source=%r version=%d",
+            session_row.id, version.id, source, version.version_number,
+        )
+    else:
+        session_row, version = await session_service.create_session(
+            db,
+            document_text=text,
+            filename=filename,
+            content_type=content_type,
+            content=file_bytes,
+            pages=pages,
+        )
+        logger.info(
+            "Evaluate request — session_id=%s job_id=%s source=%r doc_len=%d chars",
+            session_row.id, version.id, source, len(text),
+        )
 
     background_tasks.add_task(_run_pipeline_background, version.id, text, pages)
     return {"session_id": str(session_row.id), "job_id": str(version.id), "status": "queued"}

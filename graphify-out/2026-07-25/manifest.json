@@ -10,8 +10,8 @@
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "app/config.py": {
-    "mtime": 1785007457.263462,
-    "ast_hash": "6f875d4bedb22eed7b7bfad98af359c5",
+    "mtime": 1784911524.577959,
+    "ast_hash": "f22d09a2a1f5286f2b150c64699a999a",
     "semantic_hash": ""
   },
   "app/logging_config.py": {
@@ -495,8 +495,8 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1785007466.963227,
-    "ast_hash": "292a876395a1beee152b26671d3028a1",
+    "mtime": 1784911545.7128952,
+    "ast_hash": "3a6507ed3120fd4c1be1b48d12d7f717",
     "semantic_hash": ""
   },
   "alembic/versions/7acbc4d78749_add_document_hash_column.py": {

@@ -21,11 +21,22 @@ class Settings(BaseSettings):
     secret_key: str = "change_me"
 
     # Database
-    database_url: str = "postgresql+asyncpg://eval_user:eval_password@localhost:5432/eval_platform"
+    postgres_user: str = "eval_user"
+    postgres_password: str = "eval_password"
+    postgres_db: str = "eval_platform"
+    postgres_host: str = "localhost"
+    postgres_port: int = 5432
 
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+    @property
+    def database_url(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}"
+            f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
 
 
 @lru_cache()

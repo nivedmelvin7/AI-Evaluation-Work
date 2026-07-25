@@ -7,6 +7,25 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl;
 
 const PDF_SCALE = 1.4;
 
+// Shared match strategy for both the PDF and DOCX/TXT highlighters: quotes
+// are matched against a whitespace-stripped, lowercased text index (not the
+// raw source) because the LLM-extracted quote's whitespace rarely matches
+// the source exactly (kerned PDF text omits spaces, DOCX paragraph joins
+// differ, etc). Falls back to shorter prefixes since a citation's quote can
+// run longer than the passage that's actually still contiguous in the DOM.
+function findMatchSpan(normalizedText, quote) {
+  if (!quote) return null;
+  const qNorm = quote.toLowerCase().replace(/\s+/g, '');
+  const candidates = [qNorm, qNorm.slice(0, 80), qNorm.slice(0, 40)];
+  for (const q of candidates) {
+    if (q.length < 8) continue;
+    const idx = normalizedText.indexOf(q);
+    if (idx === -1) continue;
+    return { start: idx, end: idx + q.length };
+  }
+  return null;
+}
+
 function findItemsForQuote(items, quote) {
   if (!quote || !items.length) return [];
   // Build concatenated text with char→item mapping. Whitespace is stripped
@@ -21,18 +40,9 @@ function findItemsForQuote(items, quote) {
     offsets.push({ start: fullText.length, end: fullText.length + piece.length, item });
     fullText += piece;
   }
-  const qNorm = quote.toLowerCase().replace(/\s+/g, '');
-  const tNorm = fullText.toLowerCase();
-  // Try full quote first, then progressively shorter prefixes
-  const candidates = [qNorm, qNorm.slice(0, 80), qNorm.slice(0, 40)];
-  for (const q of candidates) {
-    if (q.length < 8) continue;
-    const idx = tNorm.indexOf(q);
-    if (idx === -1) continue;
-    const end = idx + q.length;
-    return offsets.filter(o => o.start < end && o.end > idx).map(o => o.item);
-  }
-  return [];
+  const span = findMatchSpan(fullText.toLowerCase(), quote);
+  if (!span) return [];
+  return offsets.filter(o => o.start < span.end && o.end > span.start).map(o => o.item);
 }
 
 function drawHighlights(canvas, items, viewport) {
@@ -76,20 +86,21 @@ function clearAllHighlights(containerRef) {
   });
 }
 
-export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, activePage }) {
+export default function DocumentPreview({ jobId, activeQuote, activePage }) {
   const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
   const [numPages, setNumPages] = useState(0);
+  const [renderedCount, setRenderedCount] = useState(0);
   const [docHtml, setDocHtml] = useState(null);
   const containerRef = useRef(null);
   const textLayerRef = useRef({}); // pageNum → { items, viewport }
   const blobUrlRef = useRef(null);
 
-  // Load document when panel opens
+  // Load document on mount / whenever the job changes
   useEffect(() => {
-    if (!isOpen || !jobId) return;
+    if (!jobId) return;
     let cancelled = false;
 
     async function load() {
@@ -130,12 +141,13 @@ export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, 
 
     load();
     return () => { cancelled = true; };
-  }, [isOpen, jobId]);
+  }, [jobId]);
 
   // Render PDF pages after pdfDoc is set
   useEffect(() => {
     if (!pdfDoc || !containerRef.current) return;
     textLayerRef.current = {};
+    setRenderedCount(0);
 
     async function renderPages() {
       for (let p = 1; p <= pdfDoc.numPages; p++) {
@@ -156,13 +168,19 @@ export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, 
 
         const tc = await page.getTextContent();
         textLayerRef.current[p] = { items: tc.items, viewport };
+        // Drives the highlight effect below to retry once each page's text
+        // layer becomes available — pages render sequentially, so a citation
+        // hovered before its page is ready would otherwise never highlight.
+        setRenderedCount((c) => c + 1);
       }
     }
 
     renderPages();
   }, [pdfDoc]);
 
-  // Highlight active quote in PDF
+  // Highlight active quote in PDF. Re-runs as renderedCount advances so a
+  // page that wasn't rendered yet at hover-time still gets highlighted once
+  // its text layer lands.
   useEffect(() => {
     if (!pdfDoc || !containerRef.current) return;
     clearAllHighlights(containerRef);
@@ -187,37 +205,69 @@ export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, 
       }
       break;
     }
-  }, [activeQuote, activePage, pdfDoc, numPages]);
+  }, [activeQuote, activePage, pdfDoc, numPages, renderedCount]);
 
-  // Highlight in HTML iframe (DOCX/TXT)
+  // Highlight in HTML iframe (DOCX/TXT). Unlike the old single-node
+  // indexOf() approach, this builds one normalized text index across every
+  // text node in the document — a citation quote often spans a paragraph
+  // boundary (each DOCX paragraph is its own <p>/text node) or has
+  // whitespace collapsed differently than the source, so matching node by
+  // node in isolation silently failed for most real citations.
   const iframeRef = useRef(null);
   const highlightInIframe = useCallback((quote) => {
     const iframe = iframeRef.current;
-    if (!iframe?.contentDocument || !quote) return;
-    const doc = iframe.contentDocument;
+    const doc = iframe?.contentDocument;
+    if (!doc) return;
 
-    // Remove previous marks
-    doc.querySelectorAll('mark.cit-highlight').forEach(m => {
-      m.outerHTML = m.innerHTML;
+    doc.querySelectorAll('mark.cit-highlight').forEach((m) => {
+      m.replaceWith(doc.createTextNode(m.textContent));
     });
+    doc.body?.normalize();
 
     if (!quote) return;
 
+    // One pass to build a whitespace-stripped, lowercased index of the
+    // whole document with a per-node original-offset map, mirroring
+    // findItemsForQuote's approach for PDF text items.
     const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
-    const qLower = quote.toLowerCase().slice(0, 80);
+    const nodeEntries = [];
+    let fullText = '';
     let node;
     while ((node = walker.nextNode())) {
-      const idx = node.textContent.toLowerCase().indexOf(qLower);
-      if (idx === -1) continue;
+      const raw = node.textContent;
+      const map = [];
+      let norm = '';
+      for (let i = 0; i < raw.length; i++) {
+        const ch = raw[i];
+        if (/\s/.test(ch)) continue;
+        norm += ch.toLowerCase();
+        map.push(i);
+      }
+      if (!norm) continue;
+      nodeEntries.push({ node, map, start: fullText.length, end: fullText.length + norm.length });
+      fullText += norm;
+    }
+
+    const span = findMatchSpan(fullText, quote);
+    if (!span) return;
+
+    const covered = nodeEntries.filter((e) => e.start < span.end && e.end > span.start);
+    let firstMark = null;
+    for (const entry of covered) {
+      const localStart = Math.max(span.start, entry.start) - entry.start;
+      const localEnd = Math.min(span.end, entry.end) - entry.start;
+      const originalStart = entry.map[localStart];
+      const originalEnd = entry.map[localEnd - 1] + 1;
+
       const range = doc.createRange();
-      range.setStart(node, idx);
-      range.setEnd(node, idx + qLower.length);
+      range.setStart(entry.node, originalStart);
+      range.setEnd(entry.node, originalEnd);
       const mark = doc.createElement('mark');
       mark.className = 'cit-highlight';
       range.surroundContents(mark);
-      mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      break;
+      if (!firstMark) firstMark = mark;
     }
+    firstMark?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, []);
 
   useEffect(() => {
@@ -234,8 +284,6 @@ export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, 
     };
   }, []);
 
-  if (!isOpen) return null;
-
   return (
     <div className="doc-preview-panel">
       {/* Header */}
@@ -248,9 +296,6 @@ export default function DocumentPreview({ jobId, isOpen, onToggle, activeQuote, 
             </span>
           )}
         </div>
-        <button className="btn btn-ghost btn-sm" onClick={onToggle} title="Close preview">
-          ✕
-        </button>
       </div>
 
       {/* Body */}

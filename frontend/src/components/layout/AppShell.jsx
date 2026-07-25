@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 import MobileDrawer from './MobileDrawer.jsx';
-import SessionsDrawer from './SessionsDrawer.jsx';
 import TopBar from './TopBar.jsx';
 import { TopBarProvider } from '../../context/TopBarContext.jsx';
 
@@ -16,7 +15,6 @@ function initialCollapsed() {
 export default function AppShell() {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [sessionsOpen, setSessionsOpen] = useState(false);
 
   function toggleCollapse() {
     setCollapsed((current) => {
@@ -31,9 +29,8 @@ export default function AppShell() {
       <div className="app-shell">
         <Sidebar collapsed={collapsed} onToggleCollapse={toggleCollapse} />
         <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        <SessionsDrawer open={sessionsOpen} onClose={() => setSessionsOpen(false)} />
         <div className="app-shell-main">
-          <TopBar onOpenDrawer={() => setDrawerOpen(true)} onOpenSessions={() => setSessionsOpen(true)} />
+          <TopBar onOpenDrawer={() => setDrawerOpen(true)} />
           <main className="app-content">
             <Outlet />
           </main>

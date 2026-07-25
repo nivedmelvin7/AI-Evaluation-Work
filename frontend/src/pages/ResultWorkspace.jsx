@@ -22,8 +22,7 @@ const CRITERION_ORDER = ['technical_accuracy', 'methodology', 'critical_thinking
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'criteria', label: 'Criteria' },
-  { id: 'feedback', label: 'Feedback' },
-  { id: 'evidence', label: 'Evidence' },
+  { id: 'feedback', label: 'Feedback & Evidence' },
   { id: 'integrity', label: 'Integrity' },
   { id: 'technical', label: 'Technical details' },
 ];
@@ -164,7 +163,6 @@ export default function ResultWorkspace() {
   function handleCitationHover(citation) {
     setActiveQuote(citation.quote || null);
     setActivePage(citation.page || null);
-    setActiveTab('evidence');
   }
 
   async function exportPdf() {
@@ -299,19 +297,21 @@ export default function ResultWorkspace() {
       </TabPanel>
 
       <TabPanel id="feedback" activeId={activeTab} idPrefix="result">
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">Feedback</span>
-            <span className="badge badge-accent" style={{ fontSize: '0.7rem' }}>Click a citation to view it in Evidence</span>
+        <div className="result-split-layout">
+          <div className="card">
+            <div className="card-header">
+              <span className="card-title">Feedback</span>
+              <span className="badge badge-accent" style={{ fontSize: '0.7rem' }}>Hover a citation to highlight it in the document</span>
+            </div>
+            <div className="card-body">
+              <FeedbackPanel feedback={feedback} onCitationHover={handleCitationHover} onCitationLeave={() => {}} />
+            </div>
           </div>
-          <div className="card-body">
-            <FeedbackPanel feedback={feedback} onCitationHover={handleCitationHover} onCitationLeave={() => {}} />
+
+          <div className="result-preview-col">
+            <DocumentPreview jobId={jobId} activeQuote={activeQuote} activePage={activePage} />
           </div>
         </div>
-      </TabPanel>
-
-      <TabPanel id="evidence" activeId={activeTab} idPrefix="result">
-        <DocumentPreview jobId={jobId} isOpen onToggle={() => {}} activeQuote={activeQuote} activePage={activePage} />
       </TabPanel>
 
       <TabPanel id="integrity" activeId={activeTab} idPrefix="result">

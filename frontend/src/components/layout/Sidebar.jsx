@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { NAV_ITEMS } from './navItems.js';
+import HistoryTree from './HistoryTree.jsx';
 
 export default function Sidebar({ collapsed, onToggleCollapse }) {
   return (
@@ -24,6 +25,8 @@ export default function Sidebar({ collapsed, onToggleCollapse }) {
           </NavLink>
         ))}
       </nav>
+
+      {!collapsed && <HistoryTree />}
 
       <div className="sidebar-footer">
         <span className="sidebar-footer-text">v0.1</span>

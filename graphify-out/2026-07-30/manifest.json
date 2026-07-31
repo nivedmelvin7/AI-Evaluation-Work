@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "frontend/src/components/CriterionTable.jsx": {
-    "mtime": 1785439683.6856413,
-    "ast_hash": "7f8fba6d21f92b752131fc19096cc223",
+    "mtime": 1784832167.234186,
+    "ast_hash": "796d806c9e7002acb3fbe56b6deb61b5",
     "semantic_hash": ""
   },
   "frontend/src/components/FeedbackPanel.jsx": {
@@ -180,8 +180,8 @@
     "semantic_hash": ""
   },
   "frontend/src/components/ScoreCard.jsx": {
-    "mtime": 1785010173.209306,
-    "ast_hash": "0753470aefcf16ecd7c7207393c28476",
+    "mtime": 1784832167.2343512,
+    "ast_hash": "2076c79bf2b53e28939b9ec6be4b5357",
     "semantic_hash": ""
   },
   "frontend/src/components/SubmitForm.jsx": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "frontend/src/utils.js": {
-    "mtime": 1785010173.2096868,
-    "ast_hash": "71e7e55de6f33a13baf3ceb770b6048f",
+    "mtime": 1784832167.2353315,
+    "ast_hash": "a777c1acf8db4f4b19dc50d784808f92",
     "semantic_hash": ""
   },
   "frontend/vite.config.js": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "app/security/prompt_injection_scanner.py": {
-    "mtime": 1785439679.5626752,
-    "ast_hash": "7c8902867293aaac521486f7c904c31e",
+    "mtime": 1784832167.232912,
+    "ast_hash": "b30030df1ce2c8dc4665a30eb17c3b39",
     "semantic_hash": ""
   },
   "frontend/src/components/CriteriaRadar.jsx": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "frontend/src/components/ScoreGauge.jsx": {
-    "mtime": 1785010173.2093956,
-    "ast_hash": "22cd168315c9f3c12809e964c4411afe",
+    "mtime": 1784832167.23439,
+    "ast_hash": "ed8fc2e99f828ba80da3636434f9b2af",
     "semantic_hash": ""
   },
   "frontend/src/components/Toast.jsx": {
@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "frontend/src/pages/ResultWorkspace.jsx": {
-    "mtime": 1785439656.2848637,
-    "ast_hash": "c0b4c60f24e7333ceba970e1514cb9ab",
+    "mtime": 1784977593.3643217,
+    "ast_hash": "748a2294804aaffeedabdb6726841032",
     "semantic_hash": ""
   },
   "frontend/src/pages/RunningEvaluation.jsx": {

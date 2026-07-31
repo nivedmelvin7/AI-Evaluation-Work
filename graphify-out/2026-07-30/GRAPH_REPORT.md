@@ -1,16 +1,16 @@
-# Graph Report - AI-Evaluation-Work  (2026-07-30)
+# Graph Report - AI-Evaluation-Work  (2026-07-25)
 
 ## Corpus Check
-- 98 files · ~37,346 words
+- 98 files · ~37,242 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 686 nodes · 1151 edges · 78 communities (49 shown, 29 thin omitted)
+- 685 nodes · 1148 edges · 78 communities (49 shown, 29 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.65)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b3345ae`
+- Built from commit: `f5cddc45`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -128,7 +128,7 @@ Nodes (22): compute_score(), _grade_band(), Any, Deterministic, policy-based sco
 
 ### Community 3 - "Frontend UI Components"
 Cohesion: 0.09
-Nodes (22): CriteriaRadar(), ORDER, COLUMNS, CONFIDENCE_RANK, CRITERION_ORDER, CriterionTable(), MetadataPanel(), CriterionCallout() (+14 more)
+Nodes (21): CriteriaRadar(), ORDER, COLUMNS, CONFIDENCE_RANK, CRITERION_ORDER, CriterionTable(), MetadataPanel(), CriterionCallout() (+13 more)
 
 ### Community 4 - "System Architecture Overview"
 Cohesion: 0.22
@@ -263,7 +263,7 @@ Cohesion: 0.33
 Nodes (5): Build for production, Engineering Report Evaluation — Frontend, Environment variables, Getting started, Prerequisites
 
 ## Knowledge Gaps
-- **187 isolated node(s):** `Config`, `name`, `private`, `version`, `type` (+182 more)
+- **186 isolated node(s):** `Config`, `name`, `private`, `version`, `type` (+181 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -277,10 +277,10 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `parse_xml_response()` connect `stage10_verification.py` to `App Config & Logging`, `stage6_reflection.py`, `Segmentation & Critique Stages`, `stage7_consensus.py`, `stage9_feedback.py`, `LLMService`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `Run migrations in 'offline' mode.`, `Run migrations in 'online' mode using an async engine.`, `Config` to the rest of the system?**
-  _265 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _264 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App Config & Logging` be split into smaller, more focused modules?**
   _Cohesion score 0.1282051282051282 - nodes in this community are weakly interconnected._
 - **Should `Verification & Feedback Stages` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
 - **Should `Frontend UI Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.09411764705882353 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0944741532976827 - nodes in this community are weakly interconnected._

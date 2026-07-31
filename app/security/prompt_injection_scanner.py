@@ -273,10 +273,16 @@ _INVISIBLE_CHARS = {
 
 _BASE64_BLOB_RE = re.compile(r"(?:[A-Za-z0-9+/]{4}){12,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?")
 
+
+# Greek is deliberately excluded here. Lowercase Greek letters (σ, μ, Δ, λ,
+# ε, ρ, ω, θ, π, ...) are standard notation in engineering/scientific writing
+# (e.g. "σyield", "Δmax", "λeff") and aren't the visual-confusable substitutes
+# a homoglyph attack relies on the way Cyrillic look-alikes (а, е, о, р, с,
+# х, у, ...) are — mixing them into a Latin word was flagging essentially
+# every engineering report's own terminology as an attack.
 _SCRIPT_RANGES = {
     "LATIN": [(0x0041, 0x024F), (0x1E00, 0x1EFF)],
     "CYRILLIC": [(0x0400, 0x04FF)],
-    "GREEK": [(0x0370, 0x03FF)],
 }
 _WORD_RE = re.compile(r"[^\W\d_]{4,}", re.UNICODE)
 
@@ -420,8 +426,12 @@ def scan_document(text: str) -> ScanResult:
         RiskLevel.LOW: "CLEAR",
     }[risk_level]
 
+    # LOW-risk-only findings (e.g. an ambiguous base64-looking run) are
+    # informational — they're surfaced in detected_patterns for review but
+    # must not trip the "injection detected" banner, which would otherwise
+    # contradict a CLEAR recommendation shown right next to it.
     return ScanResult(
-        injection_found=True,
+        injection_found=risk_level in (RiskLevel.MEDIUM, RiskLevel.HIGH),
         risk_level=risk_level,
         recommendation=recommendation,
         detected_patterns=patterns,

@@ -338,7 +338,9 @@ export default function ResultWorkspace() {
       </TabPanel>
 
       {/* Off-screen report layout used only as the html2pdf export source */}
-      <ReportDocument result={result} ref={reportRef} />
+      <div className="report-document-wrap">
+        <ReportDocument result={result} ref={reportRef} />
+      </div>
     </div>
   );
 }

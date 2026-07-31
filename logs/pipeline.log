@@ -8962,3 +8962,453 @@ TypeError: object of type 'NoneType' has no len()
 2026-07-25 21:16:34 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
 2026-07-25 21:17:00 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
 2026-07-25 21:18:28 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-25 23:36:15 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:05:04 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:06:39 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:28:50 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 86, in _complete
+    raise LLMError(
+    ...<2 lines>...
+    )
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2342, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-07-30 20:28:50 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+    ...<18 lines>...
+    )
+    ^
+  File "/usr/lib/python3.14/unittest/mock.py", line 2333, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-07-30 20:28:50 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/app/services/llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-07-30 20:28:50 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:28:50 [INFO    ] app.routers.evaluation — Evaluate request — session_id=49599984-c48f-4d3f-9e99-f5212ade23bd job_id=e677b397-1297-45c9-95c4-cffac55c6487 source='raw_text' doc_len=1930 chars
+2026-07-30 20:28:50 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Pipeline started — document length=1930 chars
+2026-07-30 20:28:50 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 1 (segmentation) — starting
+2026-07-30 20:28:50 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (1930 chars)
+2026-07-30 20:28:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.78s  response_len=2359 chars
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (6.78s, 2359 chars)
+2026-07-30 20:28:57 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 12 sections (6 present)
+2026-07-30 20:28:57 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 1 complete — 12 sections found (6.78s)
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[0] name='Abstract'  type=ABSTRACT  words=54  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[1] name='Introduction'  type=INTRODUCTION  words=45  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[2] name='Background'  type=BACKGROUND  words=0  status=MISSING
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[3] name='Literature Review'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[4] name='Methodology'  type=METHODOLOGY  words=46  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[5] name='Experimental Setup'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[6] name='Results and Discussion'  type=RESULTS  words=42  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[7] name='Analysis'  type=ANALYSIS  words=0  status=MISSING
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[8] name='Discussion'  type=DISCUSSION  words=0  status=MISSING
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[9] name='Conclusions'  type=CONCLUSIONS  words=31  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[10] name='References'  type=REFERENCES  words=39  status=PRESENT
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   section[11] name='Appendix'  type=APPENDIX  words=0  status=MISSING
+2026-07-30 20:28:57 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-30 20:28:57 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-30 20:28:57 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-30 20:29:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=20.53s  response_len=7847 chars
+2026-07-30 20:29:17 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (20.54s) — scores={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2}
+2026-07-30 20:29:17 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2}
+2026-07-30 20:29:17 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-30 20:29:17 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-30 20:29:45 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.47s  response_len=6397 chars
+2026-07-30 20:29:45 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (27.47s) — scores={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}
+2026-07-30 20:29:45 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}
+2026-07-30 20:29:45 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-30 20:29:45 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-30 20:30:09 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=24.03s  response_len=9191 chars
+2026-07-30 20:30:09 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (24.04s) — scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:30:09 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:30:09 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stages 2-4 complete (72.04s) — DE scores={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2}  METH scores={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:30:09 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 5 (self-critique audits) — starting
+2026-07-30 20:30:09 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-30 20:30:31 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.28s  response_len=1146 chars
+2026-07-30 20:30:31 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (22.28s, 1146 chars)
+2026-07-30 20:30:31 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-30 20:30:31 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:30:31 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-30 20:31:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=30.34s  response_len=1114 chars
+2026-07-30 20:31:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (30.34s, 1114 chars)
+2026-07-30 20:31:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-30 20:31:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:31:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-30 20:31:53 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:31:53 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=51.76s  response_len=1742 chars
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (51.76s, 1742 chars)
+2026-07-30 20:31:53 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=High  issues=6
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-30 20:31:53 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 5 complete (104.38s) — DE quality=High  METH quality=High  COMM quality=High
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-30 20:31:53 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 6 (reflection pass) — starting
+2026-07-30 20:31:53 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-30 20:31:53 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-30 20:32:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=19.20s  response_len=2820 chars
+2026-07-30 20:32:13 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (19.20s, 2820 chars)
+2026-07-30 20:32:13 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2}
+2026-07-30 20:32:13 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-30 20:32:13 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-30 20:32:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=10.32s  response_len=2526 chars
+2026-07-30 20:32:23 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (10.32s, 2526 chars)
+2026-07-30 20:32:23 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}
+2026-07-30 20:32:23 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-30 20:32:23 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=High
+2026-07-30 20:32:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=16.96s  response_len=4805 chars
+2026-07-30 20:32:40 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (16.96s, 4805 chars)
+2026-07-30 20:32:40 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:32:40 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 6 complete (46.48s) — DE final={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2}  METH final={'methodology': 2, 'critical_thinking': 2, 'evidence_quality': 2}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:32:40 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 7 (consensus reconciliation) — starting
+2026-07-30 20:32:40 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-30 20:32:52 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=12.57s  response_len=4412 chars
+2026-07-30 20:32:52 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (12.57s, 4412 chars)
+2026-07-30 20:32:52 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-30 20:32:52 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 7 complete (12.57s) — scores={'technical_accuracy': 2, 'methodology': 2, 'evidence_quality': 2, 'critical_thinking': 2, 'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}  deferral=PROCEED
+2026-07-30 20:32:52 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 8 (deterministic scoring) — starting
+2026-07-30 20:32:52 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 8 complete (0.00s) — final_score=60.0  grade=Pass  gate=False  deferred=False  uncertainty_band=[59.3, 60.7]
+2026-07-30 20:32:52 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 9 (feedback synthesis) — starting
+2026-07-30 20:32:52 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=60.0  grade=Pass
+2026-07-30 20:33:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=20.48s  response_len=4882 chars
+2026-07-30 20:33:13 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (20.48s, 4882 chars)
+2026-07-30 20:33:13 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=2  improvements=3
+2026-07-30 20:33:13 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 9 complete (20.49s) — strengths=2  improvements=3
+2026-07-30 20:33:13 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 10 (verification guard) — starting
+2026-07-30 20:33:13 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-30 20:33:24 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.35s  response_len=4144 chars
+2026-07-30 20:33:24 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (11.35s, 4144 chars)
+2026-07-30 20:33:24 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-07-30 20:33:24 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Stage 10 complete (11.36s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-07-30 20:33:24 [INFO    ] app.pipeline.orchestrator — [e677b397-1297-45c9-95c4-cffac55c6487] Pipeline COMPLETE — total_time=274.32s  score=60.0  grade=Pass
+2026-07-30 20:33:24 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:24 [ERROR   ] sqlalchemy.pool.impl.AsyncAdaptedQueuePool — Exception terminating connection <AdaptedConnection <asyncpg.connection.Connection object at 0x7f7cb756a7b0>>
+Traceback (most recent call last):
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 373, in _close_connection
+    self._dialect.do_terminate(connection)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 1131, in do_terminate
+    dbapi_connection.terminate()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/connectors/asyncio.py", line 402, in terminate
+    self.await_(asyncio.shield(self._terminate_graceful_close()))  # type: ignore[attr-defined] # noqa: E501
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/sqlalchemy/dialects/postgresql/asyncpg.py", line 912, in _terminate_graceful_close
+    await self._connection.close(timeout=2)
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/asyncpg/connection.py", line 1513, in close
+    await self._protocol.close(timeout)
+  File "asyncpg/protocol/protocol.pyx", line 617, in close
+  File "asyncpg/protocol/protocol.pyx", line 650, in asyncpg.protocol.protocol.BaseProtocol._request_cancel
+    con._cancel_current_command(self.cancel_sent_waiter)
+  File "/home/nivedmelvin/AI-Evaluation-Work/.venv/lib/python3.14/site-packages/asyncpg/connection.py", line 1682, in _cancel_current_command
+    self._cancellations.add(self._loop.create_task(self._cancel(waiter)))
+                            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 466, in create_task
+    self._check_closed()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 550, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:33:26 [DEBUG   ] asyncio — Using selector: EpollSelector
+2026-07-30 20:34:26 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-07-30 20:36:38 [INFO    ] app.routers.evaluation — Re-evaluate request — session_id=fb51fe10-5695-4639-92a5-8c0cb506b8b2 job_id=2ad530c5-e913-4ec7-b173-42c52ec5fc82 version=2
+2026-07-30 20:36:38 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Pipeline started — document length=150854 chars
+2026-07-30 20:36:39 [WARNING ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Security scan — risk=MEDIUM recommendation=FLAG patterns=['TYPE_7_REPETITION_FLOODING']
+2026-07-30 20:36:39 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 1 (segmentation) — starting
+2026-07-30 20:36:39 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (150854 chars)
+2026-07-30 20:37:10 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=31.09s  response_len=8544 chars
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (31.09s, 8544 chars)
+2026-07-30 20:37:10 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 32 sections (31 present)
+2026-07-30 20:37:10 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 1 complete — 32 sections found (31.10s)
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[0] name='Title and Authors'  type=OTHER  words=26  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[1] name='Abstract'  type=ABSTRACT  words=265  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[2] name='CCS Concepts and Keywords'  type=OTHER  words=43  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[3] name='1. Introduction'  type=INTRODUCTION  words=1117  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[4] name='2. Characteristics of Indic Languages'  type=BACKGROUND  words=74  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[5] name='2.1 Akshara System of Indian Languages'  type=BACKGROUND  words=544  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[6] name='2.2 Formalism of Indian Languages: Panini’s Framework'  type=BACKGROUND  words=958  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[7] name='2.3 Diglossia in Indian languages'  type=BACKGROUND  words=423  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[8] name='3. Historical Context: Evolution of Indic NLP'  type=LITERATURE_REVIEW  words=91  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[9] name='3.1 Rule-based Indic NLP'  type=LITERATURE_REVIEW  words=112  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[10] name='3.1.1 Machine Translation'  type=LITERATURE_REVIEW  words=354  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[11] name='3.1.2 Parsing'  type=LITERATURE_REVIEW  words=498  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[12] name='3.1.3 Lexical Resource Creation'  type=LITERATURE_REVIEW  words=431  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[13] name='3.2 Corpus-based Indic NLP'  type=LITERATURE_REVIEW  words=782  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[14] name='3.3 Indic NLP using Deep Learning'  type=LITERATURE_REVIEW  words=1352  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[15] name='3.3.1 Embedding Representations and Indic Language Models'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[16] name='3.3.2 Sequence Modeling Tasks'  type=LITERATURE_REVIEW  words=470  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[17] name='3.4 Foundation Models'  type=LITERATURE_REVIEW  words=874  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[18] name='3.4.1 Indic NLP using Generative AI'  type=LITERATURE_REVIEW  words=336  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[19] name='3.5 Speech Recognition for Indic Languages'  type=LITERATURE_REVIEW  words=603  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[20] name='4. Challenges for Indic NLP'  type=ANALYSIS  words=120  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[21] name='4.1 Complex Morphology and Grammar Rules'  type=ANALYSIS  words=720  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[22] name='4.2 Diglossia'  type=ANALYSIS  words=269  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[23] name='4.3 Lack of Resources'  type=ANALYSIS  words=809  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[24] name='5. Language and Culture'  type=DISCUSSION  words=934  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[25] name='5.1 Worldview of LLMs'  type=DISCUSSION  words=680  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[26] name='5.2 Culture Sensing'  type=DISCUSSION  words=1042  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[27] name='5.2.1 Culture Sensing for Oral Community Knowledge'  type=DISCUSSION  words=0  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[28] name='6. Conclusions'  type=CONCLUSIONS  words=274  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[29] name='Ethics and Privacy Statement'  type=OTHER  words=143  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[30] name='References'  type=REFERENCES  words=5857  status=PRESENT
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   section[31] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-07-30 20:37:10 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stages 2-4 (sequential reviewer pass) — starting
+2026-07-30 20:37:10 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 (Domain Expert) — starting 1 self-consistency runs
+2026-07-30 20:37:10 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 starting
+2026-07-30 20:37:28 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.38s  response_len=7046 chars
+2026-07-30 20:37:28 [DEBUG   ] app.pipeline.stage2_domain_expert — Stage 2 — run 1/1 OK (18.38s) — scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3}
+2026-07-30 20:37:28 [INFO    ] app.pipeline.stage2_domain_expert — Stage 2 complete — 1/1 runs succeeded — median scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3}
+2026-07-30 20:37:28 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 (Methodologist) — starting 1 self-consistency runs
+2026-07-30 20:37:28 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 starting
+2026-07-30 20:38:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=44.07s  response_len=9928 chars
+2026-07-30 20:38:12 [DEBUG   ] app.pipeline.stage3_methodologist — Stage 3 — run 1/1 OK (44.07s) — scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}
+2026-07-30 20:38:12 [INFO    ] app.pipeline.stage3_methodologist — Stage 3 complete — 1/1 runs succeeded — median scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}
+2026-07-30 20:38:12 [INFO    ] app.pipeline.stage4_communication — Stage 4 (Communication Specialist) — starting 1 self-consistency runs
+2026-07-30 20:38:12 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 starting
+2026-07-30 20:38:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=43.17s  response_len=9748 chars
+2026-07-30 20:38:55 [DEBUG   ] app.pipeline.stage4_communication — Stage 4 — run 1/1 OK (43.17s) — scores={'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:38:55 [INFO    ] app.pipeline.stage4_communication — Stage 4 complete — 1/1 runs succeeded — median scores={'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:38:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stages 2-4 complete (105.62s) — DE scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3}  METH scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:38:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 5 (self-critique audits) — starting
+2026-07-30 20:38:55 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Domain Expert'
+2026-07-30 20:39:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=6.63s  response_len=1064 chars
+2026-07-30 20:39:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — LLM response received (6.63s, 1064 chars)
+2026-07-30 20:39:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — audit complete: quality=High  issues=3
+2026-07-30 20:39:02 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Domain Expert) — issue types: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:39:02 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Methodologist'
+2026-07-30 20:39:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.11s  response_len=2003 chars
+2026-07-30 20:39:13 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — LLM response received (11.11s, 2003 chars)
+2026-07-30 20:39:13 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — audit complete: quality=High  issues=3
+2026-07-30 20:39:13 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Methodologist) — issue types: ['UNGROUNDED_CLAIM', 'NONE', 'NONE']
+2026-07-30 20:39:13 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (self-critique) — auditing 'Communication Specialist'
+2026-07-30 20:39:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=8.30s  response_len=1824 chars
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — LLM response received (8.30s, 1824 chars)
+2026-07-30 20:39:21 [INFO    ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — audit complete: quality=High  issues=6
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.stage5_self_critique — Stage 5 (Communication Specialist) — issue types: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-30 20:39:21 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 5 complete (26.04s) — DE quality=High  METH quality=High  COMM quality=High
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   Methodologist audit issues: ['UNGROUNDED_CLAIM', 'NONE', 'NONE']
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-07-30 20:39:21 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 6 (reflection pass) — starting
+2026-07-30 20:39:21 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Domain Expert'
+2026-07-30 20:39:21 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — audit had 3 issue(s), quality=High
+2026-07-30 20:39:44 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.09s  response_len=2194 chars
+2026-07-30 20:39:44 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) — LLM response received (23.09s, 2194 chars)
+2026-07-30 20:39:44 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Domain Expert) complete — final scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3}
+2026-07-30 20:39:44 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Methodologist'
+2026-07-30 20:39:44 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — audit had 3 issue(s), quality=High
+2026-07-30 20:40:03 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.45s  response_len=4839 chars
+2026-07-30 20:40:03 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) — LLM response received (18.45s, 4839 chars)
+2026-07-30 20:40:03 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Methodologist) complete — final scores={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}
+2026-07-30 20:40:03 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (reflection) — processing 'Communication Specialist'
+2026-07-30 20:40:03 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — audit had 6 issue(s), quality=High
+2026-07-30 20:40:26 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.19s  response_len=3999 chars
+2026-07-30 20:40:26 [DEBUG   ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) — LLM response received (23.19s, 3999 chars)
+2026-07-30 20:40:26 [INFO    ] app.pipeline.stage6_reflection — Stage 6 (Communication Specialist) complete — final scores={'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:40:26 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 6 complete (64.74s) — DE final={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3}  METH final={'methodology': 2, 'critical_thinking': 3, 'evidence_quality': 2}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}
+2026-07-30 20:40:26 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 7 (consensus reconciliation) — starting
+2026-07-30 20:40:26 [INFO    ] app.pipeline.stage7_consensus — Stage 7 (consensus) — reconciling 3 reviewer outputs
+2026-07-30 20:40:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.70s  response_len=4327 chars
+2026-07-30 20:40:55 [DEBUG   ] app.pipeline.stage7_consensus — Stage 7 — LLM response received (28.70s, 4327 chars)
+2026-07-30 20:40:55 [INFO    ] app.pipeline.stage7_consensus — Stage 7 complete — 10 criteria parsed — deferral=PROCEED
+2026-07-30 20:40:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 7 complete (28.70s) — scores={'technical_accuracy': 3, 'methodology': 2, 'evidence_quality': 3, 'critical_thinking': 3, 'structure': 3, 'clarity': 3, 'referencing': 4, 'originality': 3, 'professionalism': 3, 'holistic_quality': 3}  deferral=PROCEED
+2026-07-30 20:40:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 8 (deterministic scoring) — starting
+2026-07-30 20:40:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 8 complete (0.00s) — final_score=73.0  grade=Merit  gate=False  deferred=False  uncertainty_band=[72.2, 73.8]
+2026-07-30 20:40:55 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 9 (feedback synthesis) — starting
+2026-07-30 20:40:55 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=73.0  grade=Merit
+2026-07-30 20:41:18 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.51s  response_len=5392 chars
+2026-07-30 20:41:18 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (23.51s, 5392 chars)
+2026-07-30 20:41:18 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-07-30 20:41:18 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 9 complete (23.52s) — strengths=3  improvements=3
+2026-07-30 20:41:18 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 10 (verification guard) — starting
+2026-07-30 20:41:18 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-07-30 20:41:18 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 150854 to 20000 chars for factual verifier
+2026-07-30 20:41:37 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.90s  response_len=5126 chars
+2026-07-30 20:41:37 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (18.90s, 5126 chars)
+2026-07-30 20:41:37 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=FLAG  scan=MEDIUM  combined=FLAG/HOLD  patterns=1
+2026-07-30 20:41:37 [WARNING ] app.pipeline.stage10_verification — Stage 10 — SECURITY SCAN FLAGGED 1 pattern(s): ['TYPE_7_REPETITION_FLOODING']
+2026-07-30 20:41:37 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 10 complete (18.90s) — integrity=FLAG  recommendation=HOLD  injection=True
+2026-07-30 20:41:37 [WARNING ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] INJECTION DETECTED — patterns: ['TYPE_7_REPETITION_FLOODING']
+2026-07-30 20:41:37 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Pipeline COMPLETE — total_time=299.25s  score=73.0  grade=Merit

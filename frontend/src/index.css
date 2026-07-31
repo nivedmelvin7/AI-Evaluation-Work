@@ -1843,10 +1843,15 @@ canvas.pdf-highlight {
 }
 
 /* ── Report document (off-screen export layout, not visible in UI) ──────── */
+/* Wrapper clips the report from view via height:0/overflow:hidden rather than
+   position offset — html2canvas (used by the PDF export) resolves fixed/
+   absolute-positioned source elements to a zero-height canvas, which produced
+   blank PDF exports. The report itself must stay in normal document flow. */
+.report-document-wrap {
+  height: 0;
+  overflow: hidden;
+}
 .report-document {
-  position: fixed;
-  top: 0;
-  left: -99999px;
   width: 794px;
   background: #ffffff;
   color: #1a1a1a;

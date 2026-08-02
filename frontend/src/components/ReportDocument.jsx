@@ -25,6 +25,11 @@ const ReportDocument = forwardRef(function ReportDocument({ result }, ref) {
   const uncertaintyStr = Array.isArray(scoring.uncertainty_band) && scoring.uncertainty_band.length === 2
     ? `${scoring.uncertainty_band[0].toFixed(1)} – ${scoring.uncertainty_band[1].toFixed(1)}`
     : '—';
+  const scoreLabel = scoring.final_score != null
+    ? `${Number(scoring.final_score).toFixed(2)} / 100`
+    : scoring.provisional_score != null
+      ? `Provisional ${Number(scoring.provisional_score).toFixed(2)} / 100`
+      : 'Not scored';
 
   return (
     <div className="report-document" ref={ref}>
@@ -36,16 +41,18 @@ const ReportDocument = forwardRef(function ReportDocument({ result }, ref) {
       <div className="report-doc-section">
         <h2>Score &amp; grade</h2>
         <div className="report-doc-score-row">
-          <span className="report-doc-score">{scoring.final_score ?? '—'}<span style={{ fontSize: '1rem', fontWeight: 500 }}> / 100</span></span>
+          <span className="report-doc-score">{scoreLabel}</span>
           <span className="report-doc-grade">{scoring.grade_band || 'Unbanded'}</span>
         </div>
         <table className="report-doc-table">
           <tbody>
-            <tr><th>Weighted score</th><td>{scoring.achievement_score?.toFixed(1) ?? '—'}</td></tr>
-            <tr><th>Uncertainty band</th><td>{uncertaintyStr}</td></tr>
+            <tr><th>Achievement score (F3)</th><td>{scoring.achievement_score?.toFixed(2) ?? 'Not scored'}</td></tr>
+            <tr><th>Policy score (F7)</th><td>{scoring.final_policy_score?.toFixed(2) ?? 'Not scored'}</td></tr>
+            <tr><th>Provisional result</th><td>{scoring.provisional_score != null ? `${scoring.provisional_score.toFixed(2)} · ${scoring.provisional_grade_band}` : 'Not applicable'}</td></tr>
+            <tr><th>Achievement uncertainty band (F6)</th><td>{uncertaintyStr}</td></tr>
             <tr><th>Aggregate uncertainty (U)</th><td>{scoring.aggregate_uncertainty_U?.toFixed(3) ?? '—'}</td></tr>
             <tr><th>Gate triggered</th><td>{scoring.gate_triggered ? `Yes — ${scoring.gate_reason || ''}` : 'No'}</td></tr>
-            <tr><th>Deferred</th><td>{scoring.deferred ? `Yes — ${scoring.deferral_reason || ''}` : 'No'}</td></tr>
+            <tr><th>Deferred</th><td>{scoring.deferred ? `Yes — ${(scoring.deferral_reasons || [scoring.deferral_reason]).filter(Boolean).join('; ')}` : 'No'}</td></tr>
             <tr><th>Holistic validation</th><td>{scoring.holistic_validation?.available ? (scoring.holistic_validation.requires_moderation ? `Moderation needed — expected ${scoring.holistic_validation.expected_grade_band}` : 'Aligned') : 'Unavailable'}</td></tr>
           </tbody>
         </table>

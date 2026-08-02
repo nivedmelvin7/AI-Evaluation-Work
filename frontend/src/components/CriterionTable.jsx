@@ -12,7 +12,7 @@ const COLUMNS = [
   { key: 'score', label: 'Score', sortValue: (row) => row.s_i ?? -1 },
   { key: 'confidence', label: 'Confidence', sortValue: (row) => CONFIDENCE_RANK[row.confidence] ?? 0 },
   { key: 'contribution', label: 'Contribution', sortValue: (row) => row.contribution ?? -1 },
-  { key: 'uncertainty', label: 'Uncertainty', sortValue: (row) => row.uncertainty_contribution ?? -1 },
+  { key: 'uncertainty', label: 'Confidence risk (uᵢ)', sortValue: (row) => row.u_i ?? -1 },
 ];
 
 function LevelBar({ level }) {
@@ -24,14 +24,12 @@ function ConfidenceCell({ value }) {
   return <span className={className} style={{ fontWeight: 500 }}>{value || '—'}</span>;
 }
 
-function ScoreMeter({ score, uncertainty }) {
+function ScoreMeter({ score }) {
   const percentage = Math.max(0, Math.min(100, (Number(score) || 0) * 100));
-  const spread = Math.max(3, Math.min(100, (Number(uncertainty) || 0) * 100));
   return (
     <div className="criterion-score-meter" title={`Normalised score: ${percentage.toFixed(0)}%`}>
       <div className="criterion-score-meter-track">
         <span className="criterion-score-meter-fill" style={{ width: `${percentage}%` }} />
-        {uncertainty != null && <span className="criterion-score-meter-uncertainty" style={{ width: `${spread}%`, left: `${Math.max(0, percentage - spread / 2)}%` }} />}
       </div>
       <span className="criterion-score-meter-label num">{percentage.toFixed(0)}%</span>
     </div>
@@ -77,7 +75,7 @@ export default function CriterionTable({ scoring }) {
     <div className="criterion-table-wrap">
       <table className="criterion-table">
         <caption className="sr-only">
-          Criterion breakdown: level, weight, normalised score, confidence, weighted contribution, and uncertainty for each of the nine assessment criteria. Columns are sortable.
+          Criterion breakdown: level, weight, normalised score, confidence, weighted contribution, and confidence risk for each of the nine assessment criteria. Columns are sortable.
         </caption>
         <thead>
           <tr>
@@ -110,10 +108,10 @@ export default function CriterionTable({ scoring }) {
               <td className="criterion-name">{humanizeCriterion(row.key)}</td>
               <td><div className="criterion-level"><span className="level-pill">{row.level ?? '—'}</span>{row.level != null && <LevelBar level={row.level} />}</div></td>
               <td className="num">{row.weight != null ? `${(row.weight * 100).toFixed(0)}%` : '—'}</td>
-              <td><ScoreMeter score={row.s_i} uncertainty={row.u_i} /></td>
+              <td><ScoreMeter score={row.s_i} /></td>
               <td><ConfidenceCell value={row.confidence} /></td>
               <td className="num">{row.contribution?.toFixed(3) ?? '—'}</td>
-              <td className="num">{row.uncertainty_contribution?.toFixed(3) ?? '—'}</td>
+              <td className="num">{row.u_i?.toFixed(2) ?? '—'}</td>
             </tr>
           ))}
         </tbody>

@@ -161,7 +161,7 @@ class PipelineOrchestrator:
                 t = time.perf_counter()
                 logger.info("[%s] Stage 7 (consensus reconciliation) — starting", job_id)
                 consensus_out = await stage7_consensus.run(
-                    self.llm, de_final, meth_final, comm_final
+                    self.llm, de_final, meth_final, comm_final, document_text
                 )
                 logger.info(
                     "[%s] Stage 7 complete (%s) — scores=%s  deferral=%s",
@@ -179,11 +179,11 @@ class PipelineOrchestrator:
                 logger.info("[%s] Stage 8 (deterministic scoring) — starting", job_id)
                 scoring_result = stage8_scoring.run(consensus_out)
                 logger.info(
-                    "[%s] Stage 8 complete (%s) — final_score=%.1f  grade=%s  "
+                    "[%s] Stage 8 complete (%s) — final_score=%s  grade=%s  "
                     "gate=%s  deferred=%s  uncertainty_band=%s",
                     job_id,
                     _elapsed(t),
-                    scoring_result.get("final_score", 0),
+                    scoring_result.get("final_score"),
                     scoring_result.get("grade_band"),
                     scoring_result.get("gate_triggered"),
                     scoring_result.get("deferred"),
@@ -256,11 +256,16 @@ class PipelineOrchestrator:
                     consensus={
                         "scores": consensus_out.get("scores", {}),
                         "deferral_assessment": consensus_out.get("deferral_assessment", {}),
+                        "complete": consensus_out.get("complete", False),
+                        "integrity_flags": consensus_out.get("integrity_flags", []),
+                        "validation_errors": consensus_out.get("validation_errors", []),
                     },
                     pipeline_metadata={
                         "sections_found": len(sections),
                         "gate_triggered": scoring_result.get("gate_triggered", False),
                         "deferred": scoring_result.get("deferred", False),
+                        "scoring_complete": scoring_result.get("scoring_complete", False),
+                        "deferral_reasons": scoring_result.get("deferral_reasons", []),
                         "integrity": verification_out.get("overall_integrity", "PASS"),
                         "final_recommendation": verification_out.get("final_recommendation", "RELEASE"),
                         "injection_found": verification_out.get("injection_found", False),
@@ -270,10 +275,10 @@ class PipelineOrchestrator:
 
                 total = _elapsed(pipeline_start)
                 logger.info(
-                    "[%s] Pipeline COMPLETE — total_time=%s  score=%.1f  grade=%s",
+                    "[%s] Pipeline COMPLETE — total_time=%s  score=%s  grade=%s",
                     job_id,
                     total,
-                    scoring_result.get("final_score", 0),
+                    scoring_result.get("final_score"),
                     scoring_result.get("grade_band"),
                 )
                 return result

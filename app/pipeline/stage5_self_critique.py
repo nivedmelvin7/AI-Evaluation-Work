@@ -1,52 +1,69 @@
-"""
-Stage 5: Self-Critique Audit
+"""Stage 5: audit the structured median assessment, not a raw last response."""
 
-Input:  llm (LLMService), reviewer_name (str), reviewer_out (Dict from stage 2/3/4)
-Output: Dict with keys:
-          reviewer_name  (str)
-          raw_xml        (str)
-          issues         (List[Dict])
-          overall_quality (str)
-          audit_summary  (str)
+from __future__ import annotations
 
-Temperature: 0.0 (deterministic)
-Self-consistency: No
-"""
-
+import json
 import logging
-import time
-from typing import Any, Dict
+from typing import Any, Dict, List
 
-from app.services.llm_service import LLMService
 from app.prompts.stage5_self_critique_prompts import SELF_CRITIQUE_SYSTEM, SELF_CRITIQUE_USER_TEMPLATE
+from app.services.llm_service import LLMService
 from app.utils.xml_parser import parse_xml_response
 
 logger = logging.getLogger(__name__)
 
 
-async def run(
-    llm: LLMService,
-    reviewer_name: str,
-    reviewer_out: Dict[str, Any],
-) -> Dict[str, Any]:
-    """Audit reviewer output for quality issues."""
-    logger.info("Stage 5 (self-critique) — auditing %r", reviewer_name)
+def _validate_audit(parsed: Any, expected_criteria: set[str]) -> tuple[List[Dict[str, str]], List[str], str, str]:
+    errors: List[str] = []
+    issues: List[Dict[str, str]] = []
+    covered: set[str] = set()
+    for issue_el in parsed.findall(".//issue"):
+        issue = {
+            "type": "".join((issue_el.findtext("type") or "").split()).upper(),
+            "criterion_affected": (issue_el.findtext("criterion_affected") or "").strip(),
+            "description": (issue_el.findtext("description") or "").strip(),
+            "recommended_correction": (issue_el.findtext("recommended_correction") or "").strip(),
+        }
+        if not all(issue.values()):
+            errors.append("audit issue is missing a required field")
+            continue
+        if issue["criterion_affected"] not in expected_criteria:
+            errors.append(f"audit references unexpected criterion: {issue['criterion_affected']}")
+            continue
+        covered.add(issue["criterion_affected"])
+        issues.append(issue)
+    missing = expected_criteria - covered
+    if missing:
+        errors.extend(f"audit missing criterion: {criterion}" for criterion in sorted(missing))
+    overall_quality = (parsed.findtext("overall_quality") or "").strip().lower()
+    audit_summary = (parsed.findtext("audit_summary") or "").strip()
+    if overall_quality not in {"high", "medium", "low"}:
+        errors.append("audit overall_quality must be High, Medium, or Low")
+    if not audit_summary:
+        errors.append("audit_summary is required")
+    return issues, errors, overall_quality, audit_summary
 
-    raw_xml = reviewer_out.get("raw_xml", "")
-    if not raw_xml:
-        scores = reviewer_out.get("scores", {})
-        raw_xml = "\n".join(
-            f"{crit}: score={data.get('score', '?')}, confidence={data.get('confidence', '?')}"
-            for crit, data in scores.items()
-        )
-        logger.debug("Stage 5 (%s) — no raw XML found; formatted scores as text (%d chars)", reviewer_name, len(raw_xml))
 
+async def run(llm: LLMService, reviewer_name: str, reviewer_out: Dict[str, Any]) -> Dict[str, Any]:
+    """Audit the authoritative median assessments and flag invalid audits."""
+    expected_criteria = set(reviewer_out.get("scores", {}))
+    if not reviewer_out.get("complete") or not expected_criteria:
+        return {
+            "reviewer_name": reviewer_name,
+            "raw_xml": "",
+            "issues": [],
+            "overall_quality": "low",
+            "audit_summary": "Audit skipped because reviewer assessment was incomplete.",
+            "complete": False,
+            "integrity_flags": ["reviewer_output_incomplete"],
+            "validation_errors": list(reviewer_out.get("validation_errors", ["reviewer output incomplete"])),
+        }
+
+    structured_assessment = json.dumps(reviewer_out["scores"], indent=2, ensure_ascii=False)
     user_prompt = SELF_CRITIQUE_USER_TEMPLATE.format(
         reviewer_name=reviewer_name,
-        reviewer_output=raw_xml,
+        reviewer_output=structured_assessment,
     )
-
-    t0 = time.perf_counter()
     try:
         raw = await llm.complete_with_retry(
             system_prompt=SELF_CRITIQUE_SYSTEM,
@@ -54,66 +71,36 @@ async def run(
             temperature=0.0,
             max_tokens=4096,
         )
-    except Exception:
-        logger.exception("Stage 5 — LLM call failed for %r", reviewer_name)
-        return _empty_audit(reviewer_name)
-
-    logger.debug("Stage 5 (%s) — LLM response received (%.2fs, %d chars)", reviewer_name, time.perf_counter() - t0, len(raw))
+    except Exception as exc:
+        return _failed_audit(reviewer_name, f"audit LLM request failed: {exc.__class__.__name__}")
 
     parsed = parse_xml_response(raw, "audit")
-
-    issues = []
-    overall_quality = "Medium"
-    audit_summary = ""
-
-    if parsed is not None:
-        for issue_el in parsed.findall(".//issue"):
-            type_el = issue_el.find("type")
-            criterion_el = issue_el.find("criterion_affected")
-            desc_el = issue_el.find("description")
-            rec_el = issue_el.find("recommended_correction")
-            issues.append({
-                "type": type_el.text.strip() if type_el is not None and type_el.text else "NONE",
-                "criterion_affected": criterion_el.text.strip() if criterion_el is not None and criterion_el.text else "",
-                "description": desc_el.text.strip() if desc_el is not None and desc_el.text else "",
-                "recommended_correction": rec_el.text.strip() if rec_el is not None and rec_el.text else "",
-            })
-
-        oq_el = parsed.find("overall_quality")
-        if oq_el is not None and oq_el.text:
-            overall_quality = oq_el.text.strip()
-
-        summary_el = parsed.find("audit_summary")
-        if summary_el is not None and summary_el.text:
-            audit_summary = summary_el.text.strip()
-
-        logger.info(
-            "Stage 5 (%s) — audit complete: quality=%s  issues=%d",
-            reviewer_name, overall_quality, len(issues),
-        )
-        if issues:
-            logger.debug(
-                "Stage 5 (%s) — issue types: %s",
-                reviewer_name,
-                [i["type"] for i in issues],
-            )
-    else:
-        logger.warning("Stage 5 — XML parse failed for %r audit; proceeding with empty issues", reviewer_name)
-
+    if parsed is None:
+        return _failed_audit(reviewer_name, "audit response was not valid XML", raw)
+    issues, errors, overall_quality, audit_summary = _validate_audit(parsed, expected_criteria)
+    if errors:
+        return _failed_audit(reviewer_name, "; ".join(errors), raw)
     return {
         "reviewer_name": reviewer_name,
         "raw_xml": raw,
         "issues": issues,
         "overall_quality": overall_quality,
         "audit_summary": audit_summary,
+        "complete": True,
+        "integrity_flags": [],
+        "validation_errors": [],
     }
 
 
-def _empty_audit(reviewer_name: str) -> Dict[str, Any]:
+def _failed_audit(reviewer_name: str, reason: str, raw_xml: str = "") -> Dict[str, Any]:
+    logger.warning("Stage 5 audit incomplete for %s: %s", reviewer_name, reason)
     return {
         "reviewer_name": reviewer_name,
-        "raw_xml": "",
+        "raw_xml": raw_xml,
         "issues": [],
-        "overall_quality": "Low",
-        "audit_summary": "Audit failed due to LLM error.",
+        "overall_quality": "low",
+        "audit_summary": "Audit failed validation.",
+        "complete": False,
+        "integrity_flags": ["audit_failed"],
+        "validation_errors": [reason],
     }

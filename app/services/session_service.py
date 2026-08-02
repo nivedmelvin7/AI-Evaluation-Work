@@ -9,7 +9,7 @@ always remain retrievable even after a re-evaluation produces a new one.
 import hashlib
 import uuid
 from datetime import datetime, timezone
-from typing import Optional, Sequence
+from typing import Any, Optional, Sequence
 
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,6 +23,27 @@ def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def sanitize_for_postgres(value: Any) -> Any:
+    """Remove NUL characters from values destined for text or JSON columns.
+
+    PostgreSQL rejects ``\\x00`` in UTF-8 text and JSONB values. PDF and DOCX
+    extractors can occasionally emit it, so normalise extracted text and page
+    metadata at the persistence boundary. Binary upload content is deliberately
+    not passed to this helper: ``BYTEA`` supports NUL bytes and must retain the
+    original file exactly.
+    """
+    if isinstance(value, str):
+        return value.replace("\x00", "")
+    if isinstance(value, list):
+        return [sanitize_for_postgres(item) for item in value]
+    if isinstance(value, dict):
+        return {
+            sanitize_for_postgres(key) if isinstance(key, str) else key: sanitize_for_postgres(item)
+            for key, item in value.items()
+        }
+    return value
+
+
 def hash_document(content: Optional[bytes], document_text: str) -> str:
     """Content-identity hash for a submitted document. Uses the raw file
     bytes when available (uploads) so re-uploading the exact same file is
@@ -30,7 +51,7 @@ def hash_document(content: Optional[bytes], document_text: str) -> str:
     extracted text for pasted-text submissions, which have no file bytes."""
     if content is not None:
         return hashlib.sha256(content).hexdigest()
-    return hashlib.sha256(document_text.encode("utf-8")).hexdigest()
+    return hashlib.sha256(sanitize_for_postgres(document_text).encode("utf-8")).hexdigest()
 
 
 async def find_session_by_document_hash(
@@ -59,19 +80,24 @@ async def create_session(
     pages: Optional[list] = None,
 ) -> tuple[Session, EvaluationVersion]:
     """Create a new session, its immutable document record, and version 1."""
-    session_row = Session(filename=filename, content_type=content_type)
+    clean_document_text = sanitize_for_postgres(document_text)
+    clean_filename = sanitize_for_postgres(filename)
+    clean_content_type = sanitize_for_postgres(content_type)
+    clean_pages = sanitize_for_postgres(pages)
+
+    session_row = Session(filename=clean_filename, content_type=clean_content_type)
     db.add(session_row)
     await db.flush()  # populate session_row.id
 
     db.add(
         Document(
             session_id=session_row.id,
-            document_text=document_text,
+            document_text=clean_document_text,
             content=content,
-            content_type=content_type,
-            filename=filename,
-            pages=pages,
-            document_hash=hash_document(content, document_text),
+            content_type=clean_content_type,
+            filename=clean_filename,
+            pages=clean_pages,
+            document_hash=hash_document(content, clean_document_text),
         )
     )
 
@@ -149,7 +175,7 @@ async def update_version(db: AsyncSession, version_id: uuid.UUID, **fields) -> N
 async def set_version_result(
     db: AsyncSession, version_id: uuid.UUID, result: EvaluationResult
 ) -> None:
-    scoring = result.scoring or {}
+    scoring = result.scoring.model_dump() if result.scoring else {}
     await update_version(
         db,
         version_id,

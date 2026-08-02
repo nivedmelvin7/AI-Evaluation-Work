@@ -1,8 +1,10 @@
+from pydantic import ConfigDict, field_validator
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 
 class Settings(BaseSettings):
+    model_config = ConfigDict(env_file=".env", env_file_encoding="utf-8")
     # OpenRouter (sole LLM provider)
     openrouter_api_key: str = ""
     openrouter_model: str = "qwen/qwen3.7-plus"
@@ -27,9 +29,12 @@ class Settings(BaseSettings):
     postgres_host: str = "localhost"
     postgres_port: int = 5432
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    @field_validator("self_consistency_runs")
+    @classmethod
+    def _self_consistency_runs_must_be_odd_and_complete(cls, value: int) -> int:
+        if isinstance(value, bool) or not isinstance(value, int) or value < 3 or value % 2 == 0:
+            raise ValueError("self_consistency_runs must be an odd integer of at least 3")
+        return value
 
     @property
     def database_url(self) -> str:

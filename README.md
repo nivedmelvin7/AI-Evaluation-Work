@@ -212,12 +212,17 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
   "job_id": "...",
   "status": "complete",
   "scoring": {
-    "final_score": 68,
+    "final_score": 68.25,
     "grade_band": "Merit",
-    "achievement_score": 68.0,
-    "uncertainty_band": [66.4, 69.6],
+    "scoring_complete": true,
+    "achievement_score": 68.25,
+    "final_policy_score": 68.25,
+    "achievement_uncertainty_band": [66.45, 70.05],
     "gate_triggered": false,
     "deferred": false,
+    "provisional_score": null,
+    "provisional_grade_band": null,
+    "deferral_reasons": [],
     "holistic_validation": {"requires_moderation": false},
     "criterion_breakdown": { "...": "..." }
   },
@@ -332,38 +337,69 @@ curl http://localhost:8000/api/v1/document/YOUR_JOB_ID/meta
 
 ---
 
-## Scoring Formulas (F1 – F9)
+## Scoring and assessment policy
 
-The scoring stage (Stage 8) is pure Python — no LLM call.
+The scoring stage is deterministic Python. Reviewer, audit, reflection, and
+consensus stages must validate a complete structured assessment before a score
+can be published. Every assessment carries its score, confidence, reasoning,
+verbatim CDATA evidence, band-boundary justification, confidence reason,
+reviewer identity, and source run. Evidence is whitespace-normalised and must
+be found in the submitted document; invalid data is never coerced to level 2.
 
-| Formula | Name | Expression |
-|---------|------|------------|
-| F1 | Normalise | `s_i = level_i / 4` |
-| F2 | Weighted sum | `A = Σ(w_i × s_i)` |
-| F3 | Achievement score | `Score = 100 × A` |
-| F4 | Uncertainty mapping | `u_i = {high→0.05, medium→0.20, low→0.45}` |
-| F5 | Aggregate uncertainty | `U = Σ(w_i × u_i)` |
-| F6 | Uncertainty band | `[Score − 8U, Score + 8U]`, bounded to the valid score range; this is not a statistical confidence interval |
-| F7 | Non-compensatory gate | If technical accuracy or methodology is below level 2: cap the final score at 49 |
-| F8 | Deferral rule | If `U > 0.25`, a critical criterion has low confidence, or consensus recommends deferral: mark `DEFERRED` |
-| F9 | Holistic validation | A disagreement between the validation-only holistic band and calculated band requires moderation; it does not adjust the score automatically |
+### Authoritative rubric and coverage
 
-Grade bands are calculated from the final bounded score: Distinction `80+`, Merit `65–79`, Pass `50–64`, and Fail below `50`. A deferred result remains unbanded until review.
+| Criterion | Weight | Critical | Reviewer coverage |
+|---|---:|---|---|
+| Technical accuracy | 18% | Yes | Domain Expert |
+| Methodology | 15% | Yes | Domain Expert, Methodologist |
+| Critical thinking | 14% | No | Methodologist |
+| Evidence quality | 12% | No | Domain Expert, Methodologist |
+| Structure | 12% | No | Communication Specialist |
+| Clarity | 10% | No | Communication Specialist |
+| Referencing | 8% | No | Communication Specialist |
+| Originality | 7% | No | Communication Specialist |
+| Professionalism | 4% | No | Communication Specialist |
+| Holistic quality | Validation only | No | Communication Specialist |
 
-**Criterion weights:**
+The nine weighted criteria total exactly 1.0. `holistic_quality` never enters
+the numerical total. The only critical criteria are `technical_accuracy` and
+`methodology`; Methodologist does not assess technical accuracy.
 
-| Criterion | Weight |
-|-----------|--------|
-| Technical Accuracy | 18% |
-| Methodology | 15% |
-| Critical Thinking | 14% |
-| Evidence Quality | 12% |
-| Structure | 12% |
-| Clarity | 10% |
-| Referencing | 8% |
-| Originality | 7% |
-| Professionalism | 4% |
-| Holistic Quality | validation only |
+### F1–F9
+
+| Formula | Definition |
+|---|---|
+| F1 | `s_i = level_i / 4` |
+| F2 | `A = sum(w_i * s_i)` |
+| F3 | `achievement_score = 100 * A` |
+| F4 | `High = 0.05`, `Medium = 0.20`, `Low = 0.45` |
+| F5 | `U = sum(w_i * u_i)` |
+| F6 | `achievement_uncertainty_band = [max(0, achievement_score - 8U), min(100, achievement_score + 8U)]` |
+| F7 | If technical accuracy or methodology is below level 2, `final_policy_score = min(achievement_score, 49)`; otherwise it is `achievement_score`. |
+| F8 | Defer for `U > 0.25`, Low confidence on a critical criterion, incomplete weighted data, any required reviewer/audit/reflection/consensus validation failure, or a valid evidence-based consensus deferral reason. |
+| F9 | Compare validation-only holistic quality with the grade band from the complete policy score. A disagreement requests moderation only; it never changes the numerical score. |
+
+F6 is a policy uncertainty band, not a statistical confidence interval. It is
+always centred on the F3 achievement score, not the gate-adjusted policy score.
+
+Scores are kept to two decimal places for API and presentation. Grade bands use
+the unrounded policy score: Distinction `>= 80`, Merit `>= 65 and < 80`, Pass
+`>= 50 and < 65`, Fail `< 50`. Therefore display rounding cannot turn `79.5`
+into a Distinction. Any integer display is presentation-only.
+
+### Missing data and deferred results
+
+If a weighted criterion is missing or invalid, `scoring_complete` is `false`,
+`achievement_score`, `final_policy_score`, and `final_score` are `null`,
+`grade_band` is `DEFERRED`, and `deferral_reasons` identifies every failed
+criterion. Missing holistic quality instead returns
+`holistic_validation.available = false` and does not fabricate a level-2 mark.
+
+If weighted data are complete but an integrity rule requires human review, the
+result is deferred and exposes `provisional_score` and
+`provisional_grade_band`; `final_score` remains null. A non-deferred complete
+result exposes `final_score` and its ordinary grade band. Frontend and PDF,
+DOCX, XLSX, and JSON exports retain these same semantics.
 
 ---
 

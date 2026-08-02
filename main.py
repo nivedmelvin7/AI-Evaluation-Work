@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.routers.auth import router as auth_router
 from app.routers.evaluation import router
 from app.config import get_settings
 from app.logging_config import setup_logging
@@ -23,13 +24,14 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[settings.frontend_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(router)
+app.include_router(auth_router)
 
 # Serve the built frontend when available (production mode).
 # API routes above take precedence; this only handles non-API paths.

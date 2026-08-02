@@ -21,6 +21,15 @@ class Settings(BaseSettings):
     app_port: int = 8000
     app_debug: bool = False
     secret_key: str = "change_me"
+    frontend_url: str = "http://localhost:5173"
+
+    # Authentication
+    auth_cookie_name: str = "assessment_session"
+    auth_token_expire_minutes: int = 60 * 24 * 7
+    auth_cookie_secure: bool = False
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    google_redirect_uri: str = "http://localhost:8000/api/v1/auth/google/callback"
 
     # Database
     postgres_user: str = "eval_user"

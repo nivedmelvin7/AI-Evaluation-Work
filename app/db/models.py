@@ -9,6 +9,31 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 
+class User(Base):
+    """An application account authenticated by password, Google, or both."""
+
+    __tablename__ = "users"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(320), unique=True, index=True, nullable=False)
+    # Passwords are never stored.  This field contains a versioned, salted
+    # scrypt hash and is nullable for Google-only accounts.
+    password_hash: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
+    google_subject: Mapped[Optional[str]] = mapped_column(String(255), unique=True, nullable=True)
+    display_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
+    last_login_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    sessions: Mapped[List["Session"]] = relationship(back_populates="owner")
+
+
 class Session(Base):
     """A logical evaluation session — one submitted document, grouping every
     version (original run + every re-evaluation) ever produced for it.
@@ -18,6 +43,9 @@ class Session(Base):
     __tablename__ = "sessions"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    owner_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        ForeignKey("users.id", ondelete="SET NULL"), index=True, nullable=True
+    )
     filename: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     content_type: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
@@ -38,6 +66,7 @@ class Session(Base):
         uselist=False,
         cascade="all, delete-orphan",
     )
+    owner: Mapped[Optional["User"]] = relationship(back_populates="sessions")
 
 
 class EvaluationVersion(Base):

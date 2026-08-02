@@ -55,7 +55,7 @@ def hash_document(content: Optional[bytes], document_text: str) -> str:
 
 
 async def find_session_by_document_hash(
-    db: AsyncSession, document_hash: str
+    db: AsyncSession, document_hash: str, owner_id: uuid.UUID
 ) -> Optional[Session]:
     """Find a non-archived session whose stored document has an identical
     content hash, so a fresh upload of an already-evaluated file nests into
@@ -63,7 +63,11 @@ async def find_session_by_document_hash(
     result = await db.execute(
         select(Session)
         .join(Document, Document.session_id == Session.id)
-        .where(Document.document_hash == document_hash, Session.archived_at.is_(None))
+        .where(
+            Document.document_hash == document_hash,
+            Session.owner_id == owner_id,
+            Session.archived_at.is_(None),
+        )
         .order_by(Session.created_at.asc())
         .limit(1)
     )
@@ -74,6 +78,7 @@ async def create_session(
     db: AsyncSession,
     *,
     document_text: str,
+    owner_id: uuid.UUID,
     filename: Optional[str] = None,
     content_type: Optional[str] = None,
     content: Optional[bytes] = None,
@@ -85,7 +90,7 @@ async def create_session(
     clean_content_type = sanitize_for_postgres(content_type)
     clean_pages = sanitize_for_postgres(pages)
 
-    session_row = Session(filename=clean_filename, content_type=clean_content_type)
+    session_row = Session(owner_id=owner_id, filename=clean_filename, content_type=clean_content_type)
     db.add(session_row)
     await db.flush()  # populate session_row.id
 
@@ -116,10 +121,14 @@ async def create_session(
     return session_row, version
 
 
-async def create_reevaluation(db: AsyncSession, session_id: uuid.UUID) -> EvaluationVersion:
+async def create_reevaluation(
+    db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID
+) -> EvaluationVersion:
     """Start a new version under an existing session, reusing its stored
     document. Raises LookupError if the session or its document is missing."""
-    session_row = await db.get(Session, session_id)
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None or session_row.archived_at is not None:
         raise LookupError(f"Session '{session_id}' not found.")
 
@@ -193,16 +202,29 @@ async def set_version_failed(db: AsyncSession, version_id: uuid.UUID, error: str
     await update_version(db, version_id, status="failed", error=error)
 
 
-async def get_version(db: AsyncSession, version_id: uuid.UUID) -> Optional[EvaluationVersion]:
-    return await db.get(EvaluationVersion, version_id)
+async def get_version(
+    db: AsyncSession, version_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
+) -> Optional[EvaluationVersion]:
+    if owner_id is None:
+        return await db.get(EvaluationVersion, version_id)
+    return await db.scalar(
+        select(EvaluationVersion)
+        .join(Session, Session.id == EvaluationVersion.session_id)
+        .where(EvaluationVersion.id == version_id, Session.owner_id == owner_id)
+    )
 
 
-async def get_session(db: AsyncSession, session_id: uuid.UUID) -> Optional[Session]:
-    result = await db.execute(
+async def get_session(
+    db: AsyncSession, session_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
+) -> Optional[Session]:
+    query = (
         select(Session)
         .options(selectinload(Session.versions))
         .where(Session.id == session_id)
     )
+    if owner_id is not None:
+        query = query.where(Session.owner_id == owner_id)
+    result = await db.execute(query)
     return result.scalar_one_or_none()
 
 
@@ -211,9 +233,9 @@ async def get_document(db: AsyncSession, session_id: uuid.UUID) -> Optional[Docu
 
 
 async def get_document_for_version(
-    db: AsyncSession, version_id: uuid.UUID
+    db: AsyncSession, version_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
 ) -> Optional[Document]:
-    version = await get_version(db, version_id)
+    version = await get_version(db, version_id, owner_id)
     if version is None:
         return None
     return await get_document(db, version.session_id)
@@ -225,17 +247,22 @@ async def list_sessions(
     include_archived: bool = False,
     limit: int = 50,
     offset: int = 0,
+    owner_id: Optional[uuid.UUID] = None,
 ) -> Sequence[Session]:
     query = select(Session).options(selectinload(Session.versions)).order_by(Session.updated_at.desc())
     if not include_archived:
         query = query.where(Session.archived_at.is_(None))
+    if owner_id is not None:
+        query = query.where(Session.owner_id == owner_id)
     query = query.limit(limit).offset(offset)
     result = await db.execute(query)
     return result.scalars().all()
 
 
-async def archive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
-    session_row = await db.get(Session, session_id)
+async def archive_session(db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID) -> bool:
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None:
         return False
     session_row.archived_at = _utcnow()
@@ -243,8 +270,10 @@ async def archive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
     return True
 
 
-async def unarchive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
-    session_row = await db.get(Session, session_id)
+async def unarchive_session(db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID) -> bool:
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None:
         return False
     session_row.archived_at = None

@@ -43,20 +43,50 @@ cp .env.example .env
 | `OPENROUTER_MODEL` | `qwen/qwen3.7-plus` | Model to use for all pipeline stages |
 | `REVIEWER_TEMPERATURE` | `0.3` | Temperature for reviewer agents |
 | `DETERMINISTIC_TEMPERATURE` | `0.0` | Temperature for deterministic stages |
-| `SELF_CONSISTENCY_RUNS` | `3` | Number of parallel reviewer runs per stage |
+| `SELF_CONSISTENCY_RUNS` | `3` | Odd number of reviewer samples used for consistency checking (minimum `3`) |
 | `MAX_DOCUMENT_CHARS` | `200000` | Maximum characters accepted per document |
 | `MAX_SECTION_CHARS` | `15000` | Maximum characters per document section |
 | `APP_HOST` | `0.0.0.0` | Server bind host |
 | `APP_PORT` | `8000` | Server bind port |
 | `APP_DEBUG` | `false` | Enable debug mode (verbose console logging) |
-| `SECRET_KEY` | `change_me` | Required for the `/evaluate/sync` endpoint |
-| `DATABASE_URL` | `postgresql+asyncpg://eval_user:eval_password@localhost:5432/eval_platform` | Postgres connection string (async) |
+| `SECRET_KEY` | `change_me` | Long random secret used to sign web sessions and protect `/evaluate/sync` |
+| `FRONTEND_URL` | `http://localhost:5173` | Allowed frontend origin and post-login redirect target |
+| `AUTH_COOKIE_NAME` | `assessment_session` | Name of the HttpOnly signed-session cookie |
+| `AUTH_TOKEN_EXPIRE_MINUTES` | `10080` | Signed-session lifetime (seven days) |
+| `AUTH_COOKIE_SECURE` | `false` | Set to `true` when the app is served over HTTPS |
+| `GOOGLE_CLIENT_ID` | *(empty)* | Google OAuth web-application client ID (enables Google sign-in) |
+| `GOOGLE_CLIENT_SECRET` | *(empty)* | Google OAuth web-application client secret |
+| `GOOGLE_REDIRECT_URI` | `http://localhost:8000/api/v1/auth/google/callback` | Exact authorised Google OAuth callback URI |
+| `POSTGRES_USER` | `eval_user` | Postgres user |
+| `POSTGRES_PASSWORD` | `eval_password` | Postgres password |
+| `POSTGRES_DB` | `eval_platform` | Postgres database name |
+| `POSTGRES_HOST` | `localhost` | Postgres host |
+| `POSTGRES_PORT` | `5432` | Postgres port |
+
+### Authentication
+
+The application supports both password accounts and Google sign-in. Passwords
+are never stored in plain text: the `users` table holds a unique username and
+email plus a salted, versioned `scrypt` password hash. Browser sessions use a
+signed, `HttpOnly`, `SameSite=Lax` cookie, so the frontend cannot read the
+token directly.
+
+To enable Google sign-in, create a **Web application** OAuth client in Google
+Cloud, add the exact `GOOGLE_REDIRECT_URI` above to its authorised redirect
+URIs, then set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. Leave those
+values empty if password-only sign-in is desired. In production, use HTTPS,
+set `AUTH_COOKIE_SECURE=true`, and change both `FRONTEND_URL` and
+`GOOGLE_REDIRECT_URI` to their public HTTPS addresses.
 
 ---
 
 ## Database
 
-Sessions, evaluation versions, and uploaded documents are persisted in Postgres via SQLAlchemy + Alembic. The server will not start correctly without a reachable database.
+Users, sessions, evaluation versions, and uploaded documents are persisted in
+Postgres via SQLAlchemy + Alembic. Every newly created evaluation session is
+owned by the signed-in user; session history and uploaded documents are only
+available to that owner. The server will not start correctly without a
+reachable database.
 
 ### Start Postgres (Docker Compose)
 
@@ -64,7 +94,7 @@ Sessions, evaluation versions, and uploaded documents are persisted in Postgres 
 docker compose up -d postgres
 ```
 
-This starts `postgres:16-alpine` on `localhost:5432` with the credentials baked into `docker-compose.yml` (`eval_user` / `eval_password` / `eval_platform`), matching the default `DATABASE_URL` above. Data persists in the `postgres_data` volume across restarts.
+This starts `postgres:16-alpine` on `localhost:5432` with the credentials baked into `docker-compose.yml` (`eval_user` / `eval_password` / `eval_platform`), matching the default `POSTGRES_*` values above. Data persists in the `postgres_data` volume across restarts.
 
 ```bash
 docker compose ps                 # check container health
@@ -83,6 +113,11 @@ Run this once after the container is healthy, and again after pulling changes th
 ```bash
 alembic revision --autogenerate -m "describe the change"
 ```
+
+The migration history includes the `users` table and session ownership. Any
+sessions created before authentication was introduced have no owner and are not
+shown to newly signed-in accounts; assign or migrate those records deliberately
+if they need to be retained.
 
 ---
 
@@ -145,6 +180,31 @@ Tests that call the pipeline stages (`test_pipeline.py`) do **not** make real LL
 
 ## API Endpoints
 
+### Authentication and API access
+
+`GET /api/v1/health`, sign-up/sign-in/sign-out, and the Google OAuth start and
+callback routes are public. `GET /api/v1/auth/me` and all evaluation, session,
+result, and document routes require the signed `HttpOnly` session cookie and
+return `401` when the caller is not signed in. In the browser this is sent
+automatically. For `curl`, save the cookie during sign-up or login and pass it
+to later requests:
+
+```bash
+curl -c cookies.txt -X POST http://localhost:8000/api/v1/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"username":"ada","email":"ada@example.com","password":"a-long-password"}'
+
+# Use -b cookies.txt with each protected route below.
+```
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /api/v1/auth/signup` | Create a password account and sign in. Body: `username`, `email`, `password` (12+ characters), optional `display_name`. |
+| `POST /api/v1/auth/login` | Sign in with an existing password account. Body: `email`, `password`. |
+| `POST /api/v1/auth/logout` | Clear the signed-session cookie. |
+| `GET /api/v1/auth/me` | Return the signed-in user's public account fields. |
+| `GET /api/v1/auth/google/start` | Start Google OAuth sign-in; it redirects to Google, then to the configured frontend. |
+
 ### `POST /api/v1/evaluate`
 
 Submit a document for asynchronous evaluation. Creates a new session (and its first version) in the database.
@@ -162,10 +222,12 @@ Submit a document for asynchronous evaluation. Creates a new session (and its fi
 ```bash
 # Upload a file
 curl -X POST http://localhost:8000/api/v1/evaluate \
+  -b cookies.txt \
   -F "file=@my_report.pdf"
 
 # Submit raw text
 curl -X POST http://localhost:8000/api/v1/evaluate \
+  -b cookies.txt \
   -F "raw_text=Abstract: This paper investigates..."
 ```
 
@@ -191,7 +253,7 @@ Poll the job status.
 **Stages in order:** `pending → segmentation → reviewing → auditing → reflecting → consensus → scoring → feedback → verification → complete`
 
 ```bash
-curl http://localhost:8000/api/v1/status/YOUR_JOB_ID
+curl -b cookies.txt http://localhost:8000/api/v1/status/YOUR_JOB_ID
 ```
 
 ---
@@ -203,7 +265,7 @@ Retrieve the full evaluation result (only when `status == "complete"`).
 Returns `202` while still running, `404` if unknown, `500` if failed.
 
 ```bash
-curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
+curl -b cookies.txt http://localhost:8000/api/v1/result/YOUR_JOB_ID
 ```
 
 **Response shape:**
@@ -215,6 +277,9 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
     "final_score": 68.25,
     "grade_band": "Merit",
     "scoring_complete": true,
+    "content_based_estimate": false,
+    "assessment_coverage_weight": 1.0,
+    "missing_criteria": [],
     "achievement_score": 68.25,
     "final_policy_score": 68.25,
     "achievement_uncertainty_band": [66.45, 70.05],
@@ -249,10 +314,12 @@ curl http://localhost:8000/api/v1/result/YOUR_JOB_ID
 
 Synchronous evaluation — waits for completion and returns the result directly.
 
-**Protected:** requires `x_secret_key` form field matching `SECRET_KEY` in `.env`, unless `APP_DEBUG=true`.
+**Protected:** requires a signed-in user plus an `x_secret_key` form field
+matching `SECRET_KEY` in `.env`, unless `APP_DEBUG=true`.
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/evaluate/sync \
+  -b cookies.txt \
   -F "raw_text=Abstract: ..." \
   -F "x_secret_key=your_secret_key"
 ```
@@ -279,7 +346,7 @@ List evaluation sessions (used by the history drawer). Each entry includes its l
 **Query params:** `include_archived` (bool, default `false`), `limit` (default `50`), `offset` (default `0`)
 
 ```bash
-curl "http://localhost:8000/api/v1/sessions?include_archived=false&limit=50"
+curl -b cookies.txt "http://localhost:8000/api/v1/sessions?include_archived=false&limit=50"
 ```
 
 #### `GET /api/v1/sessions/{session_id}`
@@ -287,7 +354,7 @@ curl "http://localhost:8000/api/v1/sessions?include_archived=false&limit=50"
 Session detail with the full version history.
 
 ```bash
-curl http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
+curl -b cookies.txt http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
 ```
 
 #### `POST /api/v1/sessions/{session_id}/reevaluate`
@@ -300,7 +367,7 @@ Re-run the pipeline against the session's stored document, creating a new versio
 ```
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/reevaluate
+curl -b cookies.txt -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/reevaluate
 ```
 
 #### `DELETE /api/v1/sessions/{session_id}`
@@ -308,7 +375,7 @@ curl -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/reevaluate
 Archive a session (soft delete — history is preserved and can be restored).
 
 ```bash
-curl -X DELETE http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
+curl -b cookies.txt -X DELETE http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
 ```
 
 #### `POST /api/v1/sessions/{session_id}/unarchive`
@@ -316,7 +383,7 @@ curl -X DELETE http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID
 Restore an archived session.
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/unarchive
+curl -b cookies.txt -X POST http://localhost:8000/api/v1/sessions/YOUR_SESSION_ID/unarchive
 ```
 
 ---
@@ -332,7 +399,7 @@ Available only for file uploads (not `raw_text` submissions), keyed by `job_id`.
 | `GET /api/v1/document/{job_id}/html` | HTML rendering for in-browser preview |
 
 ```bash
-curl http://localhost:8000/api/v1/document/YOUR_JOB_ID/meta
+curl -b cookies.txt http://localhost:8000/api/v1/document/YOUR_JOB_ID/meta
 ```
 
 ---
@@ -340,11 +407,13 @@ curl http://localhost:8000/api/v1/document/YOUR_JOB_ID/meta
 ## Scoring and assessment policy
 
 The scoring stage is deterministic Python. Reviewer, audit, reflection, and
-consensus stages must validate a complete structured assessment before a score
-can be published. Every assessment carries its score, confidence, reasoning,
-verbatim CDATA evidence, band-boundary justification, confidence reason,
-reviewer identity, and source run. Evidence is whitespace-normalised and must
-be found in the submitted document; invalid data is never coerced to level 2.
+consensus stages produce structured assessments carrying a score, confidence,
+reasoning, evidence, band-boundary justification, reviewer identity, and
+source run. Evidence is whitespace-normalised for automatic verification.
+When PDF extraction prevents an otherwise plausible quote from matching
+exactly, the pipeline records that as unverified evidence and reduces
+confidence rather than automatically discarding the whole assessment. Invalid
+score or confidence data is never coerced to a passing level.
 
 ### Authoritative rubric and coverage
 
@@ -370,13 +439,13 @@ the numerical total. The only critical criteria are `technical_accuracy` and
 | Formula | Definition |
 |---|---|
 | F1 | `s_i = level_i / 4` |
-| F2 | `A = sum(w_i * s_i)` |
+| F2 | `A = sum(w_i * s_i)`; if only non-core criteria are unavailable, rescale by the assessed weight coverage. |
 | F3 | `achievement_score = 100 * A` |
 | F4 | `High = 0.05`, `Medium = 0.20`, `Low = 0.45` |
-| F5 | `U = sum(w_i * u_i)` |
+| F5 | `U = sum(w_i * u_i)`; for a partial estimate, normalise by the assessed weight coverage. |
 | F6 | `achievement_uncertainty_band = [max(0, achievement_score - 8U), min(100, achievement_score + 8U)]` |
 | F7 | If technical accuracy or methodology is below level 2, `final_policy_score = min(achievement_score, 49)`; otherwise it is `achievement_score`. |
-| F8 | Defer for `U > 0.25`, Low confidence on a critical criterion, incomplete weighted data, any required reviewer/audit/reflection/consensus validation failure, or a valid evidence-based consensus deferral reason. |
+| F8 | Defer only when a core criterion cannot be assessed, less than 50% of weighted coverage is usable, an integrity failure occurs, or consensus explicitly identifies a serious evidence-based issue. Low confidence and high uncertainty are reported, but do not automatically defer a result. |
 | F9 | Compare validation-only holistic quality with the grade band from the complete policy score. A disagreement requests moderation only; it never changes the numerical score. |
 
 F6 is a policy uncertainty band, not a statistical confidence interval. It is
@@ -389,17 +458,22 @@ into a Distinction. Any integer display is presentation-only.
 
 ### Missing data and deferred results
 
-If a weighted criterion is missing or invalid, `scoring_complete` is `false`,
-`achievement_score`, `final_policy_score`, and `final_score` are `null`,
-`grade_band` is `DEFERRED`, and `deferral_reasons` identifies every failed
-criterion. Missing holistic quality instead returns
-`holistic_validation.available = false` and does not fabricate a level-2 mark.
+When both core criteria are assessable and at least 50% of the weighted rubric
+has usable content evidence, unavailable **non-core** criteria do not erase an
+otherwise useful result. The score is normalised over the assessed criteria and
+is labelled `content_based_estimate: true`, with
+`assessment_coverage_weight` and `missing_criteria` returned so the UI and
+exports can make the limitation clear. `scoring_complete` remains `false` to
+record the missing rubric data, but the result still has a score and grade
+rather than becoming an automatic `DEFERRED` result.
 
-If weighted data are complete but an integrity rule requires human review, the
-result is deferred and exposes `provisional_score` and
-`provisional_grade_band`; `final_score` remains null. A non-deferred complete
-result exposes `final_score` and its ordinary grade band. Frontend and PDF,
-DOCX, XLSX, and JSON exports retain these same semantics.
+The result is deferred when technical accuracy or methodology cannot be
+assessed, weighted coverage is below 50%, an integrity rule fails, or consensus
+explicitly flags a serious issue. A serious deferral exposes
+`provisional_score` and `provisional_grade_band`; `final_score` remains null.
+Missing holistic quality instead returns `holistic_validation.available = false`
+and never fabricates a level-2 mark. Frontend and PDF, DOCX, XLSX, and JSON
+exports retain these same semantics.
 
 ---
 
@@ -407,36 +481,32 @@ DOCX, XLSX, and JSON exports retain these same semantics.
 
 ```
 Document Input
-     │
-     ▼
+  |
+  v
 Stage 1: Segmentation (LLM, T=0.0)
-     │  sections[]
-     ▼
-┌────┴──────────┬────────────────────┐
-Stage 2         Stage 3             Stage 4
-Domain Expert   Methodologist       Communication
-(parallel, 3×)  (parallel, 3×)      Specialist (parallel, 3×)
-     │               │                    │
-     └───────────────┼────────────────────┘
-                     │
-                     ▼
-         Stage 5: Self-Critique (3× parallel, T=0.0)
-                     │
-                     ▼
-         Stage 6: Reflection (3× parallel, T=0.0)
-                     │
-                     ▼
-         Stage 7: Consensus (T=0.0)
-                     │
-                     ▼
-         Stage 8: Scoring (pure Python, F1–F9)
-                     │
-                     ▼
-         Stage 9: Feedback Synthesis (T=0.3)
-                     │
-                     ▼
-         Stage 10: Verification Guard (T=0.0)
-                     │
-                     ▼
-              EvaluationResult
+  |
+  v
+Stages 2-4: Domain Expert, Methodologist, and Communication Specialist
+            (each collects 3 sequential samples)
+  |
+  v
+Stage 5: Self-Critique (one audit per specialist, T=0.0)
+  |
+  v
+Stage 6: Reflection (one reflection per specialist, T=0.0)
+  |
+  v
+Stage 7: Consensus (T=0.0)
+  |
+  v
+Stage 8: Scoring (pure Python, F1-F9)
+  |
+  v
+Stage 9: Feedback Synthesis (T=0.3)
+  |
+  v
+Stage 10: Verification Guard (T=0.0)
+  |
+  v
+EvaluationResult
 ```

@@ -45,6 +45,7 @@ def test_create_session_sanitizes_text_and_pages_but_retains_binary_upload():
         create_session(
             db,
             document_text="Extracted\x00 text",
+            owner_id=uuid.uuid4(),
             filename="report\x00.pdf",
             content_type="application/pdf",
             content=original_content,

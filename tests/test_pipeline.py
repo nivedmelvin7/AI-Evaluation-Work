@@ -190,6 +190,7 @@ def test_gate_caps_at_49():
 
 from main import app
 import app.routers.evaluation as evaluation_router
+from app.security.auth import get_current_user
 
 client = TestClient(app)
 
@@ -219,14 +220,18 @@ def prevent_background_llm_calls(monkeypatch):
         versions[version_id] = version
         return session, version
 
-    async def _get_version(_db, version_id):
+    async def _get_version(_db, version_id, *_args, **_kwargs):
         return versions.get(version_id)
+
+    async def _current_user():
+        return SimpleNamespace(id=uuid.uuid4(), username="test-user")
 
     monkeypatch.setattr(evaluation_router, "_run_pipeline_background", _no_network_pipeline)
     monkeypatch.setattr(evaluation_router.session_service, "find_session_by_document_hash", _find_existing)
     monkeypatch.setattr(evaluation_router.session_service, "create_session", _create_session)
     monkeypatch.setattr(evaluation_router.session_service, "get_version", _get_version)
     app.dependency_overrides[evaluation_router.get_db] = _no_database
+    app.dependency_overrides[get_current_user] = _current_user
     yield
     app.dependency_overrides.clear()
 

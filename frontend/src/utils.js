@@ -10,6 +10,21 @@ export function humanizeCriterion(key) {
     .join(' ');
 }
 
+const GRADE_BADGE_CLASSES = {
+  DISTINCTION: 'grade-distinction',
+  MERIT: 'grade-merit',
+  PASS: 'grade-pass',
+  DEFERRED: 'grade-deferred',
+};
+
+/**
+ * Returns the CSS class for a grade-band badge, defaulting to the "fail" styling
+ * for any unrecognised or missing grade.
+ */
+export function gradeBadgeClass(grade) {
+  return GRADE_BADGE_CLASSES[(grade || '').toUpperCase()] || 'grade-fail';
+}
+
 const CRITERION_ORDER = ['technical_accuracy', 'methodology', 'critical_thinking', 'evidence_quality', 'structure', 'clarity', 'referencing', 'originality', 'professionalism'];
 
 /**

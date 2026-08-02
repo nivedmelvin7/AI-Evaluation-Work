@@ -16,7 +16,7 @@ const COLUMNS = [
 ];
 
 function LevelBar({ level }) {
-  return <div className="level-mini-bar">{Array.from({ length: 5 }, (_, index) => <span key={index} className={`level-mini-seg ${index <= level ? 'filled' : ''}`} />)}</div>;
+  return <div className="level-mini-bar">{Array.from({ length: 4 }, (_, index) => <span key={index} className={`level-mini-seg ${index < level ? 'filled' : ''}`} />)}</div>;
 }
 
 function ConfidenceCell({ value }) {

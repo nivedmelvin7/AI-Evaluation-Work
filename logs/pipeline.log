@@ -10923,3 +10923,7 @@ google.auth.exceptions.InvalidValue: Token used too early, 1786360347 < 17863603
 2026-08-10 12:13:07 [DEBUG   ] asyncio — Using proactor: IocpProactor
 2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
 2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2964
+2026-08-10 12:19:57 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:19:57 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:21:34 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:21:34 [DEBUG   ] asyncio — Using proactor: IocpProactor

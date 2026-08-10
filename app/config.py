@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     model_config = ConfigDict(env_file=".env", env_file_encoding="utf-8")
     # OpenRouter (sole LLM provider)
     openrouter_api_key: str = ""
-    openrouter_model: str = "qwen/qwen3.7-plus"
+    openrouter_model: str = "deepseek/deepseek-v4-pro"
 
     # Pipeline
     reviewer_temperature: float = 0.3

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import secrets
 import time
 from typing import Any
@@ -26,6 +27,8 @@ from app.security.auth import (
 )
 from app.services import auth_service
 
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/auth", tags=["authentication"])
 _GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -173,6 +176,7 @@ async def google_callback(request: Request, code: str | None = None, state: str 
             name=str(identity.get("name") or "").strip() or None,
         )
     except (httpx.HTTPError, KeyError, ValueError, auth_service.DuplicateAccountError):
+        logger.exception("Google OAuth callback failed")
         return _oauth_error_redirect()
 
     response = RedirectResponse(settings.frontend_url, status_code=303)

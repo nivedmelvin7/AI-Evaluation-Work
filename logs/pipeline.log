@@ -10793,3 +10793,133 @@ app.services.llm_service.LLMError: OpenRouter response missing expected content:
 2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
 2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
 2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 22:36:57 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 22:36:57 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 22:37:16 [INFO    ] app.routers.evaluation — Evaluate request — matched existing session_id=2f7bb640-0eee-4a1a-a55c-c1f793a45dff by content hash, job_id=9fa3e253-dc70-4e9d-a233-b73586973592 source='2607.28608v1.pdf' version=5
+2026-08-02 22:37:16 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Pipeline started — document length=84142 chars
+2026-08-02 22:37:16 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 1 (segmentation) — starting
+2026-08-02 22:37:16 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (84142 chars)
+2026-08-02 22:37:32 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.45s  response_len=4642 chars
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (15.46s, 4642 chars)
+2026-08-02 22:37:32 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 17 sections (14 present)
+2026-08-02 22:37:32 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 1 complete — 17 sections found (15.46s)
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[0] name='Abstract'  type=ABSTRACT  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[1] name='I. INTRODUCTION'  type=INTRODUCTION  words=659  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[2] name='II. RELATED WORK'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[3] name='III. PROBLEM FORMULATION'  type=METHODOLOGY  words=464  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[4] name='IV. WHICH METRIC THE DECISION DEPENDS ON'  type=METHODOLOGY  words=1231  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[5] name='V. AUDIT FRAMEWORK'  type=METHODOLOGY  words=879  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[6] name='VI. EXPERIMENTAL SETUP'  type=EXPERIMENTAL_SETUP  words=1015  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[7] name='VII. RESULTS AND ANALYSIS'  type=RESULTS  words=4699  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[8] name='VIII. DISCUSSION'  type=DISCUSSION  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[9] name='IX. CONCLUSION'  type=CONCLUSIONS  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[10] name='REPRODUCIBILITY'  type=OTHER  words=110  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[11] name='AUTHOR CONTRIBUTIONS'  type=OTHER  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[12] name='USE OF AI TOOLS AND AUTHORSHIP STATEMENT'  type=OTHER  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[13] name='REFERENCES'  type=REFERENCES  words=1335  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[14] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[15] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[16] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-08-02 22:37:32 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 22:37:58 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=26.25s  response_len=6804 chars
+2026-08-02 22:38:25 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=26.91s  response_len=7061 chars
+2026-08-02 22:38:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.54s  response_len=6839 chars
+2026-08-02 22:39:22 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=31.10s  response_len=7230 chars
+2026-08-02 22:39:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.18s  response_len=6139 chars
+2026-08-02 22:41:18 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=87.82s  response_len=6862 chars
+2026-08-02 22:42:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=44.57s  response_len=10682 chars
+2026-08-02 22:42:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=37.58s  response_len=9542 chars
+2026-08-02 22:43:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.50s  response_len=8477 chars
+2026-08-02 22:43:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=44.89s  response_len=11788 chars
+2026-08-02 22:43:57 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stages 2-4 complete (385.46s) — DE scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH scores={'methodology': 4, 'critical_thinking': 4, 'evidence_quality': 4}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4}
+2026-08-02 22:43:57 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 5 (self-critique audits) — starting
+2026-08-02 22:44:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.61s  response_len=1129 chars
+2026-08-02 22:44:42 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=19.48s  response_len=1143 chars
+2026-08-02 22:44:45 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=3.12s  response_len=1788 chars
+2026-08-02 22:44:45 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 5 complete (48.21s) — DE quality=high  METH quality=high  COMM quality=high
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 6 (reflection pass) — starting
+2026-08-02 22:45:03 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.09s  response_len=6846 chars
+2026-08-02 22:45:26 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.53s  response_len=6721 chars
+2026-08-02 22:45:41 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.24s  response_len=8787 chars
+2026-08-02 22:45:41 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 6 complete (55.90s) — DE final={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH final={'methodology': 4, 'critical_thinking': 4, 'evidence_quality': 4}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4}
+2026-08-02 22:45:41 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 7 (consensus reconciliation) — starting
+2026-08-02 22:45:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=13.71s  response_len=3982 chars
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 7 complete (13.72s) — scores={'technical_accuracy': 3, 'critical_thinking': 4, 'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4, 'methodology': 4, 'evidence_quality': 4}  deferral=PROCEED
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 8 (deterministic scoring) — starting
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 8 complete (0.00s) — final_score=88.0  grade=Distinction  gate=False  deferred=False  uncertainty_band=[87.1, 88.9]
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 9 (feedback synthesis) — starting
+2026-08-02 22:45:55 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=88.0  grade=Distinction
+2026-08-02 22:46:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.83s  response_len=6852 chars
+2026-08-02 22:46:13 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (17.83s, 6852 chars)
+2026-08-02 22:46:13 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-08-02 22:46:13 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 9 complete (17.84s) — strengths=3  improvements=3
+2026-08-02 22:46:13 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 10 (verification guard) — starting
+2026-08-02 22:46:13 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-08-02 22:46:13 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 84142 to 20000 chars for factual verifier
+2026-08-02 22:47:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=68.23s  response_len=5396 chars
+2026-08-02 22:47:21 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (68.23s, 5396 chars)
+2026-08-02 22:47:21 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-08-02 22:47:21 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 10 complete (68.23s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-08-02 22:47:21 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Pipeline COMPLETE — total_time=604.99s  score=88.0  grade=Distinction
+2026-08-07 17:25:19 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 17:25:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-07 17:27:01 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 17:27:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-07 21:40:04 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 21:40:04 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 11:59:00 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 11:59:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:00:19 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:00:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:06:20 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:06:20 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:06:34 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:06:34 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:07:15 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:07:15 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2968
+2026-08-10 12:09:04 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:09:04 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:09:29 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:09:29 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2963
+2026-08-10 12:12:22 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:12:22 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:12:27 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:12:27 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:12:27 [ERROR   ] app.routers.auth — Google OAuth callback failed
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\routers\auth.py", line 167, in google_callback
+    identity = await run_in_threadpool(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\routers\auth.py", line 141, in _verify_google_id_token
+    return google_id_token.verify_oauth2_token(token, GoogleRequest(), audience)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\oauth2\id_token.py", line 199, in verify_oauth2_token
+    idinfo = verify_token(
+             ^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\oauth2\id_token.py", line 171, in verify_token
+    return jwt.decode(
+           ^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+google.auth.exceptions.InvalidValue: Token used too early, 1786360347 < 1786360349. Check that your computer's clock is set correctly.
+2026-08-10 12:13:07 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:13:07 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2964

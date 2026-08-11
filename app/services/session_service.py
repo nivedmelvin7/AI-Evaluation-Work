@@ -8,15 +8,24 @@ always remain retrievable even after a re-evaluation produces a new one.
 
 import hashlib
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional, Sequence
 
-from sqlalchemy import func, select, update
+from sqlalchemy import func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.db.models import Document, EvaluationVersion, Session
 from app.models.response_models import EvaluationResult
+
+
+@dataclass(frozen=True)
+class ClaimedEvaluation:
+    version_id: uuid.UUID
+    document_text: str
+    pages: Optional[list]
+    attempt_count: int
 
 
 def _utcnow() -> datetime:
@@ -165,6 +174,8 @@ async def create_reevaluation(
 
 
 async def update_version(db: AsyncSession, version_id: uuid.UUID, **fields) -> None:
+    if fields.get("status") == "running" or "progress" in fields:
+        fields.setdefault("heartbeat_at", _utcnow())
     await db.execute(
         update(EvaluationVersion).where(EvaluationVersion.id == version_id).values(**fields)
     )
@@ -195,11 +206,159 @@ async def set_version_result(
         final_score=scoring.get("final_score"),
         grade_band=scoring.get("grade_band"),
         completed_at=_utcnow(),
+        worker_id=None,
+        claimed_at=None,
+        heartbeat_at=None,
     )
 
 
 async def set_version_failed(db: AsyncSession, version_id: uuid.UUID, error: str) -> None:
-    await update_version(db, version_id, status="failed", error=error)
+    await update_version(
+        db,
+        version_id,
+        status="failed",
+        stage="failed",
+        error=error[:4000],
+        worker_id=None,
+        claimed_at=None,
+        heartbeat_at=None,
+        completed_at=_utcnow(),
+    )
+
+
+async def count_active_versions(db: AsyncSession, owner_id: uuid.UUID) -> int:
+    # Serialize submissions for one account until the surrounding transaction
+    # commits, so concurrent requests cannot race past the active-job limit.
+    advisory_key = owner_id.int & 0x7FFF_FFFF_FFFF_FFFF
+    await db.execute(select(func.pg_advisory_xact_lock(advisory_key)))
+    count = await db.scalar(
+        select(func.count(EvaluationVersion.id))
+        .join(Session, Session.id == EvaluationVersion.session_id)
+        .where(
+            Session.owner_id == owner_id,
+            EvaluationVersion.status.in_(("queued", "running")),
+        )
+    )
+    return int(count or 0)
+
+
+async def claim_next_queued_version(
+    db: AsyncSession,
+    *,
+    worker_id: str,
+    max_attempts: int,
+) -> Optional[ClaimedEvaluation]:
+    version = await db.scalar(
+        select(EvaluationVersion)
+        .where(
+            EvaluationVersion.status == "queued",
+            EvaluationVersion.attempt_count < max_attempts,
+        )
+        .order_by(EvaluationVersion.created_at.asc())
+        .with_for_update(skip_locked=True)
+        .limit(1)
+    )
+    if version is None:
+        await db.rollback()
+        return None
+
+    document = await db.get(Document, version.session_id)
+    if document is None:
+        version.status = "failed"
+        version.stage = "failed"
+        version.error = "Stored document is missing."
+        version.completed_at = _utcnow()
+        await db.commit()
+        return None
+
+    now = _utcnow()
+    version.status = "running"
+    version.stage = "starting"
+    version.completed_at = None
+    version.error = None
+    version.worker_id = worker_id
+    version.claimed_at = now
+    version.heartbeat_at = now
+    version.attempt_count += 1
+    await db.commit()
+
+    return ClaimedEvaluation(
+        version_id=version.id,
+        document_text=document.document_text,
+        pages=document.pages,
+        attempt_count=version.attempt_count,
+    )
+
+
+async def retry_or_fail_version(
+    db: AsyncSession,
+    version_id: uuid.UUID,
+    *,
+    max_attempts: int,
+    error: str,
+) -> None:
+    version = await db.get(EvaluationVersion, version_id, with_for_update=True)
+    if version is None:
+        await db.rollback()
+        return
+
+    version.worker_id = None
+    version.claimed_at = None
+    version.heartbeat_at = None
+    version.error = error[:4000]
+    if version.attempt_count < max_attempts:
+        version.status = "queued"
+        version.stage = "pending"
+        version.progress = 0
+        version.completed_at = None
+    else:
+        version.status = "failed"
+        version.stage = "failed"
+        version.completed_at = _utcnow()
+    await db.commit()
+
+
+async def recover_stale_versions(
+    db: AsyncSession,
+    *,
+    stale_before: datetime,
+    max_attempts: int,
+) -> tuple[int, int]:
+    stale_versions = (
+        await db.scalars(
+            select(EvaluationVersion)
+            .where(
+                EvaluationVersion.status == "running",
+                or_(
+                    EvaluationVersion.heartbeat_at.is_(None),
+                    EvaluationVersion.heartbeat_at < stale_before,
+                ),
+            )
+            .with_for_update(skip_locked=True)
+        )
+    ).all()
+
+    requeued = 0
+    failed = 0
+    for version in stale_versions:
+        version.worker_id = None
+        version.claimed_at = None
+        version.heartbeat_at = None
+        if version.attempt_count < max_attempts:
+            version.status = "queued"
+            version.stage = "pending"
+            version.progress = 0
+            version.completed_at = None
+            version.error = "Recovered after an interrupted worker run."
+            requeued += 1
+        else:
+            version.status = "failed"
+            version.stage = "failed"
+            version.error = "Evaluation failed after repeated worker interruption."
+            version.completed_at = _utcnow()
+            failed += 1
+    await db.commit()
+    return requeued, failed
 
 
 async def get_version(

@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import List, Optional
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, LargeBinary, String, Text, UniqueConstraint, func
+from sqlalchemy import DateTime, Float, ForeignKey, Index, Integer, LargeBinary, String, Text, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -78,6 +78,8 @@ class EvaluationVersion(Base):
     __tablename__ = "evaluation_versions"
     __table_args__ = (
         UniqueConstraint("session_id", "version_number", name="uq_session_version"),
+        Index("ix_evaluation_versions_queue", "status", "created_at"),
+        Index("ix_evaluation_versions_heartbeat", "status", "heartbeat_at"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -91,6 +93,10 @@ class EvaluationVersion(Base):
     stage: Mapped[str] = mapped_column(String, default="pending", nullable=False)
     progress: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     error: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    attempt_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    worker_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    claimed_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+    heartbeat_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     result_json: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
     final_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)

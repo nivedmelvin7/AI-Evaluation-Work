@@ -22,8 +22,10 @@ import secrets
 import uuid
 from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse, Response
+from sqlalchemy import text as sql_text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
@@ -46,6 +48,8 @@ _CONTENT_TYPE_MAP = {
     ".doc": "application/msword",
     ".txt": "text/plain; charset=utf-8",
 }
+
+_UPLOAD_READ_CHUNK_BYTES = 1024 * 1024
 
 
 def _parse_uuid(value: str, label: str = "id") -> uuid.UUID:
@@ -97,7 +101,7 @@ async def _resolve_text_and_meta(
     settings = get_settings()
 
     if file is not None:
-        content = await file.read()
+        content = await _read_upload_limited(file, settings.max_upload_bytes)
         try:
             parsed = doc_service.parse_file_with_pages(content, file.filename)
         except ValueError as e:
@@ -129,20 +133,43 @@ async def _resolve_text_and_meta(
     return text, pages, file_bytes, content_type, filename
 
 
-async def _run_pipeline_background(version_id: uuid.UUID, text: str, pages: Optional[list]):
-    """Background-task entrypoint — the orchestrator opens its own DB session
-    since the request (and its session) is already gone by the time this runs."""
-    await orchestrator.run(version_id, text, pages)
+async def _read_upload_limited(file: UploadFile, max_bytes: int) -> bytes:
+    """Read at most ``max_bytes`` plus one sentinel byte from an upload."""
+    content = bytearray()
+    while True:
+        remaining_with_sentinel = max_bytes + 1 - len(content)
+        chunk = await file.read(min(_UPLOAD_READ_CHUNK_BYTES, remaining_with_sentinel))
+        if not chunk:
+            break
+        content.extend(chunk)
+        if len(content) > max_bytes:
+            limit_mib = max_bytes / (1024 * 1024)
+            raise HTTPException(413, f"Uploaded file exceeds the {limit_mib:g} MiB limit.")
+    return bytes(content)
+
+
+async def _enforce_active_evaluation_limit(db: AsyncSession, owner_id: uuid.UUID) -> None:
+    settings = get_settings()
+    active_count = await session_service.count_active_versions(db, owner_id)
+    if active_count >= settings.max_active_evaluations_per_user:
+        raise HTTPException(
+            status_code=429,
+            detail=(
+                "Too many active evaluations. Wait for an existing evaluation to finish "
+                "before submitting another."
+            ),
+            headers={"Retry-After": "30"},
+        )
 
 
 @router.post("/evaluate", summary="Submit document for asynchronous evaluation")
 async def evaluate(
-    background_tasks: BackgroundTasks,
     file: Optional[UploadFile] = File(None),
     raw_text: Optional[str] = Form(None),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    await _enforce_active_evaluation_limit(db, current_user.id)
     text, pages, file_bytes, content_type, filename = await _resolve_text_and_meta(file, raw_text)
     source = filename or "raw_text"
     doc_hash = session_service.hash_document(file_bytes, text)
@@ -174,7 +201,6 @@ async def evaluate(
             session_row.id, version.id, source, len(text),
         )
 
-    background_tasks.add_task(_run_pipeline_background, version.id, text, pages)
     return {"session_id": str(session_row.id), "job_id": str(version.id), "status": "queued"}
 
 
@@ -273,6 +299,19 @@ async def health():
     }
 
 
+@router.get("/health/ready", summary="Deployment readiness check")
+async def readiness(db: AsyncSession = Depends(get_db)):
+    settings = get_settings()
+    if not settings.openrouter_api_key:
+        raise HTTPException(503, "OpenRouter is not configured.")
+    try:
+        await db.execute(sql_text("SELECT 1"))
+    except SQLAlchemyError:
+        logger.exception("Readiness check failed while connecting to PostgreSQL")
+        raise HTTPException(503, "PostgreSQL is unavailable.")
+    return {"status": "ready", "database": "ok", "openrouter": "configured"}
+
+
 # ── Session history (drawer) endpoints ─────────────────────────────────────────
 
 @router.get("/sessions", summary="List evaluation sessions")
@@ -315,23 +354,19 @@ async def get_session_detail(
 @router.post("/sessions/{session_id}/reevaluate", summary="Re-run the pipeline for a session")
 async def reevaluate_session(
     session_id: str,
-    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     sid = _parse_uuid(session_id, "session_id")
+    await _enforce_active_evaluation_limit(db, current_user.id)
     try:
         version = await session_service.create_reevaluation(db, sid, current_user.id)
     except LookupError as exc:
         raise HTTPException(404, str(exc))
 
-    document = await session_service.get_document(db, sid)
     logger.info(
         "Re-evaluate request — session_id=%s job_id=%s version=%d",
         sid, version.id, version.version_number,
-    )
-    background_tasks.add_task(
-        _run_pipeline_background, version.id, document.document_text, document.pages
     )
     return {
         "session_id": str(sid),

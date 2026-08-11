@@ -60,6 +60,8 @@ def _oauth_error_redirect(reason: str = "google_sign_in_failed") -> RedirectResp
 
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup(payload: SignUpRequest, db: AsyncSession = Depends(get_db)):
+    if not get_settings().allow_public_signup:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Public account registration is disabled.")
     try:
         user = await auth_service.create_password_user(
             db,
@@ -174,8 +176,15 @@ async def google_callback(request: Request, code: str | None = None, state: str 
             subject=str(identity["sub"]),
             email=str(identity["email"]).lower(),
             name=str(identity.get("name") or "").strip() or None,
+            allow_create=settings.allow_public_signup,
         )
-    except (httpx.HTTPError, KeyError, ValueError, auth_service.DuplicateAccountError):
+    except (
+        httpx.HTTPError,
+        KeyError,
+        ValueError,
+        auth_service.DuplicateAccountError,
+        auth_service.AccountCreationDisabledError,
+    ):
         logger.exception("Google OAuth callback failed")
         return _oauth_error_redirect()
 

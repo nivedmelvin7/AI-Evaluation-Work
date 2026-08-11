@@ -2,9 +2,12 @@
 
 import json
 import uuid
+from io import BytesIO
 from types import SimpleNamespace
+
 import pytest
 import pytest_asyncio
+from fastapi import HTTPException, UploadFile
 from fastapi.testclient import TestClient
 
 # ---------------------------------------------------------------------------
@@ -189,22 +192,24 @@ def test_gate_caps_at_49():
 # ---------------------------------------------------------------------------
 
 from main import app
+import app.routers.auth as auth_router
 import app.routers.evaluation as evaluation_router
+from app.config import get_settings
 from app.security.auth import get_current_user
 
 client = TestClient(app)
 
 
 @pytest.fixture(autouse=True)
-def prevent_background_llm_calls(monkeypatch):
+def isolate_endpoint_tests(monkeypatch):
     """Endpoint tests are independent of networked LLMs and PostgreSQL."""
     versions = {}
 
-    async def _no_network_pipeline(*_args, **_kwargs):
-        return None
-
     async def _no_database():
         yield object()
+
+    async def _count_active(*_args, **_kwargs):
+        return 0
 
     async def _find_existing(*_args, **_kwargs):
         return None
@@ -226,7 +231,7 @@ def prevent_background_llm_calls(monkeypatch):
     async def _current_user():
         return SimpleNamespace(id=uuid.uuid4(), username="test-user")
 
-    monkeypatch.setattr(evaluation_router, "_run_pipeline_background", _no_network_pipeline)
+    monkeypatch.setattr(evaluation_router.session_service, "count_active_versions", _count_active)
     monkeypatch.setattr(evaluation_router.session_service, "find_session_by_document_hash", _find_existing)
     monkeypatch.setattr(evaluation_router.session_service, "create_session", _create_session)
     monkeypatch.setattr(evaluation_router.session_service, "get_version", _get_version)
@@ -243,6 +248,18 @@ def test_health_endpoint():
     assert data["status"] == "ok"
     assert "backend" in data
     assert "model" in data
+    assert resp.headers["x-content-type-options"] == "nosniff"
+    assert resp.headers["x-frame-options"] == "DENY"
+
+
+def test_readiness_requires_openrouter_configuration(monkeypatch):
+    settings = SimpleNamespace(openrouter_api_key="")
+    monkeypatch.setattr(evaluation_router, "get_settings", lambda: settings)
+
+    resp = client.get("/api/v1/health/ready")
+
+    assert resp.status_code == 503
+    assert resp.json()["detail"] == "OpenRouter is not configured."
 
 
 def test_evaluate_returns_job_id():
@@ -254,6 +271,24 @@ def test_evaluate_returns_job_id():
     data = resp.json()
     assert "job_id" in data
     assert data["status"] == "queued"
+
+
+def test_evaluate_rejects_submission_at_active_job_limit(monkeypatch):
+    settings = get_settings()
+
+    async def _at_capacity(*_args, **_kwargs):
+        return settings.max_active_evaluations_per_user
+
+    monkeypatch.setattr(
+        evaluation_router.session_service,
+        "count_active_versions",
+        _at_capacity,
+    )
+
+    resp = client.post("/api/v1/evaluate", data={"raw_text": SAMPLE_REPORT})
+
+    assert resp.status_code == 429
+    assert resp.headers["retry-after"] == "30"
 
 
 def test_status_endpoint_queued():
@@ -285,6 +320,59 @@ def test_evaluate_rejects_empty_text():
 def test_evaluate_requires_input():
     resp = client.post("/api/v1/evaluate", data={})
     assert resp.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_upload_reader_accepts_file_at_limit():
+    upload = UploadFile(filename="report.txt", file=BytesIO(b"a" * 32))
+
+    content = await evaluation_router._read_upload_limited(upload, 32)
+
+    assert content == b"a" * 32
+
+
+@pytest.mark.asyncio
+async def test_upload_reader_rejects_file_over_limit_without_reading_all_data():
+    upload = UploadFile(filename="report.txt", file=BytesIO(b"a" * 100))
+
+    with pytest.raises(HTTPException) as exc_info:
+        await evaluation_router._read_upload_limited(upload, 32)
+
+    assert exc_info.value.status_code == 413
+    assert upload.file.tell() == 33
+
+
+def test_cookie_authenticated_mutation_requires_trusted_origin():
+    settings = get_settings()
+    client.cookies.set(settings.auth_cookie_name, "synthetic-session")
+    try:
+        blocked = client.post("/api/v1/auth/logout")
+        allowed = client.post(
+            "/api/v1/auth/logout",
+            headers={"Origin": settings.frontend_url},
+        )
+    finally:
+        client.cookies.clear()
+
+    assert blocked.status_code == 403
+    assert allowed.status_code == 200
+
+
+def test_public_signup_can_be_disabled(monkeypatch):
+    settings = SimpleNamespace(allow_public_signup=False)
+    monkeypatch.setattr(auth_router, "get_settings", lambda: settings)
+
+    resp = client.post(
+        "/api/v1/auth/signup",
+        json={
+            "username": "reviewer",
+            "email": "reviewer@example.com",
+            "password": "a secure passphrase",
+        },
+    )
+
+    assert resp.status_code == 403
+    assert resp.json()["detail"] == "Public account registration is disabled."
 
 
 def test_sync_endpoint_blocked_without_key():

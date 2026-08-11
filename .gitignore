@@ -1,10 +1,35 @@
+# Secrets and local environment overrides
 .env
-.venv
-.agents
-.claude
-.codex
-__pycache__
-.pytest_cache
-D:\AI-Evaluation-Work\tests
-Agents.md
-claude.md
+.env.*
+!.env.example
+.secrets/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+
+# Runtime output
+logs/
+*.log
+
+# Local tooling and editor state
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated Graphify query state (the graph itself remains tracked)
+graphify-out/cache/last_query_stamp

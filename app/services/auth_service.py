@@ -18,6 +18,10 @@ class DuplicateAccountError(ValueError):
     pass
 
 
+class AccountCreationDisabledError(PermissionError):
+    pass
+
+
 def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -74,7 +78,12 @@ async def _available_username(db: AsyncSession, preferred: str) -> str:
 
 
 async def find_or_create_google_user(
-    db: AsyncSession, *, subject: str, email: str, name: Optional[str]
+    db: AsyncSession,
+    *,
+    subject: str,
+    email: str,
+    name: Optional[str],
+    allow_create: bool = True,
 ) -> User:
     user = await db.scalar(select(User).where(User.google_subject == subject))
     if user is None:
@@ -86,6 +95,10 @@ async def find_or_create_google_user(
             user.google_subject = subject
             user.display_name = user.display_name or name
         else:
+            if not allow_create:
+                raise AccountCreationDisabledError(
+                    "Account registration is disabled for new Google users."
+                )
             user = User(
                 username=await _available_username(db, email.split("@", 1)[0]),
                 email=email,

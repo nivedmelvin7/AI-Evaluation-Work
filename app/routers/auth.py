@@ -176,8 +176,15 @@ async def google_callback(request: Request, code: str | None = None, state: str 
             subject=str(identity["sub"]),
             email=str(identity["email"]).lower(),
             name=str(identity.get("name") or "").strip() or None,
+            allow_create=settings.allow_public_signup,
         )
-    except (httpx.HTTPError, KeyError, ValueError, auth_service.DuplicateAccountError):
+    except (
+        httpx.HTTPError,
+        KeyError,
+        ValueError,
+        auth_service.DuplicateAccountError,
+        auth_service.AccountCreationDisabledError,
+    ):
         logger.exception("Google OAuth callback failed")
         return _oauth_error_redirect()
 

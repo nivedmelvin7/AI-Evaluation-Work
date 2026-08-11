@@ -1,1 +1,10 @@
 .env
+.venv
+.agents
+.claude
+.codex
+__pycache__
+.pytest_cache
+D:\AI-Evaluation-Work\tests
+Agents.md
+claude.md

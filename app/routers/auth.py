@@ -60,6 +60,8 @@ def _oauth_error_redirect(reason: str = "google_sign_in_failed") -> RedirectResp
 
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup(payload: SignUpRequest, db: AsyncSession = Depends(get_db)):
+    if not get_settings().allow_public_signup:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Public account registration is disabled.")
     try:
         user = await auth_service.create_password_user(
             db,

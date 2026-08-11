@@ -45,6 +45,7 @@ def test_secure_production_settings_are_accepted():
         frontend_url="https://evaluation.example.com",
         enable_api_docs=False,
         log_to_file=False,
+        allow_public_signup=False,
     )
 
     assert settings.app_environment == "production"

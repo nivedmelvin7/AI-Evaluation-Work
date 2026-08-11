@@ -192,7 +192,9 @@ def test_gate_caps_at_49():
 # ---------------------------------------------------------------------------
 
 from main import app
+import app.routers.auth as auth_router
 import app.routers.evaluation as evaluation_router
+from app.config import get_settings
 from app.security.auth import get_current_user
 
 client = TestClient(app)
@@ -246,6 +248,8 @@ def test_health_endpoint():
     assert data["status"] == "ok"
     assert "backend" in data
     assert "model" in data
+    assert resp.headers["x-content-type-options"] == "nosniff"
+    assert resp.headers["x-frame-options"] == "DENY"
 
 
 def test_readiness_requires_openrouter_configuration(monkeypatch):
@@ -318,6 +322,39 @@ async def test_upload_reader_rejects_file_over_limit_without_reading_all_data():
 
     assert exc_info.value.status_code == 413
     assert upload.file.tell() == 33
+
+
+def test_cookie_authenticated_mutation_requires_trusted_origin():
+    settings = get_settings()
+    client.cookies.set(settings.auth_cookie_name, "synthetic-session")
+    try:
+        blocked = client.post("/api/v1/auth/logout")
+        allowed = client.post(
+            "/api/v1/auth/logout",
+            headers={"Origin": settings.frontend_url},
+        )
+    finally:
+        client.cookies.clear()
+
+    assert blocked.status_code == 403
+    assert allowed.status_code == 200
+
+
+def test_public_signup_can_be_disabled(monkeypatch):
+    settings = SimpleNamespace(allow_public_signup=False)
+    monkeypatch.setattr(auth_router, "get_settings", lambda: settings)
+
+    resp = client.post(
+        "/api/v1/auth/signup",
+        json={
+            "username": "reviewer",
+            "email": "reviewer@example.com",
+            "password": "a secure passphrase",
+        },
+    )
+
+    assert resp.status_code == 403
+    assert resp.json()["detail"] == "Public account registration is disabled."
 
 
 def test_sync_endpoint_blocked_without_key():

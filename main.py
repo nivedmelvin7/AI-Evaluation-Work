@@ -9,6 +9,7 @@ from app.routers.auth import router as auth_router
 from app.routers.evaluation import router
 from app.config import get_settings
 from app.logging_config import setup_logging
+from app.security.middleware import OriginProtectionMiddleware, SecurityHeadersMiddleware
 
 settings = get_settings()
 setup_logging(debug=settings.app_debug, log_to_file=settings.log_to_file)
@@ -28,6 +29,15 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+app.add_middleware(
+    OriginProtectionMiddleware,
+    trusted_origins=[settings.frontend_url],
+    cookie_name=settings.auth_cookie_name,
+)
+app.add_middleware(
+    SecurityHeadersMiddleware,
+    production=settings.app_environment == "production",
 )
 
 app.include_router(router)

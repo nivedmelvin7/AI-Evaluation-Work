@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     google_client_id: str = ""
     google_client_secret: str = ""
     google_redirect_uri: str = "http://localhost:8000/api/v1/auth/google/callback"
+    allow_public_signup: bool = True
 
     # Database
     postgres_user: str = "eval_user"
@@ -89,6 +90,8 @@ class Settings(BaseSettings):
             problems.append("LOG_TO_FILE must be false; use container stdout/stderr")
         if self.google_client_id and not self.google_redirect_uri.lower().startswith("https://"):
             problems.append("GOOGLE_REDIRECT_URI must use HTTPS when Google sign-in is enabled")
+        if self.allow_public_signup:
+            problems.append("ALLOW_PUBLIC_SIGNUP must be false")
 
         if problems:
             raise ValueError("Unsafe production settings: " + "; ".join(problems))

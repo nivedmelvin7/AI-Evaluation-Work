@@ -24,6 +24,8 @@ from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse, Response
+from sqlalchemy import text as sql_text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
@@ -288,6 +290,19 @@ async def health():
         "model": settings.openrouter_model,
         "debug": settings.app_debug,
     }
+
+
+@router.get("/health/ready", summary="Deployment readiness check")
+async def readiness(db: AsyncSession = Depends(get_db)):
+    settings = get_settings()
+    if not settings.openrouter_api_key:
+        raise HTTPException(503, "OpenRouter is not configured.")
+    try:
+        await db.execute(sql_text("SELECT 1"))
+    except SQLAlchemyError:
+        logger.exception("Readiness check failed while connecting to PostgreSQL")
+        raise HTTPException(503, "PostgreSQL is unavailable.")
+    return {"status": "ready", "database": "ok", "openrouter": "configured"}
 
 
 # ── Session history (drawer) endpoints ─────────────────────────────────────────

@@ -248,6 +248,16 @@ def test_health_endpoint():
     assert "model" in data
 
 
+def test_readiness_requires_openrouter_configuration(monkeypatch):
+    settings = SimpleNamespace(openrouter_api_key="")
+    monkeypatch.setattr(evaluation_router, "get_settings", lambda: settings)
+
+    resp = client.get("/api/v1/health/ready")
+
+    assert resp.status_code == 503
+    assert resp.json()["detail"] == "OpenRouter is not configured."
+
+
 def test_evaluate_returns_job_id():
     resp = client.post(
         "/api/v1/evaluate",

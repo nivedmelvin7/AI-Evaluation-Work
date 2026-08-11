@@ -47,6 +47,8 @@ _CONTENT_TYPE_MAP = {
     ".txt": "text/plain; charset=utf-8",
 }
 
+_UPLOAD_READ_CHUNK_BYTES = 1024 * 1024
+
 
 def _parse_uuid(value: str, label: str = "id") -> uuid.UUID:
     try:
@@ -97,7 +99,7 @@ async def _resolve_text_and_meta(
     settings = get_settings()
 
     if file is not None:
-        content = await file.read()
+        content = await _read_upload_limited(file, settings.max_upload_bytes)
         try:
             parsed = doc_service.parse_file_with_pages(content, file.filename)
         except ValueError as e:
@@ -127,6 +129,21 @@ async def _resolve_text_and_meta(
         raise HTTPException(400, "Document text is empty.")
 
     return text, pages, file_bytes, content_type, filename
+
+
+async def _read_upload_limited(file: UploadFile, max_bytes: int) -> bytes:
+    """Read at most ``max_bytes`` plus one sentinel byte from an upload."""
+    content = bytearray()
+    while True:
+        remaining_with_sentinel = max_bytes + 1 - len(content)
+        chunk = await file.read(min(_UPLOAD_READ_CHUNK_BYTES, remaining_with_sentinel))
+        if not chunk:
+            break
+        content.extend(chunk)
+        if len(content) > max_bytes:
+            limit_mib = max_bytes / (1024 * 1024)
+            raise HTTPException(413, f"Uploaded file exceeds the {limit_mib:g} MiB limit.")
+    return bytes(content)
 
 
 async def _run_pipeline_background(version_id: uuid.UUID, text: str, pages: Optional[list]):

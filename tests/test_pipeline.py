@@ -2,9 +2,12 @@
 
 import json
 import uuid
+from io import BytesIO
 from types import SimpleNamespace
+
 import pytest
 import pytest_asyncio
+from fastapi import HTTPException, UploadFile
 from fastapi.testclient import TestClient
 
 # ---------------------------------------------------------------------------
@@ -285,6 +288,26 @@ def test_evaluate_rejects_empty_text():
 def test_evaluate_requires_input():
     resp = client.post("/api/v1/evaluate", data={})
     assert resp.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_upload_reader_accepts_file_at_limit():
+    upload = UploadFile(filename="report.txt", file=BytesIO(b"a" * 32))
+
+    content = await evaluation_router._read_upload_limited(upload, 32)
+
+    assert content == b"a" * 32
+
+
+@pytest.mark.asyncio
+async def test_upload_reader_rejects_file_over_limit_without_reading_all_data():
+    upload = UploadFile(filename="report.txt", file=BytesIO(b"a" * 100))
+
+    with pytest.raises(HTTPException) as exc_info:
+        await evaluation_router._read_upload_limited(upload, 32)
+
+    assert exc_info.value.status_code == 413
+    assert upload.file.tell() == 33
 
 
 def test_sync_endpoint_blocked_without_key():

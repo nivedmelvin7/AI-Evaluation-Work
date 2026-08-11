@@ -33,27 +33,31 @@ cp .env.example .env
 
 1. Get an API key at [openrouter.ai](https://openrouter.ai/keys).
 2. Set `OPENROUTER_API_KEY=your_key_here` in `.env`.
-3. Optionally override the model with `OPENROUTER_MODEL=qwen/qwen3.7-plus` (default).
+3. Optionally override the model with `OPENROUTER_MODEL=deepseek/deepseek-v4-pro` (default).
 
 ### Environment variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `OPENROUTER_API_KEY` | *(required)* | OpenRouter API key |
-| `OPENROUTER_MODEL` | `qwen/qwen3.7-plus` | Model to use for all pipeline stages |
+| `OPENROUTER_MODEL` | `deepseek/deepseek-v4-pro` | Model to use for all pipeline stages |
 | `REVIEWER_TEMPERATURE` | `0.3` | Temperature for reviewer agents |
 | `DETERMINISTIC_TEMPERATURE` | `0.0` | Temperature for deterministic stages |
 | `SELF_CONSISTENCY_RUNS` | `3` | Odd number of reviewer samples used for consistency checking (minimum `3`) |
 | `MAX_DOCUMENT_CHARS` | `200000` | Maximum characters accepted per document |
 | `MAX_SECTION_CHARS` | `15000` | Maximum characters per document section |
+| `MAX_UPLOAD_BYTES` | `10485760` | Maximum uploaded file size (10 MiB) |
+| `MAX_ACTIVE_EVALUATIONS_PER_USER` | `2` | Maximum queued/running jobs per account |
 | `APP_HOST` | `0.0.0.0` | Server bind host |
 | `APP_PORT` | `8000` | Server bind port |
 | `APP_DEBUG` | `false` | Enable debug mode (verbose console logging) |
+| `APP_ENVIRONMENT` | `development` | Set to `production` to enforce safe deployment settings |
 | `SECRET_KEY` | `change_me` | Long random secret used to sign web sessions and protect `/evaluate/sync` |
 | `FRONTEND_URL` | `http://localhost:5173` | Allowed frontend origin and post-login redirect target |
 | `AUTH_COOKIE_NAME` | `assessment_session` | Name of the HttpOnly signed-session cookie |
 | `AUTH_TOKEN_EXPIRE_MINUTES` | `10080` | Signed-session lifetime (seven days) |
 | `AUTH_COOKIE_SECURE` | `false` | Set to `true` when the app is served over HTTPS |
+| `ALLOW_PUBLIC_SIGNUP` | `true` | Disable public account creation in production |
 | `GOOGLE_CLIENT_ID` | *(empty)* | Google OAuth web-application client ID (enables Google sign-in) |
 | `GOOGLE_CLIENT_SECRET` | *(empty)* | Google OAuth web-application client secret |
 | `GOOGLE_REDIRECT_URI` | `http://localhost:8000/api/v1/auth/google/callback` | Exact authorised Google OAuth callback URI |
@@ -94,7 +98,9 @@ reachable database.
 docker compose up -d postgres
 ```
 
-This starts `postgres:16-alpine` on `localhost:5432` with the credentials baked into `docker-compose.yml` (`eval_user` / `eval_password` / `eval_platform`), matching the default `POSTGRES_*` values above. Data persists in the `postgres_data` volume across restarts.
+This starts `postgres:16-alpine` on the private Compose network using credentials
+from `.env`. PostgreSQL is not published to a host port. Data persists in the
+`postgres_data` volume across restarts.
 
 ```bash
 docker compose ps                 # check container health
@@ -132,6 +138,12 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 Interactive API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+For the containerized application, migration job, durable evaluation worker,
+PostgreSQL volume, and Cloudflare Tunnel deployment, follow
+[docs/DEPLOYMENT_CLOUDFLARE.md](docs/DEPLOYMENT_CLOUDFLARE.md). Cloudflare is the
+public ingress; a persistent Docker host is still required for this Python and
+PostgreSQL application.
 
 ---
 
@@ -330,7 +342,7 @@ curl -X POST http://localhost:8000/api/v1/evaluate/sync \
 
 ```bash
 curl http://localhost:8000/api/v1/health
-# {"status":"ok","backend":"openrouter","model":"qwen/qwen3.7-plus","debug":false}
+# {"status":"ok","backend":"openrouter","model":"deepseek/deepseek-v4-pro","debug":false}
 ```
 
 ---

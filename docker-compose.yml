@@ -75,6 +75,19 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
+    stop_grace_period: 30s
+
+  worker:
+    <<: *app-service
+    command: ["python", "-m", "app.worker"]
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      disable: true
     stop_grace_period: 15m
 
 networks:

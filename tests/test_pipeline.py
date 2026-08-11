@@ -201,15 +201,15 @@ client = TestClient(app)
 
 
 @pytest.fixture(autouse=True)
-def prevent_background_llm_calls(monkeypatch):
+def isolate_endpoint_tests(monkeypatch):
     """Endpoint tests are independent of networked LLMs and PostgreSQL."""
     versions = {}
 
-    async def _no_network_pipeline(*_args, **_kwargs):
-        return None
-
     async def _no_database():
         yield object()
+
+    async def _count_active(*_args, **_kwargs):
+        return 0
 
     async def _find_existing(*_args, **_kwargs):
         return None
@@ -231,7 +231,7 @@ def prevent_background_llm_calls(monkeypatch):
     async def _current_user():
         return SimpleNamespace(id=uuid.uuid4(), username="test-user")
 
-    monkeypatch.setattr(evaluation_router, "_run_pipeline_background", _no_network_pipeline)
+    monkeypatch.setattr(evaluation_router.session_service, "count_active_versions", _count_active)
     monkeypatch.setattr(evaluation_router.session_service, "find_session_by_document_hash", _find_existing)
     monkeypatch.setattr(evaluation_router.session_service, "create_session", _create_session)
     monkeypatch.setattr(evaluation_router.session_service, "get_version", _get_version)
@@ -271,6 +271,24 @@ def test_evaluate_returns_job_id():
     data = resp.json()
     assert "job_id" in data
     assert data["status"] == "queued"
+
+
+def test_evaluate_rejects_submission_at_active_job_limit(monkeypatch):
+    settings = get_settings()
+
+    async def _at_capacity(*_args, **_kwargs):
+        return settings.max_active_evaluations_per_user
+
+    monkeypatch.setattr(
+        evaluation_router.session_service,
+        "count_active_versions",
+        _at_capacity,
+    )
+
+    resp = client.post("/api/v1/evaluate", data={"raw_text": SAMPLE_REPORT})
+
+    assert resp.status_code == 429
+    assert resp.headers["retry-after"] == "30"
 
 
 def test_status_endpoint_queued():

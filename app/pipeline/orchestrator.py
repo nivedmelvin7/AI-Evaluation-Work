@@ -38,7 +38,14 @@ class PipelineOrchestrator:
         self.llm = LLMService()
         self.doc_service = DocumentService()
 
-    async def run(self, version_id: uuid.UUID, document_text: str, pages: list = None) -> EvaluationResult:
+    async def run(
+        self,
+        version_id: uuid.UUID,
+        document_text: str,
+        pages: list = None,
+        *,
+        mark_failed: bool = True,
+    ) -> EvaluationResult:
         job_id = str(version_id)
         pipeline_start = time.perf_counter()
         logger.info(
@@ -290,5 +297,6 @@ class PipelineOrchestrator:
                     _elapsed(pipeline_start),
                     exc,
                 )
-                await session_service.set_version_failed(db, version_id, str(exc))
+                if mark_failed:
+                    await session_service.set_version_failed(db, version_id, str(exc))
                 raise

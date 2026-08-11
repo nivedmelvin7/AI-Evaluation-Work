@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     max_document_chars: int = 200000
     max_section_chars: int = 15000
     max_upload_bytes: int = 10 * 1024 * 1024
+    max_active_evaluations_per_user: int = 2
+    worker_poll_seconds: float = 2.0
+    worker_max_attempts: int = 2
+    worker_stale_after_seconds: int = 3600
 
     # Server
     app_host: str = "0.0.0.0"
@@ -64,6 +68,24 @@ class Settings(BaseSettings):
     def _max_upload_bytes_must_be_positive(cls, value: int) -> int:
         if isinstance(value, bool) or value <= 0:
             raise ValueError("max_upload_bytes must be a positive integer")
+        return value
+
+    @field_validator(
+        "max_active_evaluations_per_user",
+        "worker_max_attempts",
+        "worker_stale_after_seconds",
+    )
+    @classmethod
+    def _positive_integer_settings(cls, value: int) -> int:
+        if isinstance(value, bool) or value <= 0:
+            raise ValueError("value must be a positive integer")
+        return value
+
+    @field_validator("worker_poll_seconds")
+    @classmethod
+    def _worker_poll_seconds_must_be_positive(cls, value: float) -> float:
+        if value <= 0:
+            raise ValueError("worker_poll_seconds must be positive")
         return value
 
     @model_validator(mode="after")

@@ -1,11 +1,13 @@
+from pydantic import ConfigDict, field_validator
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 
 class Settings(BaseSettings):
+    model_config = ConfigDict(env_file=".env", env_file_encoding="utf-8")
     # OpenRouter (sole LLM provider)
     openrouter_api_key: str = ""
-    openrouter_model: str = "qwen/qwen3.7-plus"
+    openrouter_model: str = "deepseek/deepseek-v4-pro"
 
     # Pipeline
     reviewer_temperature: float = 0.3
@@ -19,6 +21,15 @@ class Settings(BaseSettings):
     app_port: int = 8000
     app_debug: bool = False
     secret_key: str = "change_me"
+    frontend_url: str = "http://localhost:5173"
+
+    # Authentication
+    auth_cookie_name: str = "assessment_session"
+    auth_token_expire_minutes: int = 60 * 24 * 7
+    auth_cookie_secure: bool = False
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    google_redirect_uri: str = "http://localhost:8000/api/v1/auth/google/callback"
 
     # Database
     postgres_user: str = "eval_user"
@@ -27,9 +38,12 @@ class Settings(BaseSettings):
     postgres_host: str = "localhost"
     postgres_port: int = 5432
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    @field_validator("self_consistency_runs")
+    @classmethod
+    def _self_consistency_runs_must_be_odd_and_complete(cls, value: int) -> int:
+        if isinstance(value, bool) or not isinstance(value, int) or value < 3 or value % 2 == 0:
+            raise ValueError("self_consistency_runs must be an odd integer of at least 3")
+        return value
 
     @property
     def database_url(self) -> str:

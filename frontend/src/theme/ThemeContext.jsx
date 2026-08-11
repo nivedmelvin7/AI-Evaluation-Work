@@ -4,20 +4,16 @@ const STORAGE_KEY = 'engineering-report-theme';
 
 export const THEMES = [
   { id: 'dark', label: 'Dark' },
-  { id: 'light', label: 'Light' },
-  { id: 'midnight', label: 'Midnight' },
   { id: 'paper', label: 'Paper' },
-  { id: 'ocean', label: 'Ocean' },
-  { id: 'violet', label: 'Violet' },
 ];
 
 const ThemeContext = createContext(null);
 
 function preferredTheme() {
-  if (typeof window === 'undefined') return 'dark';
+  if (typeof window === 'undefined') return 'paper';
   const saved = window.localStorage.getItem(STORAGE_KEY);
   if (THEMES.some((theme) => theme.id === saved)) return saved;
-  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  return 'paper';
 }
 
 export function ThemeProvider({ children }) {

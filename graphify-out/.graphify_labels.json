@@ -76,5 +76,6 @@
   "74": "02fd9d7e96ab_use_timezone_aware_timestamp_columns.py",
   "75": "ecd0f4245768_initial_schema_sessions_evaluation_.py",
   "76": "CLAUDE.md",
-  "77": "__init__.py"
+  "77": "__init__.py",
+  "78": "8e8da02c7b81_add_user_accounts_and_session_ownership.py"
 }

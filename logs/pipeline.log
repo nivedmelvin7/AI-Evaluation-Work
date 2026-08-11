@@ -9412,3 +9412,1518 @@ RuntimeError: Event loop is closed
 2026-07-30 20:41:37 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Stage 10 complete (18.90s) — integrity=FLAG  recommendation=HOLD  injection=True
 2026-07-30 20:41:37 [WARNING ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] INJECTION DETECTED — patterns: ['TYPE_7_REPETITION_FLOODING']
 2026-07-30 20:41:37 [INFO    ] app.pipeline.orchestrator — [2ad530c5-e913-4ec7-b173-42c52ec5fc82] Pipeline COMPLETE — total_time=299.25s  score=73.0  grade=Merit
+2026-08-02 01:51:50 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 01:51:50 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 01:52:06 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 01:52:06 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 01:53:11 [INFO    ] app.routers.evaluation — Evaluate request — matched existing session_id=38683270-223d-44b8-9e78-d8f7dad04a8a by content hash, job_id=55301a11-7968-4095-b7ef-264d2ffe62ee source='2409.16695v1.pdf' version=2
+2026-08-02 01:53:11 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Pipeline started — document length=68468 chars
+2026-08-02 01:53:11 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 1 (segmentation) — starting
+2026-08-02 01:53:11 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (68468 chars)
+2026-08-02 01:53:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=12.00s  response_len=5072 chars
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (12.00s, 5072 chars)
+2026-08-02 01:53:23 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 16 sections (13 present)
+2026-08-02 01:53:23 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 1 complete — 16 sections found (12.01s)
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[0] name='Abstract'  type=ABSTRACT  words=199  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[1] name='Introduction'  type=INTRODUCTION  words=426  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[2] name='Methods'  type=METHODOLOGY  words=200  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[3] name='Data'  type=METHODOLOGY  words=476  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[4] name='ChatGPT setup'  type=METHODOLOGY  words=512  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[5] name='Analysis'  type=ANALYSIS  words=466  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[6] name='Results'  type=RESULTS  words=921  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[7] name='Analyses of results'  type=ANALYSIS  words=1137  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[8] name='Discussion'  type=DISCUSSION  words=1169  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[9] name='Conclusion'  type=CONCLUSIONS  words=564  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[10] name='Acknowledgement'  type=OTHER  words=25  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[11] name='References'  type=REFERENCES  words=1004  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[12] name='Appendix'  type=APPENDIX  words=2562  status=PRESENT
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[13] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[14] name='LITERATURE_REVIEW'  type=LITERATURE_REVIEW  words=0  status=MISSING
+2026-08-02 01:53:23 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   section[15] name='EXPERIMENTAL_SETUP'  type=EXPERIMENTAL_SETUP  words=0  status=MISSING
+2026-08-02 01:53:23 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 01:53:48 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.13s  response_len=7026 chars
+2026-08-02 01:56:32 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=163.48s  response_len=6010 chars
+2026-08-02 01:56:49 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.26s  response_len=6507 chars
+2026-08-02 01:57:15 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.65s  response_len=7116 chars
+2026-08-02 01:57:33 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.96s  response_len=5282 chars
+2026-08-02 01:57:54 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=21.88s  response_len=5979 chars
+2026-08-02 01:58:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.61s  response_len=7145 chars
+2026-08-02 01:58:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.84s  response_len=6125 chars
+2026-08-02 01:59:04 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=24.32s  response_len=6808 chars
+2026-08-02 01:59:04 [WARNING ] app.pipeline.reviewer_runner — Methodologist reviewer output incomplete: ['run 1: critical_thinking: evidence was not found in the submitted document', 'run 1: missing criterion: critical_thinking', 'run 2: critical_thinking: evidence was not found in the submitted document', 'run 2: missing criterion: critical_thinking', 'reviewer completed 1 of 3 required valid runs']
+2026-08-02 01:59:43 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=38.36s  response_len=9752 chars
+2026-08-02 02:00:16 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.89s  response_len=8206 chars
+2026-08-02 02:00:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=34.61s  response_len=8870 chars
+2026-08-02 02:01:20 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=30.08s  response_len=7528 chars
+2026-08-02 02:02:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=41.70s  response_len=9337 chars
+2026-08-02 02:02:30 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.00s  response_len=7340 chars
+2026-08-02 02:02:30 [WARNING ] app.pipeline.reviewer_runner — Communication Specialist reviewer output incomplete: ['run 1: originality: evidence was not found in the submitted document', 'run 1: professionalism: evidence was not found in the submitted document', 'run 1: holistic_quality: evidence was not found in the submitted document', 'run 1: missing criterion: holistic_quality', 'run 1: missing criterion: originality', 'run 1: missing criterion: professionalism', 'run 2: structure: evidence was not found in the submitted document', 'run 2: originality: evidence was not found in the submitted document', 'run 2: holistic_quality: evidence was not found in the submitted document', 'run 2: missing criterion: holistic_quality', 'run 2: missing criterion: originality', 'run 2: missing criterion: structure', 'run 3: originality: evidence was not found in the submitted document', 'run 3: holistic_quality: evidence was not found in the submitted document', 'run 3: missing criterion: holistic_quality', 'run 3: missing criterion: originality', 'reviewer completed 0 of 3 required valid runs']
+2026-08-02 02:02:30 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stages 2-4 complete (546.91s) — DE scores={'technical_accuracy': 3, 'methodology': 3, 'evidence_quality': 3}  METH scores={}  COMM scores={}
+2026-08-02 02:02:30 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 5 (self-critique audits) — starting
+2026-08-02 02:02:36 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=5.63s  response_len=1174 chars
+2026-08-02 02:02:36 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 5 complete (5.64s) — DE quality=high  METH quality=low  COMM quality=low
+2026-08-02 02:02:36 [DEBUG   ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 02:02:36 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 6 (reflection pass) — starting
+2026-08-02 02:02:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=21.56s  response_len=6169 chars
+2026-08-02 02:02:57 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Methodologist: reviewer assessment incomplete
+2026-08-02 02:02:57 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Communication Specialist: reviewer assessment incomplete
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 6 complete (21.56s) — DE final={'technical_accuracy': 3, 'methodology': 3, 'evidence_quality': 3}  METH final={}  COMM final={}
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 7 (consensus reconciliation) — starting
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 7 complete (0.00s) — scores={'technical_accuracy': 3}  deferral=DEFER
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 8 (deterministic scoring) — starting
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 8 complete (0.00s) — final_score=None  grade=DEFERRED  gate=False  deferred=True  uncertainty_band=None
+2026-08-02 02:02:57 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 9 (feedback synthesis) — starting
+2026-08-02 02:02:57 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=None  grade=DEFERRED
+2026-08-02 02:02:57 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — no consensus XML; using JSON scores
+2026-08-02 02:03:22 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.29s  response_len=6335 chars
+2026-08-02 02:03:22 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (25.29s, 6335 chars)
+2026-08-02 02:03:22 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-08-02 02:03:22 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 9 complete (25.29s) — strengths=3  improvements=3
+2026-08-02 02:03:22 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 10 (verification guard) — starting
+2026-08-02 02:03:22 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-08-02 02:03:22 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 68468 to 20000 chars for factual verifier
+2026-08-02 02:03:31 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=8.76s  response_len=4400 chars
+2026-08-02 02:03:31 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (8.76s, 4400 chars)
+2026-08-02 02:03:31 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-08-02 02:03:31 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Stage 10 complete (8.76s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-08-02 02:03:31 [INFO    ] app.pipeline.orchestrator — [55301a11-7968-4095-b7ef-264d2ffe62ee] Pipeline COMPLETE — total_time=620.32s  score=None  grade=DEFERRED
+2026-08-02 02:06:14 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 02:06:14 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:06:43 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 02:06:43 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:07:01 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 02:07:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [INFO    ] app.routers.evaluation — Evaluate request — session_id=ebc2519e-5dc9-4037-8f70-fe0ac5efd8aa job_id=6b7ac7b5-5ec9-4eac-a00a-eff019746feb source='raw_text' doc_len=1930 chars
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [INFO    ] app.routers.evaluation — Evaluate request — session_id=21bf8825-f228-459a-a625-65e50bf5588b job_id=a5db5c3e-5a16-41b7-a18c-8b4365059cee source='raw_text' doc_len=1930 chars
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:53 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 02:10:53 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 02:10:58 [INFO    ] app.routers.evaluation — Evaluate request — session_id=06ce0d22-b845-475b-805f-730a10650b6d job_id=12c8367e-ec61-4188-9bcc-7ded4ce9519b source='2607.28608v1.pdf' doc_len=84142 chars
+2026-08-02 02:10:58 [INFO    ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b] Pipeline started — document length=84142 chars
+2026-08-02 02:10:58 [INFO    ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b] Stage 1 (segmentation) — starting
+2026-08-02 02:10:58 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (84142 chars)
+2026-08-02 02:11:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.67s  response_len=5112 chars
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (22.67s, 5112 chars)
+2026-08-02 02:11:21 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 19 sections (16 present)
+2026-08-02 02:11:21 [INFO    ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b] Stage 1 complete — 19 sections found (22.68s)
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[0] name='Abstract'  type=ABSTRACT  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[1] name='I. INTRODUCTION'  type=INTRODUCTION  words=271  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[2] name='A. Scope'  type=OTHER  words=135  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[3] name='B. Contributions'  type=OTHER  words=249  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[4] name='II. RELATED WORK'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[5] name='III. PROBLEM FORMULATION'  type=METHODOLOGY  words=464  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[6] name='IV. WHICH METRIC THE DECISION DEPENDS ON'  type=METHODOLOGY  words=1231  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[7] name='V. AUDIT FRAMEWORK'  type=METHODOLOGY  words=879  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[8] name='VI. EXPERIMENTAL SETUP'  type=EXPERIMENTAL_SETUP  words=1015  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[9] name='VII. RESULTS AND ANALYSIS'  type=RESULTS  words=4699  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[10] name='VIII. DISCUSSION'  type=DISCUSSION  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[11] name='IX. CONCLUSION'  type=CONCLUSIONS  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[12] name='REPRODUCIBILITY'  type=OTHER  words=110  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[13] name='AUTHOR CONTRIBUTIONS'  type=OTHER  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[14] name='USE OF AI TOOLS AND AUTHORSHIP STATEMENT'  type=OTHER  words=0  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[15] name='REFERENCES'  type=REFERENCES  words=1335  status=PRESENT
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[16] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[17] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-08-02 02:11:21 [DEBUG   ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b]   section[18] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-08-02 02:11:21 [INFO    ] app.pipeline.orchestrator — [12c8367e-ec61-4188-9bcc-7ded4ce9519b] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 02:11:38 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.18s  response_len=5936 chars
+2026-08-02 02:15:06 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=207.90s  response_len=5280 chars
+2026-08-02 02:19:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=274.43s  response_len=6073 chars
+2026-08-02 02:22:14 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=154.20s  response_len=6382 chars
+2026-08-02 02:23:59 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=104.95s  response_len=6413 chars
+2026-08-02 02:25:41 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=101.92s  response_len=6142 chars
+2026-08-02 02:25:41 [WARNING ] app.pipeline.reviewer_runner — Domain Expert reviewer output incomplete: ['run 1: response was not valid XML with the required root', 'run 3: technical_accuracy: evidence was not found in the submitted document', 'run 3: methodology: evidence was not found in the submitted document', 'run 3: missing criterion: methodology', 'run 3: missing criterion: technical_accuracy', 'reviewer completed 1 of 3 required valid runs']
+2026-08-02 12:30:20 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 12:30:20 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 12:31:04 [INFO    ] app.routers.evaluation — Evaluate request — session_id=2d07c3f1-5509-4caa-8baf-63016a885df8 job_id=aa925218-8d53-4e2c-a4fd-1942c3bb93c0 source='2607.28608v1.pdf' doc_len=84142 chars
+2026-08-02 12:31:04 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Pipeline started — document length=84142 chars
+2026-08-02 12:31:04 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 1 (segmentation) — starting
+2026-08-02 12:31:04 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (84142 chars)
+2026-08-02 12:31:30 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.78s  response_len=4912 chars
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (25.79s, 4912 chars)
+2026-08-02 12:31:30 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 17 sections (14 present)
+2026-08-02 12:31:30 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 1 complete — 17 sections found (25.80s)
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[0] name='Abstract'  type=ABSTRACT  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[1] name='I. INTRODUCTION'  type=INTRODUCTION  words=659  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[2] name='II. RELATED WORK'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[3] name='III. PROBLEM FORMULATION'  type=METHODOLOGY  words=464  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[4] name='IV. WHICH METRIC THE DECISION DEPENDS ON'  type=METHODOLOGY  words=1231  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[5] name='V. AUDIT FRAMEWORK'  type=METHODOLOGY  words=879  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[6] name='VI. EXPERIMENTAL SETUP'  type=EXPERIMENTAL_SETUP  words=1015  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[7] name='VII. RESULTS AND ANALYSIS'  type=RESULTS  words=4960  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[8] name='VIII. DISCUSSION'  type=DISCUSSION  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[9] name='IX. CONCLUSION'  type=CONCLUSIONS  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[10] name='REPRODUCIBILITY'  type=OTHER  words=110  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[11] name='AUTHOR CONTRIBUTIONS'  type=OTHER  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[12] name='USE OF AI TOOLS AND AUTHORSHIP STATEMENT'  type=OTHER  words=0  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[13] name='REFERENCES'  type=REFERENCES  words=1335  status=PRESENT
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[14] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[15] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-08-02 12:31:30 [DEBUG   ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0]   section[16] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-08-02 12:31:30 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 12:31:54 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.38s  response_len=6180 chars
+2026-08-02 12:32:27 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=33.61s  response_len=7669 chars
+2026-08-02 12:33:00 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.27s  response_len=7989 chars
+2026-08-02 12:33:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.80s  response_len=6100 chars
+2026-08-02 12:33:49 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.92s  response_len=6178 chars
+2026-08-02 12:34:17 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.38s  response_len=6105 chars
+2026-08-02 12:34:17 [WARNING ] app.pipeline.reviewer_runner — Domain Expert reviewer output incomplete: ['run 1: response was not valid XML with the required root', 'run 3: technical_accuracy: evidence was not found in the submitted document', 'run 3: evidence_quality: evidence was not found in the submitted document', 'run 3: missing criterion: evidence_quality', 'run 3: missing criterion: technical_accuracy', 'reviewer completed 1 of 3 required valid runs']
+2026-08-02 12:34:47 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=30.55s  response_len=7208 chars
+2026-08-02 12:35:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=24.30s  response_len=5721 chars
+2026-08-02 12:35:36 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=23.95s  response_len=5992 chars
+2026-08-02 12:36:01 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.12s  response_len=6610 chars
+2026-08-02 12:36:29 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.96s  response_len=7440 chars
+2026-08-02 12:36:29 [WARNING ] app.pipeline.reviewer_runner — Methodologist reviewer output incomplete: ['run 2: evidence_quality: evidence was not found in the submitted document', 'run 2: missing criterion: evidence_quality', 'run 3: critical_thinking: evidence was not found in the submitted document', 'run 3: missing criterion: critical_thinking', 'reviewer completed 1 of 3 required valid runs']
+2026-08-02 12:37:04 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=35.18s  response_len=9404 chars
+2026-08-02 12:37:35 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=31.48s  response_len=8235 chars
+2026-08-02 12:38:14 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=38.97s  response_len=9915 chars
+2026-08-02 12:38:53 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=38.44s  response_len=9578 chars
+2026-08-02 12:39:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=30.66s  response_len=7937 chars
+2026-08-02 12:39:53 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=29.53s  response_len=7824 chars
+2026-08-02 12:39:53 [WARNING ] app.pipeline.reviewer_runner — Communication Specialist reviewer output incomplete: ['run 1: structure: evidence was not found in the submitted document', 'run 1: originality: evidence was not found in the submitted document', 'run 1: holistic_quality: evidence was not found in the submitted document', 'run 1: missing criterion: holistic_quality', 'run 1: missing criterion: originality', 'run 1: missing criterion: structure', 'run 2: structure: evidence was not found in the submitted document', 'run 2: originality: evidence was not found in the submitted document', 'run 2: holistic_quality: evidence was not found in the submitted document', 'run 2: missing criterion: holistic_quality', 'run 2: missing criterion: originality', 'run 2: missing criterion: structure', 'run 3: structure: evidence was not found in the submitted document', 'run 3: referencing: evidence was not found in the submitted document', 'run 3: originality: evidence was not found in the submitted document', 'run 3: holistic_quality: evidence was not found in the submitted document', 'run 3: missing criterion: holistic_quality', 'run 3: missing criterion: originality', 'run 3: missing criterion: referencing', 'run 3: missing criterion: structure', 'reviewer completed 0 of 3 required valid runs']
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stages 2-4 complete (502.70s) — DE scores={}  METH scores={}  COMM scores={}
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 5 (self-critique audits) — starting
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 5 complete (0.00s) — DE quality=low  METH quality=low  COMM quality=low
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 6 (reflection pass) — starting
+2026-08-02 12:39:53 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: reviewer assessment incomplete
+2026-08-02 12:39:53 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Methodologist: reviewer assessment incomplete
+2026-08-02 12:39:53 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Communication Specialist: reviewer assessment incomplete
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 6 complete (0.00s) — DE final={}  METH final={}  COMM final={}
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 7 (consensus reconciliation) — starting
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 7 complete (0.00s) — scores={}  deferral=DEFER
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 8 (deterministic scoring) — starting
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 8 complete (0.00s) — final_score=None  grade=DEFERRED  gate=False  deferred=True  uncertainty_band=None
+2026-08-02 12:39:53 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 9 (feedback synthesis) — starting
+2026-08-02 12:39:53 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=None  grade=DEFERRED
+2026-08-02 12:39:53 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — no consensus XML; using JSON scores
+2026-08-02 12:40:18 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.26s  response_len=6381 chars
+2026-08-02 12:40:18 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (25.26s, 6381 chars)
+2026-08-02 12:40:18 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-08-02 12:40:18 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 9 complete (25.26s) — strengths=3  improvements=3
+2026-08-02 12:40:18 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 10 (verification guard) — starting
+2026-08-02 12:40:18 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-08-02 12:40:18 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 84142 to 20000 chars for factual verifier
+2026-08-02 12:40:35 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=16.25s  response_len=5382 chars
+2026-08-02 12:40:35 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (16.25s, 5382 chars)
+2026-08-02 12:40:35 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-08-02 12:40:35 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Stage 10 complete (16.25s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-08-02 12:40:35 [INFO    ] app.pipeline.orchestrator — [aa925218-8d53-4e2c-a4fd-1942c3bb93c0] Pipeline COMPLETE — total_time=570.30s  score=None  grade=DEFERRED
+2026-08-02 13:08:54 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 13:08:54 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:08:54 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:08:54 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [INFO    ] app.routers.evaluation — Evaluate request — session_id=b203d96d-f121-4c71-8e22-bfd14c0d70e7 job_id=38947c54-fddd-47a1-95d9-8c08a8174704 source='raw_text' doc_len=1930 chars
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [INFO    ] app.routers.evaluation — Evaluate request — session_id=a5df1721-1955-40c1-bf39-3b5c1511d516 job_id=9676e84d-4725-449a-82aa-ba25392cea44 source='raw_text' doc_len=1930 chars
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:08:54 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 13:09:34 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:09:34 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 13:09:34 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [INFO    ] app.routers.evaluation — Evaluate request — session_id=25f2e9a7-a6fd-49c3-8424-0738e157dae6 job_id=20d97664-263e-48b1-b60b-747820ebf000 source='raw_text' doc_len=1930 chars
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [INFO    ] app.routers.evaluation — Evaluate request — session_id=588819ab-9f45-420d-924c-bc388677edcf job_id=e9113a4d-8cc4-4a6a-8fd3-8b4202b60a6e source='raw_text' doc_len=1930 chars
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:09:34 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:30:25 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 13:30:25 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 13:30:36 [INFO    ] app.routers.evaluation — Evaluate request — matched existing session_id=2d07c3f1-5509-4caa-8baf-63016a885df8 by content hash, job_id=b6ac5693-c2c7-4860-a4c8-6ea0061a14c0 source='2607.28608v1.pdf' version=2
+2026-08-02 13:30:36 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Pipeline started — document length=84142 chars
+2026-08-02 13:30:36 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 1 (segmentation) — starting
+2026-08-02 13:30:36 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (84142 chars)
+2026-08-02 13:30:56 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=19.79s  response_len=5146 chars
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (19.79s, 5146 chars)
+2026-08-02 13:30:56 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 19 sections (16 present)
+2026-08-02 13:30:56 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 1 complete — 19 sections found (19.80s)
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[0] name='Abstract'  type=ABSTRACT  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[1] name='I. INTRODUCTION'  type=INTRODUCTION  words=271  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[2] name='A. Scope'  type=OTHER  words=135  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[3] name='B. Contributions'  type=OTHER  words=249  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[4] name='II. RELATED WORK'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[5] name='III. PROBLEM FORMULATION'  type=METHODOLOGY  words=364  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[6] name='IV. WHICH METRIC THE DECISION DEPENDS ON'  type=METHODOLOGY  words=1231  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[7] name='V. AUDIT FRAMEWORK'  type=METHODOLOGY  words=879  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[8] name='VI. EXPERIMENTAL SETUP'  type=EXPERIMENTAL_SETUP  words=1015  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[9] name='VII. RESULTS AND ANALYSIS'  type=RESULTS  words=5011  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[10] name='VIII. DISCUSSION'  type=DISCUSSION  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[11] name='IX. CONCLUSION'  type=CONCLUSIONS  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[12] name='REPRODUCIBILITY'  type=OTHER  words=110  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[13] name='AUTHOR CONTRIBUTIONS'  type=OTHER  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[14] name='USE OF AI TOOLS AND AUTHORSHIP STATEMENT'  type=OTHER  words=0  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[15] name='REFERENCES'  type=REFERENCES  words=1335  status=PRESENT
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[16] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[17] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-08-02 13:30:56 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   section[18] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-08-02 13:30:56 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 13:31:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=26.88s  response_len=7227 chars
+2026-08-02 13:31:51 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.61s  response_len=7468 chars
+2026-08-02 13:32:19 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.75s  response_len=6844 chars
+2026-08-02 13:32:47 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=27.99s  response_len=7367 chars
+2026-08-02 13:32:47 [WARNING ] app.pipeline.reviewer_runner — Domain Expert reviewer sampling degraded: Domain Expert returned 2 of 3 valid samples; confidence was reduced.
+2026-08-02 13:33:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=36.26s  response_len=9617 chars
+2026-08-02 13:33:54 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=30.59s  response_len=7533 chars
+2026-08-02 13:34:26 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.15s  response_len=8135 chars
+2026-08-02 13:35:06 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=40.18s  response_len=10405 chars
+2026-08-02 13:35:41 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=34.84s  response_len=9163 chars
+2026-08-02 13:36:15 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=33.86s  response_len=9741 chars
+2026-08-02 13:36:15 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stages 2-4 complete (319.19s) — DE scores={'technical_accuracy': 4, 'methodology': 4, 'evidence_quality': 4}  METH scores={'methodology': 3, 'critical_thinking': 4, 'evidence_quality': 3}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 3, 'holistic_quality': 4}
+2026-08-02 13:36:15 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 5 (self-critique audits) — starting
+2026-08-02 13:36:18 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=2.94s  response_len=1146 chars
+2026-08-02 13:36:37 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.79s  response_len=7150 chars
+2026-08-02 13:36:48 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=11.00s  response_len=1827 chars
+2026-08-02 13:36:48 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 5 complete (32.72s) — DE quality=high  METH quality=low  COMM quality=high
+2026-08-02 13:36:48 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 13:36:48 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   Methodologist audit issues: ['EVIDENCE_GROUNDING', 'UNGROUNDED_CLAIM', 'EVIDENCE_GROUNDING', 'UNGROUNDED_CLAIM', 'EVIDENCE_GROUNDING', 'UNGROUNDED_CLAIM', 'NONE', 'NONE', 'NONE']
+2026-08-02 13:36:48 [DEBUG   ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-08-02 13:36:48 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 6 (reflection pass) — starting
+2026-08-02 13:37:06 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.13s  response_len=6749 chars
+2026-08-02 13:37:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.54s  response_len=6835 chars
+2026-08-02 13:37:44 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.73s  response_len=9327 chars
+2026-08-02 13:37:44 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 6 complete (56.45s) — DE final={'technical_accuracy': 4, 'methodology': 4, 'evidence_quality': 4}  METH final={'methodology': 3, 'critical_thinking': 4, 'evidence_quality': 3}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 3, 'holistic_quality': 4}
+2026-08-02 13:37:44 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 7 (consensus reconciliation) — starting
+2026-08-02 13:38:00 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=16.14s  response_len=4290 chars
+2026-08-02 13:38:00 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 7 complete (16.15s) — scores={'technical_accuracy': 4, 'critical_thinking': 4, 'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 3, 'holistic_quality': 4, 'methodology': 4, 'evidence_quality': 4}  deferral=PROCEED
+2026-08-02 13:38:00 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 8 (deterministic scoring) — starting
+2026-08-02 13:38:00 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 8 complete (0.00s) — final_score=91.5  grade=Distinction  gate=False  deferred=False  uncertainty_band=[90.06, 92.94]
+2026-08-02 13:38:00 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 9 (feedback synthesis) — starting
+2026-08-02 13:38:00 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=91.5  grade=Distinction
+2026-08-02 13:38:29 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.47s  response_len=6860 chars
+2026-08-02 13:38:29 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (28.47s, 6860 chars)
+2026-08-02 13:38:29 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-08-02 13:38:29 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 9 complete (28.48s) — strengths=3  improvements=3
+2026-08-02 13:38:29 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 10 (verification guard) — starting
+2026-08-02 13:38:29 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-08-02 13:38:29 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 84142 to 20000 chars for factual verifier
+2026-08-02 13:38:51 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.49s  response_len=6380 chars
+2026-08-02 13:38:51 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (22.49s, 6380 chars)
+2026-08-02 13:38:51 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=FLAG  scan=NONE  combined=FLAG/HOLD  patterns=0
+2026-08-02 13:38:51 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Stage 10 complete (22.50s) — integrity=FLAG  recommendation=HOLD  injection=False
+2026-08-02 13:38:51 [INFO    ] app.pipeline.orchestrator — [b6ac5693-c2c7-4860-a4c8-6ea0061a14c0] Pipeline COMPLETE — total_time=495.52s  score=91.5  grade=Distinction
+2026-08-02 16:04:01 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 16:04:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:01 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 16:04:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 16:04:02 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:04:02 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:04:02 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [INFO    ] app.routers.evaluation — Evaluate request — session_id=3afb3582-6856-4832-9cea-631d865df9f3 job_id=9fed2f22-3e44-48bf-a65b-91148296df16 source='raw_text' doc_len=1930 chars
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [INFO    ] app.routers.evaluation — Evaluate request — session_id=4003f16d-051e-4521-b649-c16377947a9c job_id=5e063146-f88d-49fd-961c-69b1be547ff6 source='raw_text' doc_len=1930 chars
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:04:02 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:18 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 16:09:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:18 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 16:09:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 16:09:19 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:09:19 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:09:19 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [INFO    ] app.routers.evaluation — Evaluate request — session_id=39131a90-a3e4-43e8-b69f-d199c943c7c1 job_id=6af8fee8-7709-4fba-8d86-44625a29c678 source='raw_text' doc_len=1930 chars
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [INFO    ] app.routers.evaluation — Evaluate request — session_id=c40267fa-77db-46e0-815d-024f57476976 job_id=563214b3-5872-483b-9372-950dbeb2b5f4 source='raw_text' doc_len=1930 chars
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:09:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 16:11:49 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:11:49 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 16:11:49 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [INFO    ] app.routers.evaluation — Evaluate request — session_id=7ef1cd60-f7b0-456e-848e-1e6c5fca84a2 job_id=eeaa4a8b-4471-455f-8310-27a01d2bbd98 source='raw_text' doc_len=1930 chars
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [INFO    ] app.routers.evaluation — Evaluate request — session_id=de0cc4ae-1df2-46b9-a0fb-933a2b6dacfa job_id=b0820133-a1b2-44e6-9624-66b1f121a5ee source='raw_text' doc_len=1930 chars
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:49 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:50 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:50 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:11:50 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 16:29:23 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 16:29:23 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:13 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 19:23:13 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:16 [WARNING ] app.pipeline.stage6_reflection — Stage 6 reflection provisional for Domain Expert: missing criterion: evidence_quality; missing criterion: methodology
+2026-08-02 19:23:16 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:16 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=31 chars
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — OpenRouter returned no final text — model=qwen/qwen3.7-plus finish_reason=unknown reasoning_len=0
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 1/1 failed — model=qwen/qwen3.7-plus  error=OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 86, in _complete
+    raise LLMError(
+app.services.llm_service.LLMError: OpenRouter returned no final text (model=qwen/qwen3.7-plus, finish_reason=unknown)
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=transient hiccup
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2300, in _execute_mock_call
+    raise result
+RuntimeError: transient hiccup
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: transient hiccup
+2026-08-02 19:23:17 [DEBUG   ] app.services.llm_service — LLM response received — model=qwen/qwen3.7-plus  elapsed=0.00s  response_len=18 chars
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: persistent failure
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=persistent failure
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 44, in _complete
+    resp = await self._http.post(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nived Melvin\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\mock.py", line 2291, in _execute_mock_call
+    raise effect
+RuntimeError: persistent failure
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 39, in _complete
+    raise LLMError("OpenRouter API key not configured (OPENROUTER_API_KEY is unset)")
+app.services.llm_service.LLMError: OpenRouter API key not configured (OPENROUTER_API_KEY is unset)
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 1/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 2/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 2/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — LLM retry 3/3 for model=qwen/qwen3.7-plus — waiting 0.0s after error: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 19:23:17 [ERROR   ] app.services.llm_service — LLM attempt 3/3 failed — model=qwen/qwen3.7-plus  error=OpenRouter response missing expected content: {'unexpected': 'shape'}
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 68, in _complete
+    choice = data["choices"][0]
+             ~~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 122, in complete_with_retry
+    return await self._complete(system_prompt, user_prompt, temperature, max_tokens)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\services\llm_service.py", line 72, in _complete
+    raise LLMError(f"OpenRouter response missing expected content: {data}") from exc
+app.services.llm_service.LLMError: OpenRouter response missing expected content: {'unexpected': 'shape'}
+2026-08-02 19:23:17 [WARNING ] app.services.llm_service — OPENROUTER_API_KEY not set — every LLM call will fail until it is configured.
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [INFO    ] app.routers.evaluation — Evaluate request — session_id=d1637da1-4a32-4e77-805c-ddbf5fcd32de job_id=13263e74-2fef-44f9-a1df-a4bfcac36075 source='raw_text' doc_len=1930 chars
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [INFO    ] app.routers.evaluation — Evaluate request — session_id=ba25ac1a-71ff-4918-8be7-40ab47cca2f8 job_id=90c1569f-8ba9-4e0b-aa94-cfdaccbdc4a7 source='raw_text' doc_len=1930 chars
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:17 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 19:23:18 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 22:36:57 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-02 22:36:57 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-02 22:37:16 [INFO    ] app.routers.evaluation — Evaluate request — matched existing session_id=2f7bb640-0eee-4a1a-a55c-c1f793a45dff by content hash, job_id=9fa3e253-dc70-4e9d-a233-b73586973592 source='2607.28608v1.pdf' version=5
+2026-08-02 22:37:16 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Pipeline started — document length=84142 chars
+2026-08-02 22:37:16 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 1 (segmentation) — starting
+2026-08-02 22:37:16 [INFO    ] app.pipeline.stage1_segment — Stage 1 — segmenting document (84142 chars)
+2026-08-02 22:37:32 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.45s  response_len=4642 chars
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.stage1_segment — Stage 1 — LLM response received (15.46s, 4642 chars)
+2026-08-02 22:37:32 [INFO    ] app.pipeline.stage1_segment — Stage 1 — reconstructed 17 sections (14 present)
+2026-08-02 22:37:32 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 1 complete — 17 sections found (15.46s)
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[0] name='Abstract'  type=ABSTRACT  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[1] name='I. INTRODUCTION'  type=INTRODUCTION  words=659  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[2] name='II. RELATED WORK'  type=LITERATURE_REVIEW  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[3] name='III. PROBLEM FORMULATION'  type=METHODOLOGY  words=464  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[4] name='IV. WHICH METRIC THE DECISION DEPENDS ON'  type=METHODOLOGY  words=1231  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[5] name='V. AUDIT FRAMEWORK'  type=METHODOLOGY  words=879  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[6] name='VI. EXPERIMENTAL SETUP'  type=EXPERIMENTAL_SETUP  words=1015  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[7] name='VII. RESULTS AND ANALYSIS'  type=RESULTS  words=4699  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[8] name='VIII. DISCUSSION'  type=DISCUSSION  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[9] name='IX. CONCLUSION'  type=CONCLUSIONS  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[10] name='REPRODUCIBILITY'  type=OTHER  words=110  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[11] name='AUTHOR CONTRIBUTIONS'  type=OTHER  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[12] name='USE OF AI TOOLS AND AUTHORSHIP STATEMENT'  type=OTHER  words=0  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[13] name='REFERENCES'  type=REFERENCES  words=1335  status=PRESENT
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[14] name='BACKGROUND'  type=BACKGROUND  words=0  status=MISSING
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[15] name='ANALYSIS'  type=ANALYSIS  words=0  status=MISSING
+2026-08-02 22:37:32 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   section[16] name='APPENDIX'  type=APPENDIX  words=0  status=MISSING
+2026-08-02 22:37:32 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stages 2-4 (sequential reviewer pass) — starting
+2026-08-02 22:37:58 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=26.25s  response_len=6804 chars
+2026-08-02 22:38:25 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=26.91s  response_len=7061 chars
+2026-08-02 22:38:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.54s  response_len=6839 chars
+2026-08-02 22:39:22 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=31.10s  response_len=7230 chars
+2026-08-02 22:39:50 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=28.18s  response_len=6139 chars
+2026-08-02 22:41:18 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=87.82s  response_len=6862 chars
+2026-08-02 22:42:02 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=44.57s  response_len=10682 chars
+2026-08-02 22:42:40 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=37.58s  response_len=9542 chars
+2026-08-02 22:43:12 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=32.50s  response_len=8477 chars
+2026-08-02 22:43:57 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=44.89s  response_len=11788 chars
+2026-08-02 22:43:57 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stages 2-4 complete (385.46s) — DE scores={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH scores={'methodology': 4, 'critical_thinking': 4, 'evidence_quality': 4}  COMM scores={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4}
+2026-08-02 22:43:57 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 5 (self-critique audits) — starting
+2026-08-02 22:44:23 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=25.61s  response_len=1129 chars
+2026-08-02 22:44:42 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=19.48s  response_len=1143 chars
+2026-08-02 22:44:45 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=3.12s  response_len=1788 chars
+2026-08-02 22:44:45 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 5 complete (48.21s) — DE quality=high  METH quality=high  COMM quality=high
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Domain Expert audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Methodologist audit issues: ['NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [DEBUG   ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592]   Communication Specialist audit issues: ['NONE', 'NONE', 'NONE', 'NONE', 'NONE', 'NONE']
+2026-08-02 22:44:45 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 6 (reflection pass) — starting
+2026-08-02 22:45:03 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=18.09s  response_len=6846 chars
+2026-08-02 22:45:26 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=22.53s  response_len=6721 chars
+2026-08-02 22:45:41 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=15.24s  response_len=8787 chars
+2026-08-02 22:45:41 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 6 complete (55.90s) — DE final={'technical_accuracy': 3, 'methodology': 4, 'evidence_quality': 4}  METH final={'methodology': 4, 'critical_thinking': 4, 'evidence_quality': 4}  COMM final={'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4}
+2026-08-02 22:45:41 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 7 (consensus reconciliation) — starting
+2026-08-02 22:45:55 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=13.71s  response_len=3982 chars
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 7 complete (13.72s) — scores={'technical_accuracy': 3, 'critical_thinking': 4, 'structure': 3, 'clarity': 3, 'referencing': 3, 'originality': 4, 'professionalism': 4, 'holistic_quality': 4, 'methodology': 4, 'evidence_quality': 4}  deferral=PROCEED
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 8 (deterministic scoring) — starting
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 8 complete (0.00s) — final_score=88.0  grade=Distinction  gate=False  deferred=False  uncertainty_band=[87.1, 88.9]
+2026-08-02 22:45:55 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 9 (feedback synthesis) — starting
+2026-08-02 22:45:55 [INFO    ] app.pipeline.stage9_feedback — Stage 9 (feedback synthesis) — score=88.0  grade=Distinction
+2026-08-02 22:46:13 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=17.83s  response_len=6852 chars
+2026-08-02 22:46:13 [DEBUG   ] app.pipeline.stage9_feedback — Stage 9 — LLM response received (17.83s, 6852 chars)
+2026-08-02 22:46:13 [INFO    ] app.pipeline.stage9_feedback — Stage 9 complete — strengths=3  improvements=3
+2026-08-02 22:46:13 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 9 complete (17.84s) — strengths=3  improvements=3
+2026-08-02 22:46:13 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 10 (verification guard) — starting
+2026-08-02 22:46:13 [INFO    ] app.pipeline.stage10_verification — Stage 10 (verification) — checking feedback integrity
+2026-08-02 22:46:13 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — document truncated from 84142 to 20000 chars for factual verifier
+2026-08-02 22:47:21 [DEBUG   ] app.services.llm_service — LLM response received — model=deepseek/deepseek-v4-pro  elapsed=68.23s  response_len=5396 chars
+2026-08-02 22:47:21 [DEBUG   ] app.pipeline.stage10_verification — Stage 10 — LLM response received (68.23s, 5396 chars)
+2026-08-02 22:47:21 [INFO    ] app.pipeline.stage10_verification — Stage 10 complete — factual=PASS  scan=NONE  combined=PASS/RELEASE  patterns=0
+2026-08-02 22:47:21 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Stage 10 complete (68.23s) — integrity=PASS  recommendation=RELEASE  injection=False
+2026-08-02 22:47:21 [INFO    ] app.pipeline.orchestrator — [9fa3e253-dc70-4e9d-a233-b73586973592] Pipeline COMPLETE — total_time=604.99s  score=88.0  grade=Distinction
+2026-08-07 17:25:19 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 17:25:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-07 17:27:01 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 17:27:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-07 21:40:04 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-07 21:40:04 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 11:59:00 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 11:59:01 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:00:19 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:00:19 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:06:20 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:06:20 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:06:34 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:06:34 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:07:15 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:07:15 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2968
+2026-08-10 12:09:04 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:09:04 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:09:29 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:09:29 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2963
+2026-08-10 12:12:22 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:12:22 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:12:27 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:12:27 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2966
+2026-08-10 12:12:27 [ERROR   ] app.routers.auth — Google OAuth callback failed
+Traceback (most recent call last):
+  File "D:\AI-Evaluation-Work\app\routers\auth.py", line 167, in google_callback
+    identity = await run_in_threadpool(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\app\routers\auth.py", line 141, in _verify_google_id_token
+    return google_id_token.verify_oauth2_token(token, GoogleRequest(), audience)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\oauth2\id_token.py", line 199, in verify_oauth2_token
+    idinfo = verify_token(
+             ^^^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\oauth2\id_token.py", line 171, in verify_token
+    return jwt.decode(
+           ^^^^^^^^^^^
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\auth\jwt.py", line 303, in decode
+    _verify_iat_and_exp(payload, clock_skew_in_seconds)
+  File "D:\AI-Evaluation-Work\.venv\Lib\site-packages\google\auth\jwt.py", line 217, in _verify_iat_and_exp
+    raise exceptions.InvalidValue(
+google.auth.exceptions.InvalidValue: Token used too early, 1786360347 < 1786360349. Check that your computer's clock is set correctly.
+2026-08-10 12:13:07 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:13:07 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — Starting new HTTPS connection (1): www.googleapis.com:443
+2026-08-10 12:13:12 [DEBUG   ] urllib3.connectionpool — https://www.googleapis.com:443 "GET /oauth2/v1/certs HTTP/1.1" 200 2964
+2026-08-10 12:19:57 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:19:57 [DEBUG   ] asyncio — Using proactor: IocpProactor
+2026-08-10 12:21:34 [INFO    ] app.logging_config — Logging initialised — console=INFO  file=logs/pipeline.log
+2026-08-10 12:21:34 [DEBUG   ] asyncio — Using proactor: IocpProactor

@@ -1,6 +1,8 @@
 """Integration and unit tests for the evaluation pipeline."""
 
 import json
+import uuid
+from types import SimpleNamespace
 import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
@@ -113,18 +115,28 @@ def test_extract_scores_from_review():
     raw = """<domain_expert_review>
       <criterion id="technical_accuracy">
         <reasoning>Well-reasoned derivations found throughout.</reasoning>
+        <evidence><![CDATA[thermal efficiency of shell-and-tube heat exchangers]]></evidence>
+        <rubric_level_matched>3</rubric_level_matched>
+        <band_justification>Not a 4 because no independent replication is reported; not a 2 because the derivation is coherent.</band_justification>
         <score>3</score>
         <confidence>High</confidence>
+        <confidence_reason>The derivations are explicit.</confidence_reason>
       </criterion>
       <criterion id="methodology">
         <reasoning>Adequate experimental design.</reasoning>
+        <evidence><![CDATA[Three replicate runs were performed at each Reynolds number]]></evidence>
+        <rubric_level_matched>2</rubric_level_matched>
+        <band_justification>Not a 3 because some design choices remain unexplained; not a 1 because replicates are specified.</band_justification>
         <score>2</score>
         <confidence>Medium</confidence>
+        <confidence_reason>The methods section is partly specified.</confidence_reason>
       </criterion>
     </domain_expert_review>"""
     root = parse_xml_response(raw, "domain_expert_review")
     assert root is not None
-    scores = extract_scores_from_review(root, ["technical_accuracy", "methodology"])
+    scores = extract_scores_from_review(
+        root, ["technical_accuracy", "methodology"], SAMPLE_REPORT, "Domain Expert", 1
+    )
     assert scores["technical_accuracy"]["score"] == 3
     assert scores["technical_accuracy"]["confidence"] == "high"
     assert scores["methodology"]["score"] == 2
@@ -177,8 +189,51 @@ def test_gate_caps_at_49():
 # ---------------------------------------------------------------------------
 
 from main import app
+import app.routers.evaluation as evaluation_router
+from app.security.auth import get_current_user
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def prevent_background_llm_calls(monkeypatch):
+    """Endpoint tests are independent of networked LLMs and PostgreSQL."""
+    versions = {}
+
+    async def _no_network_pipeline(*_args, **_kwargs):
+        return None
+
+    async def _no_database():
+        yield object()
+
+    async def _find_existing(*_args, **_kwargs):
+        return None
+
+    async def _create_session(*_args, **_kwargs):
+        session_id, version_id = uuid.uuid4(), uuid.uuid4()
+        session = SimpleNamespace(id=session_id)
+        version = SimpleNamespace(
+            id=version_id, session_id=session_id, version_number=1,
+            status="queued", stage="pending", progress=0, error=None,
+            result_json=None, final_score=None, grade_band=None,
+        )
+        versions[version_id] = version
+        return session, version
+
+    async def _get_version(_db, version_id, *_args, **_kwargs):
+        return versions.get(version_id)
+
+    async def _current_user():
+        return SimpleNamespace(id=uuid.uuid4(), username="test-user")
+
+    monkeypatch.setattr(evaluation_router, "_run_pipeline_background", _no_network_pipeline)
+    monkeypatch.setattr(evaluation_router.session_service, "find_session_by_document_hash", _find_existing)
+    monkeypatch.setattr(evaluation_router.session_service, "create_session", _create_session)
+    monkeypatch.setattr(evaluation_router.session_service, "get_version", _get_version)
+    app.dependency_overrides[evaluation_router.get_db] = _no_database
+    app.dependency_overrides[get_current_user] = _current_user
+    yield
+    app.dependency_overrides.clear()
 
 
 def test_health_endpoint():
@@ -214,12 +269,12 @@ def test_status_endpoint_queued():
 
 def test_status_404_unknown_job():
     resp = client.get("/api/v1/status/nonexistent-job-id-xyz")
-    assert resp.status_code == 404
+    assert resp.status_code == 400
 
 
 def test_result_404_unknown_job():
     resp = client.get("/api/v1/result/nonexistent-job-id-xyz")
-    assert resp.status_code == 404
+    assert resp.status_code == 400
 
 
 def test_evaluate_rejects_empty_text():

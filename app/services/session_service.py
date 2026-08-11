@@ -9,7 +9,7 @@ always remain retrievable even after a re-evaluation produces a new one.
 import hashlib
 import uuid
 from datetime import datetime, timezone
-from typing import Optional, Sequence
+from typing import Any, Optional, Sequence
 
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,6 +23,27 @@ def _utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def sanitize_for_postgres(value: Any) -> Any:
+    """Remove NUL characters from values destined for text or JSON columns.
+
+    PostgreSQL rejects ``\\x00`` in UTF-8 text and JSONB values. PDF and DOCX
+    extractors can occasionally emit it, so normalise extracted text and page
+    metadata at the persistence boundary. Binary upload content is deliberately
+    not passed to this helper: ``BYTEA`` supports NUL bytes and must retain the
+    original file exactly.
+    """
+    if isinstance(value, str):
+        return value.replace("\x00", "")
+    if isinstance(value, list):
+        return [sanitize_for_postgres(item) for item in value]
+    if isinstance(value, dict):
+        return {
+            sanitize_for_postgres(key) if isinstance(key, str) else key: sanitize_for_postgres(item)
+            for key, item in value.items()
+        }
+    return value
+
+
 def hash_document(content: Optional[bytes], document_text: str) -> str:
     """Content-identity hash for a submitted document. Uses the raw file
     bytes when available (uploads) so re-uploading the exact same file is
@@ -30,11 +51,11 @@ def hash_document(content: Optional[bytes], document_text: str) -> str:
     extracted text for pasted-text submissions, which have no file bytes."""
     if content is not None:
         return hashlib.sha256(content).hexdigest()
-    return hashlib.sha256(document_text.encode("utf-8")).hexdigest()
+    return hashlib.sha256(sanitize_for_postgres(document_text).encode("utf-8")).hexdigest()
 
 
 async def find_session_by_document_hash(
-    db: AsyncSession, document_hash: str
+    db: AsyncSession, document_hash: str, owner_id: uuid.UUID
 ) -> Optional[Session]:
     """Find a non-archived session whose stored document has an identical
     content hash, so a fresh upload of an already-evaluated file nests into
@@ -42,7 +63,11 @@ async def find_session_by_document_hash(
     result = await db.execute(
         select(Session)
         .join(Document, Document.session_id == Session.id)
-        .where(Document.document_hash == document_hash, Session.archived_at.is_(None))
+        .where(
+            Document.document_hash == document_hash,
+            Session.owner_id == owner_id,
+            Session.archived_at.is_(None),
+        )
         .order_by(Session.created_at.asc())
         .limit(1)
     )
@@ -53,25 +78,31 @@ async def create_session(
     db: AsyncSession,
     *,
     document_text: str,
+    owner_id: uuid.UUID,
     filename: Optional[str] = None,
     content_type: Optional[str] = None,
     content: Optional[bytes] = None,
     pages: Optional[list] = None,
 ) -> tuple[Session, EvaluationVersion]:
     """Create a new session, its immutable document record, and version 1."""
-    session_row = Session(filename=filename, content_type=content_type)
+    clean_document_text = sanitize_for_postgres(document_text)
+    clean_filename = sanitize_for_postgres(filename)
+    clean_content_type = sanitize_for_postgres(content_type)
+    clean_pages = sanitize_for_postgres(pages)
+
+    session_row = Session(owner_id=owner_id, filename=clean_filename, content_type=clean_content_type)
     db.add(session_row)
     await db.flush()  # populate session_row.id
 
     db.add(
         Document(
             session_id=session_row.id,
-            document_text=document_text,
+            document_text=clean_document_text,
             content=content,
-            content_type=content_type,
-            filename=filename,
-            pages=pages,
-            document_hash=hash_document(content, document_text),
+            content_type=clean_content_type,
+            filename=clean_filename,
+            pages=clean_pages,
+            document_hash=hash_document(content, clean_document_text),
         )
     )
 
@@ -90,10 +121,14 @@ async def create_session(
     return session_row, version
 
 
-async def create_reevaluation(db: AsyncSession, session_id: uuid.UUID) -> EvaluationVersion:
+async def create_reevaluation(
+    db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID
+) -> EvaluationVersion:
     """Start a new version under an existing session, reusing its stored
     document. Raises LookupError if the session or its document is missing."""
-    session_row = await db.get(Session, session_id)
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None or session_row.archived_at is not None:
         raise LookupError(f"Session '{session_id}' not found.")
 
@@ -149,7 +184,7 @@ async def update_version(db: AsyncSession, version_id: uuid.UUID, **fields) -> N
 async def set_version_result(
     db: AsyncSession, version_id: uuid.UUID, result: EvaluationResult
 ) -> None:
-    scoring = result.scoring or {}
+    scoring = result.scoring.model_dump() if result.scoring else {}
     await update_version(
         db,
         version_id,
@@ -167,16 +202,29 @@ async def set_version_failed(db: AsyncSession, version_id: uuid.UUID, error: str
     await update_version(db, version_id, status="failed", error=error)
 
 
-async def get_version(db: AsyncSession, version_id: uuid.UUID) -> Optional[EvaluationVersion]:
-    return await db.get(EvaluationVersion, version_id)
+async def get_version(
+    db: AsyncSession, version_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
+) -> Optional[EvaluationVersion]:
+    if owner_id is None:
+        return await db.get(EvaluationVersion, version_id)
+    return await db.scalar(
+        select(EvaluationVersion)
+        .join(Session, Session.id == EvaluationVersion.session_id)
+        .where(EvaluationVersion.id == version_id, Session.owner_id == owner_id)
+    )
 
 
-async def get_session(db: AsyncSession, session_id: uuid.UUID) -> Optional[Session]:
-    result = await db.execute(
+async def get_session(
+    db: AsyncSession, session_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
+) -> Optional[Session]:
+    query = (
         select(Session)
         .options(selectinload(Session.versions))
         .where(Session.id == session_id)
     )
+    if owner_id is not None:
+        query = query.where(Session.owner_id == owner_id)
+    result = await db.execute(query)
     return result.scalar_one_or_none()
 
 
@@ -185,9 +233,9 @@ async def get_document(db: AsyncSession, session_id: uuid.UUID) -> Optional[Docu
 
 
 async def get_document_for_version(
-    db: AsyncSession, version_id: uuid.UUID
+    db: AsyncSession, version_id: uuid.UUID, owner_id: Optional[uuid.UUID] = None
 ) -> Optional[Document]:
-    version = await get_version(db, version_id)
+    version = await get_version(db, version_id, owner_id)
     if version is None:
         return None
     return await get_document(db, version.session_id)
@@ -199,17 +247,22 @@ async def list_sessions(
     include_archived: bool = False,
     limit: int = 50,
     offset: int = 0,
+    owner_id: Optional[uuid.UUID] = None,
 ) -> Sequence[Session]:
     query = select(Session).options(selectinload(Session.versions)).order_by(Session.updated_at.desc())
     if not include_archived:
         query = query.where(Session.archived_at.is_(None))
+    if owner_id is not None:
+        query = query.where(Session.owner_id == owner_id)
     query = query.limit(limit).offset(offset)
     result = await db.execute(query)
     return result.scalars().all()
 
 
-async def archive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
-    session_row = await db.get(Session, session_id)
+async def archive_session(db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID) -> bool:
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None:
         return False
     session_row.archived_at = _utcnow()
@@ -217,8 +270,10 @@ async def archive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
     return True
 
 
-async def unarchive_session(db: AsyncSession, session_id: uuid.UUID) -> bool:
-    session_row = await db.get(Session, session_id)
+async def unarchive_session(db: AsyncSession, session_id: uuid.UUID, owner_id: uuid.UUID) -> bool:
+    session_row = await db.scalar(
+        select(Session).where(Session.id == session_id, Session.owner_id == owner_id)
+    )
     if session_row is None:
         return False
     session_row.archived_at = None

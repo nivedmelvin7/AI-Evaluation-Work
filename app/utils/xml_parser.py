@@ -1,6 +1,9 @@
 from lxml import etree
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Iterable, List, Tuple
 import re
+
+from app.models.assessment import validate_complete_assessments
+from app.rubric import ALL_CRITERIA
 
 _ATTR_START_RE = re.compile(r'\w+="')
 
@@ -83,49 +86,87 @@ def parse_xml_response(raw: str, root_tag: str) -> Optional[etree._Element]:
         return None
 
 
+def _text(element: Optional[etree._Element]) -> str:
+    return "".join(element.itertext()).strip() if element is not None else ""
+
+
+def _strict_integer(value: str) -> Any:
+    """Keep invalid XML values invalid; never coerce them into a rubric level."""
+    value = value.strip()
+    if not re.fullmatch(r"[0-4]", value):
+        return value
+    return int(value)
+
+
+def parse_review_assessments(
+    xml_root: etree._Element,
+    criteria: Iterable[str],
+    document_text: str,
+    source_reviewer: str,
+    source_run: int,
+) -> Tuple[Dict[str, Dict[str, Any]], List[str]]:
+    """Parse a complete reviewer response while preserving usable evidence.
+
+    Structural issues (missing criteria, invalid levels, empty reasoning, and
+    broken boundary justification) remain errors.  A quotation that cannot be
+    matched exactly after PDF extraction is retained as an explicit warning on
+    the assessment; it reduces confidence later instead of erasing a genuine
+    content judgement.
+    """
+    expected = tuple(criteria)
+    payloads: List[Dict[str, Any]] = []
+    errors: List[str] = []
+    seen: set[str] = set()
+    for criterion_el in xml_root.findall(".//criterion"):
+        criterion_id = criterion_el.get("id", "").strip()
+        if criterion_id in seen:
+            errors.append(f"duplicate criterion: {criterion_id or 'missing id'}")
+            continue
+        seen.add(criterion_id)
+        if criterion_id not in expected:
+            errors.append(f"unexpected criterion: {criterion_id or 'missing id'}")
+            continue
+
+        score_text = _text(criterion_el.find("score"))
+        rubric_level_text = _text(criterion_el.find("rubric_level_matched"))
+        if not rubric_level_text:
+            errors.append(f"{criterion_id}: missing rubric_level_matched")
+        elif rubric_level_text != score_text:
+            errors.append(f"{criterion_id}: rubric_level_matched must equal score")
+        payloads.append({
+            "criterion_id": criterion_id,
+            "score": _strict_integer(score_text) if score_text else None,
+            "confidence": _text(criterion_el.find("confidence")),
+            "reasoning": _text(criterion_el.find("reasoning")),
+            "evidence": _text(criterion_el.find("evidence")),
+            "band_justification": _text(criterion_el.find("band_justification")),
+            "confidence_reason": _text(criterion_el.find("confidence_reason")),
+            "source_reviewer": source_reviewer,
+            "source_run": source_run,
+        })
+    scores, validation_errors = validate_complete_assessments(
+        payloads,
+        expected,
+        document_text,
+        allow_unverified_evidence=True,
+    )
+    return scores, errors + validation_errors
+
+
 def extract_scores_from_review(
     xml_root: etree._Element,
-    criteria: list[str]
+    criteria: list[str],
+    document_text: str = "",
+    source_reviewer: str = "Unknown reviewer",
+    source_run: int = 1,
 ) -> Dict[str, Dict[str, Any]]:
-    """
-    Extract score and confidence for each criterion from a reviewer XML element.
-    Returns {criterion_id: {"score": int, "confidence": str, "reasoning": str}}
-    """
-    scores = {}
-    for criterion_id in criteria:
-        el = xml_root.find(f".//criterion[@id='{criterion_id}']")
-        if el is None:
-            continue
-        score_el = el.find("score")
-        confidence_el = el.find("confidence")
-        reasoning_el = el.find("reasoning")
-        revised_score_el = el.find("revised_score")
+    """Compatibility wrapper returning only a complete, valid assessment map.
 
-        # Use revised score if present (from reflection stage)
-        score_text = (
-            revised_score_el.text if revised_score_el is not None
-            else score_el.text if score_el is not None
-            else None
-        )
-        if score_text:
-            score_text = score_text.strip()
-            # Handle "Unchanged: 3" format from reflection
-            if score_text.lower().startswith("unchanged"):
-                match = re.search(r"\d", score_text)
-                score_val = int(match.group()) if match else 2
-            else:
-                try:
-                    score_val = int(score_text)
-                except ValueError:
-                    score_val = 2
-        else:
-            score_val = 2
-
-        scores[criterion_id] = {
-            "score": max(0, min(4, score_val)),
-            "confidence": confidence_el.text.strip().lower()
-            if confidence_el is not None else "medium",
-            "reasoning": reasoning_el.text.strip()
-            if reasoning_el is not None else "",
-        }
-    return scores
+    Code that needs diagnostics must use :func:`parse_review_assessments`.
+    An incomplete or malformed response returns an empty map instead of a
+    plausible-looking score map.
+    """
+    scores, errors = parse_review_assessments(
+        xml_root, criteria, document_text, source_reviewer, source_run
+    )
+    return {} if errors else scores

@@ -155,8 +155,8 @@ async def run(
 ) -> Dict[str, Any]:
     """Synthesise written feedback from consensus evaluation and scoring."""
     logger.info(
-        "Stage 9 (feedback synthesis) — score=%.1f  grade=%s",
-        scoring_result.get("final_score", 0),
+        "Stage 9 (feedback synthesis) — score=%s  grade=%s",
+        scoring_result.get("final_score") if scoring_result.get("final_score") is not None else scoring_result.get("provisional_score"),
         scoring_result.get("grade_band"),
     )
 
@@ -170,6 +170,10 @@ async def run(
     scoring_text = json.dumps(
         {
             "final_score": scoring_result.get("final_score"),
+            "provisional_score": scoring_result.get("provisional_score"),
+            "provisional_grade_band": scoring_result.get("provisional_grade_band"),
+            "scoring_complete": scoring_result.get("scoring_complete"),
+            "deferral_reasons": scoring_result.get("deferral_reasons"),
             "grade_band": scoring_result.get("grade_band"),
             "achievement_score": scoring_result.get("achievement_score"),
             "uncertainty_band": scoring_result.get("uncertainty_band"),

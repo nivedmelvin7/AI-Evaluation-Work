@@ -52,11 +52,17 @@ function textOf(value) {
   return value == null ? '—' : String(value);
 }
 
+function scoreLabel(scoring) {
+  if (scoring?.final_score != null) return `${Number(scoring.final_score).toFixed(2)} / 100`;
+  if (scoring?.provisional_score != null) return `Provisional ${Number(scoring.provisional_score).toFixed(2)} / 100`;
+  return 'Not scored';
+}
+
 function buildDocx(result) {
   const scoring = result.scoring || {};
   const feedback = result.feedback || {};
   const rows = criterionRows(scoring);
-  const scoreLine = `${scoring.final_score ?? '—'} / 100 · ${scoring.grade_band || 'Unbanded'}`;
+  const scoreLine = `${scoreLabel(scoring)} · ${scoring.grade_band || 'Unbanded'}`;
   const tableRows = [
     ['Criterion', 'Level', 'Weight', 'Score', 'Confidence'],
     ...rows.map((row) => [humanizeCriterion(row.key), row.level ?? '—', row.weight != null ? `${Math.round(row.weight * 100)}%` : '—', row.s_i != null ? `${Math.round(row.s_i * 100)}%` : '—', row.confidence || '—']),
@@ -195,7 +201,11 @@ export default function ResultWorkspace() {
       }));
       const summary = [{
         'Final score': result.scoring?.final_score ?? '',
+        'Provisional score': result.scoring?.provisional_score ?? '',
+        'Scoring complete': result.scoring?.scoring_complete ?? false,
         'Grade band': result.scoring?.grade_band ?? '',
+        'Provisional grade band': result.scoring?.provisional_grade_band ?? '',
+        'Deferral reasons': (result.scoring?.deferral_reasons || []).join('; '),
         'Uncertainty low': result.scoring?.uncertainty_band?.[0] ?? '',
         'Uncertainty high': result.scoring?.uncertainty_band?.[1] ?? '',
       }];
@@ -252,7 +262,7 @@ export default function ResultWorkspace() {
       <div className="result-header">
         <div>
           <div className="result-title">
-            {scoring?.final_score ?? '—'} / 100
+            {scoreLabel(scoring)}
             {scoring?.grade_band && <span className={`grade-badge grade-${scoring.grade_band.toLowerCase()}`} style={{ marginLeft: '0.75rem', verticalAlign: 'middle' }}>{scoring.grade_band}</span>}
           </div>
           <div className="result-job-id">

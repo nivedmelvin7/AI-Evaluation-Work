@@ -27,10 +27,12 @@ from fastapi.responses import HTMLResponse, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
+from app.db.models import User
 from app.db.session import get_db
 from app.pipeline.orchestrator import PipelineOrchestrator
 from app.services import session_service
 from app.services.document_service import DocumentService
+from app.security.auth import get_current_user
 
 logger = logging.getLogger(__name__)
 
@@ -139,18 +141,19 @@ async def evaluate(
     file: Optional[UploadFile] = File(None),
     raw_text: Optional[str] = Form(None),
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     text, pages, file_bytes, content_type, filename = await _resolve_text_and_meta(file, raw_text)
     source = filename or "raw_text"
     doc_hash = session_service.hash_document(file_bytes, text)
 
-    existing_session = await session_service.find_session_by_document_hash(db, doc_hash)
+    existing_session = await session_service.find_session_by_document_hash(db, doc_hash, current_user.id)
     if existing_session is not None:
         # Same document already evaluated before (byte-identical re-upload) —
         # nest this run as a new version under the existing session/folder
         # instead of creating a duplicate one.
         session_row = existing_session
-        version = await session_service.create_reevaluation(db, session_row.id)
+        version = await session_service.create_reevaluation(db, session_row.id, current_user.id)
         logger.info(
             "Evaluate request — matched existing session_id=%s by content hash, "
             "job_id=%s source=%r version=%d",
@@ -160,6 +163,7 @@ async def evaluate(
         session_row, version = await session_service.create_session(
             db,
             document_text=text,
+            owner_id=current_user.id,
             filename=filename,
             content_type=content_type,
             content=file_bytes,
@@ -175,8 +179,12 @@ async def evaluate(
 
 
 @router.get("/status/{job_id}", summary="Poll evaluation job status")
-async def get_status(job_id: str, db: AsyncSession = Depends(get_db)):
-    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"))
+async def get_status(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"), current_user.id)
     if not version:
         raise HTTPException(404, f"Job '{job_id}' not found.")
     return {
@@ -191,8 +199,12 @@ async def get_status(job_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/result/{job_id}", summary="Retrieve completed evaluation result")
-async def get_result(job_id: str, db: AsyncSession = Depends(get_db)):
-    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"))
+async def get_result(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    version = await session_service.get_version(db, _parse_uuid(job_id, "job_id"), current_user.id)
     if not version:
         raise HTTPException(404, f"Job '{job_id}' not found.")
     if version.status == "failed":
@@ -213,6 +225,7 @@ async def evaluate_sync(
     raw_text: Optional[str] = Form(None),
     x_secret_key: Optional[str] = Form(None),
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     settings = get_settings()
 
@@ -230,6 +243,7 @@ async def evaluate_sync(
     session_row, version = await session_service.create_session(
         db,
         document_text=text,
+        owner_id=current_user.id,
         filename=filename,
         content_type=content_type,
         content=file_bytes,
@@ -267,16 +281,23 @@ async def list_sessions(
     limit: int = 50,
     offset: int = 0,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     sessions = await session_service.list_sessions(
-        db, include_archived=include_archived, limit=limit, offset=offset
+        db, include_archived=include_archived, limit=limit, offset=offset, owner_id=current_user.id
     )
     return {"sessions": [_session_summary(s) for s in sessions]}
 
 
 @router.get("/sessions/{session_id}", summary="Session detail with full version history")
-async def get_session_detail(session_id: str, db: AsyncSession = Depends(get_db)):
-    session_row = await session_service.get_session(db, _parse_uuid(session_id, "session_id"))
+async def get_session_detail(
+    session_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    session_row = await session_service.get_session(
+        db, _parse_uuid(session_id, "session_id"), current_user.id
+    )
     if not session_row:
         raise HTTPException(404, f"Session '{session_id}' not found.")
     versions = sorted(session_row.versions, key=lambda v: v.version_number)
@@ -296,10 +317,11 @@ async def reevaluate_session(
     session_id: str,
     background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     sid = _parse_uuid(session_id, "session_id")
     try:
-        version = await session_service.create_reevaluation(db, sid)
+        version = await session_service.create_reevaluation(db, sid, current_user.id)
     except LookupError as exc:
         raise HTTPException(404, str(exc))
 
@@ -320,16 +342,24 @@ async def reevaluate_session(
 
 
 @router.delete("/sessions/{session_id}", summary="Archive a session (history is preserved)")
-async def delete_session(session_id: str, db: AsyncSession = Depends(get_db)):
-    ok = await session_service.archive_session(db, _parse_uuid(session_id, "session_id"))
+async def delete_session(
+    session_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    ok = await session_service.archive_session(db, _parse_uuid(session_id, "session_id"), current_user.id)
     if not ok:
         raise HTTPException(404, f"Session '{session_id}' not found.")
     return {"session_id": session_id, "archived": True}
 
 
 @router.post("/sessions/{session_id}/unarchive", summary="Restore an archived session")
-async def unarchive_session(session_id: str, db: AsyncSession = Depends(get_db)):
-    ok = await session_service.unarchive_session(db, _parse_uuid(session_id, "session_id"))
+async def unarchive_session(
+    session_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    ok = await session_service.unarchive_session(db, _parse_uuid(session_id, "session_id"), current_user.id)
     if not ok:
         raise HTTPException(404, f"Session '{session_id}' not found.")
     return {"session_id": session_id, "archived": False}
@@ -338,8 +368,14 @@ async def unarchive_session(session_id: str, db: AsyncSession = Depends(get_db))
 # ── Document preview endpoints ─────────────────────────────────────────────────
 
 @router.get("/document/{job_id}/meta", summary="Document metadata for preview")
-async def document_meta(job_id: str, db: AsyncSession = Depends(get_db)):
-    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+async def document_meta(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    document = await session_service.get_document_for_version(
+        db, _parse_uuid(job_id, "job_id"), current_user.id
+    )
     if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job (text-input evaluation).")
     ct = document.content_type or ""
@@ -357,16 +393,28 @@ async def document_meta(job_id: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/document/{job_id}", summary="Serve original uploaded document")
-async def document_file(job_id: str, db: AsyncSession = Depends(get_db)):
-    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+async def document_file(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    document = await session_service.get_document_for_version(
+        db, _parse_uuid(job_id, "job_id"), current_user.id
+    )
     if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job.")
     return Response(content=document.content, media_type=document.content_type)
 
 
 @router.get("/document/{job_id}/html", summary="HTML rendering of document for preview")
-async def document_html(job_id: str, db: AsyncSession = Depends(get_db)):
-    document = await session_service.get_document_for_version(db, _parse_uuid(job_id, "job_id"))
+async def document_html(
+    job_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    document = await session_service.get_document_for_version(
+        db, _parse_uuid(job_id, "job_id"), current_user.id
+    )
     if document is None or document.content is None:
         raise HTTPException(404, "No document stored for this job.")
     filename = document.filename or "document.txt"

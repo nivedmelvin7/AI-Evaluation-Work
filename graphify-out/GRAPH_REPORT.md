@@ -1,16 +1,16 @@
-# Graph Report - AI-Evaluation-Work  (2026-07-30)
+# Graph Report - AI-Evaluation-Work  (2026-08-10)
 
 ## Corpus Check
-- 98 files · ~37,346 words
+- 114 files · ~42,720 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 686 nodes · 1151 edges · 78 communities (49 shown, 29 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.65)
+- 828 nodes · 1673 edges · 79 communities (51 shown, 28 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 45 edges (avg confidence: 0.71)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b3345ae`
+- Built from commit: `e6ad4b92`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -80,31 +80,30 @@
 - Part 1 — Complete Frontend Replacement and Core Evaluation Experience
 - DocumentPreview.jsx
 - Engineering Report Evaluation — Frontend
-- CLAUDE.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `LLMService` - 29 edges
-2. `parse_xml_response()` - 28 edges
-3. `get_settings()` - 21 edges
-4. `scan_document()` - 21 edges
-5. `compute_score()` - 19 edges
-6. `format_sections_for_prompt()` - 14 edges
-7. `DocumentService` - 13 edges
-8. `Part 8 — Accounts, Roles, Security, Backup, Diagnostics, and Production Readiness` - 13 edges
-9. `Session` - 12 edges
-10. `extract_scores_from_review()` - 12 edges
+1. `get_settings()` - 34 edges
+2. `parse_xml_response()` - 33 edges
+3. `User` - 31 edges
+4. `LLMService` - 31 edges
+5. `compute_score()` - 22 edges
+6. `scan_document()` - 21 edges
+7. `apiFetch()` - 18 edges
+8. `run_self_consistent_reviewer()` - 17 edges
+9. `parse_review_assessments()` - 17 edges
+10. `format_sections_for_prompt()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `test_sync_endpoint_blocked_without_key()` --calls--> `get_settings()`  [EXTRACTED]
-  tests/test_pipeline.py → app/config.py
-- `test_full_marks()` --calls--> `compute_score()`  [EXTRACTED]
-  tests/test_pipeline.py → app/pipeline/stage8_scoring.py
-- `test_gate_caps_at_49()` --calls--> `compute_score()`  [EXTRACTED]
-  tests/test_pipeline.py → app/pipeline/stage8_scoring.py
-- `test_base64_blob_is_low_risk_not_rejected()` --calls--> `scan_document()`  [EXTRACTED]
-  tests/test_prompt_injection_scanner.py → app/security/prompt_injection_scanner.py
-- `test_clean_report_produces_no_false_positive()` --calls--> `scan_document()`  [EXTRACTED]
-  tests/test_prompt_injection_scanner.py → app/security/prompt_injection_scanner.py
+- `test_extract_scores_handles_unchanged_format()` --calls--> `parse_xml_response()`  [EXTRACTED]
+  tests/test_pipeline.py → app/utils/xml_parser.py
+- `test_xml_parser_malformed_ampersand()` --calls--> `parse_xml_response()`  [EXTRACTED]
+  tests/test_pipeline.py → app/utils/xml_parser.py
+- `test_xml_parser_returns_none_on_garbage()` --calls--> `parse_xml_response()`  [EXTRACTED]
+  tests/test_pipeline.py → app/utils/xml_parser.py
+- `test_xml_parser_well_formed()` --calls--> `parse_xml_response()`  [EXTRACTED]
+  tests/test_pipeline.py → app/utils/xml_parser.py
+- `test_xml_parser_with_markdown_fences()` --calls--> `parse_xml_response()`  [EXTRACTED]
+  tests/test_pipeline.py → app/utils/xml_parser.py
 
 ## Import Cycles
 - None detected.
@@ -112,19 +111,19 @@
 ## Hyperedges (group relationships)
 - **Multi-Format Document Parsing Stack** — requirements_pymupdf, requirements_python_docx, readme_stage1_segmentation [INFERRED 0.85]
 
-## Communities (78 total, 29 thin omitted)
+## Communities (79 total, 28 thin omitted)
 
 ### Community 0 - "App Config & Logging"
-Cohesion: 0.13
-Nodes (19): Config, get_settings(), Settings, compute_median_scores(), Shared pipeline utilities: section formatting and self-consistency scoring., Given N runs of reviewer scores, return the median score per criterion     with, Any, Stage 2: Domain Expert Reviewer  Input:  llm (LLMService), sections (List[Dict]) (+11 more)
+Cohesion: 0.17
+Nodes (23): get_settings(), compute_median_scores(), format_sections_for_prompt(), Any, Shared pipeline utilities: section formatting and self-consistency scoring., Format parsed sections into a prompt-ready string, truncating to MAX_SECTION_CHA, Given complete valid reviewer runs, return an aligned structured median., _lower_confidence() (+15 more)
 
 ### Community 1 - "Verification & Feedback Stages"
 Cohesion: 0.11
 Nodes (19): 10. Responsive and accessible completion, 1. New application shell, 2. Design system, 3. Theme system — complete the half-built work, 4. Redesigned new-evaluation experience, 5. Redesigned running-evaluation experience, 6. Redesigned result workspace, 7. Complete the charts and status visualisations (+11 more)
 
 ### Community 2 - "Scoring Engine"
-Cohesion: 0.17
-Nodes (22): compute_score(), _grade_band(), Any, Deterministic, policy-based scoring for the document evaluation pipeline., Entry point for the orchestrator., Return a rubric level only when it is a whole number on the 0--4 scale., Map the 0--100 scale to bands consistent with the 0--4 rubric labels., Calculate achievement, confidence risk, gates, and moderation flags.      F1  No (+14 more)
+Cohesion: 0.21
+Nodes (15): Build an assessment and verify its supporting quotation when possible.      A, validate_assessment(), assessment(), audit_xml(), completed_reviewer(), FakeLLM, Validated assessment, self-consistency, and mocked pipeline-flow tests., reviewer_xml() (+7 more)
 
 ### Community 3 - "Frontend UI Components"
 Cohesion: 0.09
@@ -134,49 +133,45 @@ Nodes (22): CriteriaRadar(), ORDER, COLUMNS, CONFIDENCE_RANK, CRITERION_ORDER, C
 Cohesion: 0.22
 Nodes (9): FastAPI, google-genai SDK, httpx (Async HTTP Client), Pydantic v2, PyMuPDF (PDF Parsing), pytest-asyncio (Async Test Support), python-docx (DOCX Parsing), Python Dependencies (requirements.txt) (+1 more)
 
-### Community 5 - "Frontend API Client"
-Cohesion: 0.20
-Nodes (5): getStepState(), ProgressTracker(), STAGES, ErrorBoundary, FailureScreen()
-
 ### Community 6 - "Segmentation & Critique Stages"
 Cohesion: 0.11
-Nodes (32): _combine(), Any, Stage 10: Verification Guard  Input:  llm (LLMService),         feedback_out, Deterministically merge the factual verdict with the security scan.     Whicheve, Run factual verification and combine it with the security scan., run(), Prompt for Stage 10: Factual Verification.  This stage's LLM prompt covers factu, _char_script() (+24 more)
+Nodes (32): _combine(), Any, Stage 10: Verification Guard  Input:  llm (LLMService),         feedback_out, Deterministically merge the factual verdict with the security scan.     Whichev, Run factual verification and combine it with the security scan., run(), Prompt for Stage 10: Factual Verification.  This stage's LLM prompt covers fac, _char_script() (+24 more)
 
 ### Community 7 - "Part 4 — Batch Grading, Analytics, Auth & Hardening"
 Cohesion: 0.10
 Nodes (20): Accounts and roles, API tokens, Audit trail, Backup and restore, Definition of complete for every part, Dependencies, Diagnostics and operations, Done when (+12 more)
 
 ### Community 8 - "Frontend Build Dependencies"
-Cohesion: 0.09
-Nodes (21): dependencies, docx, html2pdf.js, pdfjs-dist, react, react-dom, react-is, react-router-dom (+13 more)
+Cohesion: 0.06
+Nodes (33): Document parsing service. Supports: .pdf (PyMuPDF), .docx (python-docx), .txt (, docx, dependencies, docx, html2pdf.js, pdfjs-dist, react, react-dom (+25 more)
 
 ### Community 10 - "Async Job Store"
-Cohesion: 0.19
-Nodes (16): LLMError, LLMService, OpenRouter-backed LLM client used by every pipeline stage., Exception, _make_service(), _mock_response(), Any, Tests for LLMService (OpenRouter is the sole LLM provider).  These mock the HTTP (+8 more)
+Cohesion: 0.22
+Nodes (14): LLMError, Exception, _make_service(), _mock_response(), Any, Tests for LLMService (OpenRouter is the sole LLM provider).  These mock the HTTP, The app must still boot even with no OpenRouter key configured —     the error s, test_all_retries_exhausted_raises_llm_error() (+6 more)
 
 ### Community 11 - "Consensus Reconciliation Stage"
 Cohesion: 0.19
-Nodes (14): _fallback_section(), _find_snippet(), _normalise_ws(), _parse_markers(), Any, Stage 1: Document Segmentation  Input:  llm (LLMService), document_text (str) Ou, Turn boundary markers into full sections by slicing the original text., Return the entire document as one section when segmentation fails. (+6 more)
+Nodes (14): _fallback_section(), _find_snippet(), _normalise_ws(), _parse_markers(), Any, Stage 1: Document Segmentation  Input:  llm (LLMService), document_text (str), Turn boundary markers into full sections by slicing the original text., Return the entire document as one section when segmentation fails. (+6 more)
 
 ### Community 12 - "stage7_consensus.py"
-Cohesion: 0.29
-Nodes (9): _build_consensus_prompt(), _fallback_consensus(), _format_reviewer_scores(), Any, Stage 7: Consensus Reconciliation  Input:  llm (LLMService),         de_final, Reconcile post-reflection reviewer scores into a single consensus., Build a simple fallback consensus from available reviewer scores., run() (+1 more)
+Cohesion: 0.24
+Nodes (15): _build_consensus_prompt(), _carried_forward(), _coverage_inputs(), _deterministic_provisional_multi(), _lower_confidence(), Any, Stage 7: evidence-based consensus with deterministic coverage safeguards., Keep a usable judgement when a secondary reviewer is unavailable. (+7 more)
 
 ### Community 13 - "Request Models"
 Cohesion: 0.67
 Nodes (3): EvaluationStatusResponse, BaseModel, TextEvaluationRequest
 
 ### Community 23 - "evaluation.py"
-Cohesion: 0.16
-Nodes (27): get_db(), FastAPI dependency — one session per request., delete_session(), document_file(), document_html(), document_meta(), evaluate(), evaluate_sync() (+19 more)
+Cohesion: 0.05
+Nodes (61): Settings, get_db(), FastAPI dependency — one session per request., CriterionAssessment, Any, BaseModel, An assessment that is valid only after document evidence is checked., LoginRequest (+53 more)
 
 ### Community 24 - "Engineering Report Evaluation API"
-Cohesion: 0.33
-Nodes (6): Batch ingestion, Cohort analytics, Cohorts, Exports, Scope, Scoreboard and moderation
+Cohesion: 0.17
+Nodes (12): Batch ingestion, Cohort analytics, Cohorts, Dependencies, Done when, Estimated effort, Exports, Outcome (+4 more)
 
 ### Community 25 - "DocumentService"
-Cohesion: 0.12
-Nodes (14): CriterionScore, EvaluationResult, PipelineStatus, BaseModel, ScoringResult, _elapsed(), PipelineOrchestrator, UUID (+6 more)
+Cohesion: 0.13
+Nodes (13): CriterionScore, EvaluationResult, PipelineStatus, BaseModel, ScoringResult, _elapsed(), PipelineOrchestrator, UUID (+5 more)
 
 ### Community 26 - "Engineering Report Evaluation — Frontend"
 Cohesion: 0.18
@@ -191,52 +186,52 @@ Cohesion: 0.18
 Nodes (11): Dependencies, Done when, Estimated effort, Frontend, Outcome, Part 6 — Versioned Rubrics and Evaluation Profiles, Profile contents, Scope (+3 more)
 
 ### Community 51 - "rubric_backbone.py"
-Cohesion: 0.29
-Nodes (3): Prompt for Stage 2: Domain Expert Reviewer.  Contract with app/pipeline/stage2_d, Prompt for Stage 3: Methodologist Reviewer.  Contract with app/pipeline/stage3_m, Prompt for Stage 4: Communication Specialist Reviewer.  Contract with app/pipeli
+Cohesion: 0.16
+Nodes (14): XML schema fragments used by all specialist reviewer prompts., reviewer_xml_schema(), Shared reviewer prompt material derived from :mod:`app.rubric`., Prompt for the Domain Expert reviewer., Prompt for the Methodologist reviewer., Prompt for the Communication Specialist reviewer., criteria_for_reviewer(), Authoritative rubric policy shared by prompts, pipeline, and scoring.  Keeping t (+6 more)
 
 ### Community 55 - "session_service.py"
-Cohesion: 0.13
-Nodes (36): do_run_migrations(), Run migrations in 'offline' mode., Run migrations in 'online' mode using an async engine., run_migrations_offline(), run_migrations_online(), Base, Document, EvaluationVersion (+28 more)
+Cohesion: 0.07
+Nodes (70): do_run_migrations(), Run migrations in 'offline' mode., Run migrations in 'online' mode using an async engine., run_migrations_offline(), run_migrations_online(), Base, Document, EvaluationVersion (+62 more)
 
 ### Community 56 - "ResultWorkspace.jsx"
-Cohesion: 0.33
-Nodes (6): Dependencies, Done when, Estimated effort, Outcome, Part 7 — Cohorts, Batch Grading, Moderation, and Cohort Analytics, Why this is a complete part
+Cohesion: 0.18
+Nodes (17): Validate exact criterion coverage and return serialisable assessments., validate_complete_assessments(), extract_scores_from_review(), _fix_ampersands(), parse_review_assessments(), parse_xml_response(), Any, Parse a complete reviewer response while preserving usable evidence.      Stru (+9 more)
 
 ### Community 57 - "Engineering Report Evaluation API"
-Cohesion: 0.07
-Nodes (27): API Endpoints, Apply migrations, Configuration, Database, `DELETE /api/v1/sessions/{session_id}`, Document preview, Engineering Report Evaluation API, Environment variables (+19 more)
+Cohesion: 0.26
+Nodes (9): googleSignInUrl(), health(), RequireAuth(), HealthBadge(), TopBar(), useAuth(), useTopBar(), Login() (+1 more)
 
 ### Community 58 - "stage9_feedback.py"
 Cohesion: 0.23
-Nodes (14): _extract_block(), _extract_citations(), _extract_point_text(), _extract_points(), Any, Stage 9: Feedback Synthesis  Input:  llm (LLMService),         consensus_out  (D, Best-effort recovery when the LLM's XML is too malformed to parse even     after, Synthesise written feedback from consensus evaluation and scoring. (+6 more)
+Nodes (14): _extract_block(), _extract_citations(), _extract_point_text(), _extract_points(), Any, Stage 9: Feedback Synthesis  Input:  llm (LLMService),         consensus_out, Best-effort recovery when the LLM's XML is too malformed to parse even     afte, Synthesise written feedback from consensus evaluation and scoring. (+6 more)
 
 ### Community 60 - "api.js"
-Cohesion: 0.27
-Nodes (13): archiveSession(), evaluateSync(), getDocumentMeta(), getResult(), getSession(), getStatus(), handleResponse(), health() (+5 more)
+Cohesion: 0.25
+Nodes (19): apiFetch(), archiveSession(), evaluateSync(), getCurrentUser(), getDocumentBlob(), getDocumentHtml(), getDocumentMeta(), getResult() (+11 more)
 
 ### Community 61 - "RunningEvaluation.jsx"
-Cohesion: 0.22
-Nodes (9): SubmitForm(), EmptyState(), TopBarDispatchContext, TopBarValueContext, useTopBarConfig(), useTopBarDispatch(), Dashboard(), NewEvaluation() (+1 more)
+Cohesion: 0.18
+Nodes (11): SubmitForm(), useToast(), EmptyState(), FailureScreen(), TopBarDispatchContext, TopBarValueContext, useTopBarConfig(), useTopBarDispatch() (+3 more)
 
 ### Community 62 - "stage10_verification.py"
-Cohesion: 0.09
-Nodes (21): extract_scores_from_review(), _fix_ampersands(), parse_xml_response(), Any, LLM output frequently embeds verbatim document text inside attribute     values, Extract and parse XML from a raw LLM response.     Returns the root element or N, Extract score and confidence for each criterion from a reviewer XML element., _repair_attribute_values() (+13 more)
+Cohesion: 0.07
+Nodes (38): Centralised logging configuration.  Call setup_logging() once at application s, setup_logging(), compute_score(), _grade_band(), _holistic_validation(), _incomplete_result(), Any, Deterministic F1--F9 scoring and explicit deferred-result semantics. (+30 more)
 
 ### Community 63 - "LLMService"
-Cohesion: 0.32
-Nodes (6): _empty_audit(), Any, Stage 5: Self-Critique Audit  Input:  llm (LLMService), reviewer_name (str), rev, Audit reviewer output for quality issues., run(), Prompt for Stage 5: Self-Critique Audit.  Contract with app/pipeline/stage5_self
+Cohesion: 0.33
+Nodes (7): _failed_audit(), Any, Stage 5: audit the structured median assessment, not a raw last response., Audit the authoritative median assessments and flag invalid audits., run(), _validate_audit(), Prompt for Stage 5: Self-Critique Audit.  Contract with app/pipeline/stage5_se
 
 ### Community 64 - "Part 4 — Reviewer Transparency and Complete Comparison Workspace"
 Cohesion: 0.18
 Nodes (11): APIs, Comparison modes, Comparison UI, Dependencies, Done when, Estimated effort, Outcome, Part 4 — Reviewer Transparency and Complete Comparison Workspace (+3 more)
 
 ### Community 65 - "ResultWorkspace.jsx"
-Cohesion: 0.14
-Nodes (11): FeedbackPanel(), TabPanel(), Tabs(), VerificationPanel(), buildDocx(), CRITERION_ORDER, criterionRows(), downloadBlob() (+3 more)
+Cohesion: 0.13
+Nodes (13): FeedbackPanel(), TabPanel(), Tabs(), VerificationPanel(), buildDocx(), CRITERION_ORDER, criterionRows(), downloadBlob() (+5 more)
 
 ### Community 66 - "stage6_reflection.py"
-Cohesion: 0.22
-Nodes (11): format_sections_for_prompt(), Any, Format parsed sections into a prompt-ready string, truncating to MAX_SECTION_CHA, _fallback_result(), _parse_final_scores(), Any, Stage 6: Reflection Pass  Input:  llm (LLMService), reviewer_name (str),, Extract criterion scores from <final_scores> block. (+3 more)
+Cohesion: 0.27
+Nodes (8): Return all parsed submission text for evidence verification.      Unlike promp, sections_as_document_text(), _provisional(), Any, Stage 6: require complete structured reflection assessments., Reflect only when both the source assessment and audit are complete.      A fa, run(), Prompt for the structured reflection stage.
 
 ### Community 67 - "Part 3 — Live Pipeline, Background Jobs, Cancel, Retry, and Notifications"
 Cohesion: 0.20
@@ -247,40 +242,44 @@ Cohesion: 0.22
 Nodes (8): Backend, Current baseline, Engineering Assessment Workspace — Complete Redesign Roadmap, Frontend, Half-completed frontend features that must not be forgotten, Meaning of “independent” in this roadmap, Non-negotiable execution rules, Product direction
 
 ### Community 69 - "AppShell.jsx"
-Cohesion: 0.21
-Nodes (11): listSessions(), AppShell(), initialCollapsed(), formatWhen(), HistoryTree(), statusBadgeClass(), MobileDrawer(), NAV_ITEMS (+3 more)
+Cohesion: 0.23
+Nodes (10): listSessions(), AppShell(), initialCollapsed(), formatWhen(), HistoryTree(), statusBadgeClass(), MobileDrawer(), NAV_ITEMS (+2 more)
 
 ### Community 70 - "TopBar.jsx"
-Cohesion: 0.22
-Nodes (10): App(), TopBar(), ToastContext, ToastProvider(), useTopBar(), preferredTheme(), ThemeContext, ThemeProvider() (+2 more)
+Cohesion: 0.29
+Nodes (7): App(), ToastContext, ToastProvider(), preferredTheme(), ThemeContext, ThemeProvider(), THEMES
+
+### Community 71 - "Part 1 — Complete Frontend Replacement and Core Evaluation Experience"
+Cohesion: 0.25
+Nodes (7): assessment_to_dict(), AssessmentValidation, evidence_in_document(), normalize_whitespace(), Validated internal assessments used by every scoring stage., Return a JSON-safe copy while supporting existing dict call sites., Verify evidence using whitespace-normalised exact containment only.
 
 ### Community 72 - "DocumentPreview.jsx"
-Cohesion: 0.39
-Nodes (8): getDocumentBlob(), getDocumentHtml(), clearAllHighlights(), DocumentPreview(), drawHighlights(), findItemsForQuote(), findMatchSpan(), scrollIntoContainer()
+Cohesion: 0.57
+Nodes (6): clearAllHighlights(), DocumentPreview(), drawHighlights(), findItemsForQuote(), findMatchSpan(), scrollIntoContainer()
 
 ### Community 73 - "Engineering Report Evaluation — Frontend"
-Cohesion: 0.33
-Nodes (5): Build for production, Engineering Report Evaluation — Frontend, Environment variables, Getting started, Prerequisites
+Cohesion: 0.83
+Nodes (3): getStepState(), ProgressTracker(), STAGES
 
 ## Knowledge Gaps
-- **187 isolated node(s):** `Config`, `name`, `private`, `version`, `type` (+182 more)
+- **159 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+154 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LLMService` connect `Async Job Store` to `App Config & Logging`, `stage6_reflection.py`, `Segmentation & Critique Stages`, `Consensus Reconciliation Stage`, `stage7_consensus.py`, `DocumentService`, `stage9_feedback.py`, `LLMService`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
-- **Why does `get_settings()` connect `App Config & Logging` to `stage6_reflection.py`, `Part 1 — Complete Frontend Replacement and Core Evaluation Experience`, `Async Job Store`, `session_service.py`, `evaluation.py`, `stage10_verification.py`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `parse_xml_response()` connect `stage10_verification.py` to `App Config & Logging`, `stage6_reflection.py`, `Segmentation & Critique Stages`, `stage7_consensus.py`, `stage9_feedback.py`, `LLMService`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **What connects `Run migrations in 'offline' mode.`, `Run migrations in 'online' mode using an async engine.`, `Config` to the rest of the system?**
-  _265 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `App Config & Logging` be split into smaller, more focused modules?**
-  _Cohesion score 0.1282051282051282 - nodes in this community are weakly interconnected._
+- **Why does `get_settings()` connect `App Config & Logging` to `evaluation.py`, `stage10_verification.py`, `session_service.py`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Are the 2 inferred relationships involving `User` (e.g. with `Base` and `DuplicateAccountError`) actually correct?**
+  _`User` has 2 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `name`, `private`, `version` to the rest of the system?**
+  _159 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Verification & Feedback Stages` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
 - **Should `Frontend UI Components` be split into smaller, more focused modules?**
   _Cohesion score 0.09411764705882353 - nodes in this community are weakly interconnected._
+- **Should `Segmentation & Critique Stages` be split into smaller, more focused modules?**
+  _Cohesion score 0.10810810810810811 - nodes in this community are weakly interconnected._
+- **Should `Part 4 — Batch Grading, Analytics, Auth & Hardening` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._

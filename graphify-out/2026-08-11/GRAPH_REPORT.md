@@ -1,11 +1,11 @@
 # Graph Report - AI-Evaluation-Work  (2026-08-11)
 
 ## Corpus Check
-- 120 files · ~42,923 words
+- 120 files · ~42,830 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 783 nodes · 1720 edges · 73 communities (46 shown, 27 thin omitted)
+- 783 nodes · 1723 edges · 74 communities (47 shown, 27 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.71)
 - Token cost: 0 input · 0 output
 
@@ -61,6 +61,7 @@
 - AGENTS.md
 - session_service.py
 - ResultWorkspace.jsx
+- Engineering Report Evaluation API
 - stage9_feedback.py
 - parse_xml_response
 - api.js
@@ -104,7 +105,7 @@
 ## Hyperedges (group relationships)
 - **Multi-Format Document Parsing Stack** — requirements_pymupdf, requirements_python_docx, readme_stage1_segmentation [INFERRED 0.85]
 
-## Communities (73 total, 27 thin omitted)
+## Communities (74 total, 27 thin omitted)
 
 ### Community 0 - "App Config & Logging"
 Cohesion: 0.19
@@ -136,7 +137,7 @@ Nodes (32): _combine(), Any, Stage 10: Verification Guard  Input:  llm (LLMServi
 
 ### Community 7 - "Part 4 — Batch Grading, Analytics, Auth & Hardening"
 Cohesion: 0.20
-Nodes (10): SubmitForm(), EmptyState(), TopBarDispatchContext, TopBarProvider(), TopBarValueContext, useTopBarConfig(), useTopBarDispatch(), Dashboard() (+2 more)
+Nodes (10): googleSignInUrl(), RequireAuth(), SubmitForm(), EmptyState(), useAuth(), useTopBarConfig(), Dashboard(), Login() (+2 more)
 
 ### Community 8 - "Frontend Build Dependencies"
 Cohesion: 0.06
@@ -186,6 +187,10 @@ Nodes (51): do_run_migrations(), Run migrations in 'offline' mode., Run migratio
 Cohesion: 0.20
 Nodes (15): extract_scores_from_review(), _fix_ampersands(), parse_review_assessments(), parse_xml_response(), Any, Parse a complete reviewer response while preserving usable evidence.      Stru, Compatibility wrapper returning only a complete, valid assessment map.      Co, LLM output frequently embeds verbatim document text inside attribute     values (+7 more)
 
+### Community 57 - "Engineering Report Evaluation API"
+Cohesion: 0.43
+Nodes (5): HelpGuide(), sectionForPath(), SECTIONS, TabPanel(), Tabs()
+
 ### Community 58 - "stage9_feedback.py"
 Cohesion: 0.23
 Nodes (14): _extract_block(), _extract_citations(), _extract_point_text(), _extract_points(), Any, Stage 9: Feedback Synthesis  Input:  llm (LLMService),         consensus_out, Best-effort recovery when the LLM's XML is too malformed to parse even     afte, Synthesise written feedback from consensus evaluation and scoring. (+6 more)
@@ -195,8 +200,8 @@ Cohesion: 0.22
 Nodes (21): apiFetch(), archiveSession(), evaluateSync(), getCurrentUser(), getDocumentBlob(), getDocumentHtml(), getDocumentMeta(), getResult() (+13 more)
 
 ### Community 61 - "RunningEvaluation.jsx"
-Cohesion: 0.23
-Nodes (10): googleSignInUrl(), RequireAuth(), HelpGuide(), indexForPath(), SECTIONS, TopBar(), useAuth(), useTopBar() (+2 more)
+Cohesion: 0.22
+Nodes (11): AppShell(), initialCollapsed(), MobileDrawer(), Sidebar(), TopBar(), TopBarDispatchContext, TopBarProvider(), TopBarValueContext (+3 more)
 
 ### Community 62 - "stage10_verification.py"
 Cohesion: 0.06
@@ -207,16 +212,16 @@ Cohesion: 0.33
 Nodes (7): _failed_audit(), Any, Stage 5: audit the structured median assessment, not a raw last response., Audit the authoritative median assessments and flag invalid audits., run(), _validate_audit(), Prompt for Stage 5: Self-Critique Audit.  Contract with app/pipeline/stage5_se
 
 ### Community 65 - "ResultWorkspace.jsx"
-Cohesion: 0.13
-Nodes (13): FeedbackPanel(), TabPanel(), Tabs(), VerificationPanel(), buildDocx(), CRITERION_ORDER, criterionRows(), downloadBlob() (+5 more)
+Cohesion: 0.15
+Nodes (11): FeedbackPanel(), VerificationPanel(), buildDocx(), CRITERION_ORDER, criterionRows(), downloadBlob(), downloadJson(), ResultWorkspace() (+3 more)
 
 ### Community 66 - "stage6_reflection.py"
 Cohesion: 0.19
 Nodes (12): format_sections_for_prompt(), Any, Shared pipeline utilities: section formatting and self-consistency scoring., Format parsed sections into a prompt-ready string, truncating to MAX_SECTION_CHA, Return all parsed submission text for evidence verification.      Unlike promp, sections_as_document_text(), _provisional(), Any (+4 more)
 
 ### Community 69 - "AppShell.jsx"
-Cohesion: 0.23
-Nodes (10): listSessions(), AppShell(), initialCollapsed(), formatWhen(), HistoryTree(), statusBadgeClass(), MobileDrawer(), NAV_ITEMS (+2 more)
+Cohesion: 0.35
+Nodes (6): listSessions(), formatWhen(), HistoryTree(), statusBadgeClass(), NAV_ITEMS, useToast()
 
 ### Community 70 - "TopBar.jsx"
 Cohesion: 0.29

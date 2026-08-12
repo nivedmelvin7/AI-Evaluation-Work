@@ -5438,8 +5438,8 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "frontend_src_api_googlesigninurl",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "googlesigninurl()"
     },
     {
@@ -5724,41 +5724,41 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_helpguide",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "helpguide.jsx"
     },
     {
       "label": "SECTIONS",
       "file_type": "code",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L10",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "frontend_src_components_helpguide_sections",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "sections"
     },
     {
-      "label": "indexForPath()",
+      "label": "sectionForPath()",
       "file_type": "code",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L180",
+      "source_location": "L18",
       "_origin": "ast",
-      "id": "frontend_src_components_helpguide_indexforpath",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
-      "norm_label": "indexforpath()"
+      "id": "frontend_src_components_helpguide_sectionforpath",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
+      "norm_label": "sectionforpath()"
     },
     {
       "label": "HelpGuide()",
       "file_type": "code",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L185",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "frontend_src_components_helpguide_helpguide",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "helpguide()"
     },
     {
@@ -6098,8 +6098,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_auth_requireauth",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "requireauth.jsx"
     },
     {
@@ -6109,8 +6109,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "frontend_src_components_auth_requireauth_requireauth",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "requireauth()"
     },
     {
@@ -6120,8 +6120,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_layout_appshell",
-      "community": 69,
-      "community_name": "AppShell.jsx",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "appshell.jsx"
     },
     {
@@ -6131,8 +6131,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "frontend_src_components_layout_appshell_initialcollapsed",
-      "community": 69,
-      "community_name": "AppShell.jsx",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "initialcollapsed()"
     },
     {
@@ -6142,8 +6142,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "frontend_src_components_layout_appshell_appshell",
-      "community": 69,
-      "community_name": "AppShell.jsx",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "appshell()"
     },
     {
@@ -6219,8 +6219,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_src_components_layout_mobiledrawer_mobiledrawer",
-      "community": 69,
-      "community_name": "AppShell.jsx",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "mobiledrawer()"
     },
     {
@@ -6241,8 +6241,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_src_components_layout_sidebar_sidebar",
-      "community": 69,
-      "community_name": "AppShell.jsx",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "sidebar()"
     },
     {
@@ -6417,8 +6417,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_components_ui_tabs",
-      "community": 65,
-      "community_name": "ResultWorkspace.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "tabs.jsx"
     },
     {
@@ -6428,8 +6428,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "frontend_src_components_ui_tabs_tabs",
-      "community": 65,
-      "community_name": "ResultWorkspace.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "tabs()"
     },
     {
@@ -6439,8 +6439,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "frontend_src_components_ui_tabs_tabpanel",
-      "community": 65,
-      "community_name": "ResultWorkspace.jsx",
+      "community": 57,
+      "community_name": "Engineering Report Evaluation API",
       "norm_label": "tabpanel()"
     },
     {
@@ -6483,8 +6483,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "frontend_src_context_authcontext_useauth",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "useauth()"
     },
     {
@@ -6494,8 +6494,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_context_topbarcontext",
-      "community": 7,
-      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "topbarcontext.jsx"
     },
     {
@@ -6505,8 +6505,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_src_context_topbarcontext_topbarvaluecontext",
-      "community": 7,
-      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "topbarvaluecontext"
     },
     {
@@ -6516,8 +6516,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "frontend_src_context_topbarcontext_topbardispatchcontext",
-      "community": 7,
-      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "topbardispatchcontext"
     },
     {
@@ -6527,8 +6527,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "frontend_src_context_topbarcontext_topbarprovider",
-      "community": 7,
-      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "topbarprovider()"
     },
     {
@@ -6549,8 +6549,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "frontend_src_context_topbarcontext_usetopbardispatch",
-      "community": 7,
-      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
+      "community": 61,
+      "community_name": "RunningEvaluation.jsx",
       "norm_label": "usetopbardispatch()"
     },
     {
@@ -6604,8 +6604,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_src_pages_login",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "login.jsx"
     },
     {
@@ -6615,8 +6615,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_src_pages_login_login",
-      "community": 61,
-      "community_name": "RunningEvaluation.jsx",
+      "community": 7,
+      "community_name": "Part 4 \u2014 Batch Grading, Analytics, Auth & Hardening",
       "norm_label": "login()"
     },
     {
@@ -24729,7 +24729,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L185",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_components_helpguide",
@@ -24740,22 +24740,58 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L180",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_components_helpguide",
-      "target": "frontend_src_components_helpguide_indexforpath",
+      "target": "frontend_src_components_helpguide_sectionforpath",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L10",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_src_components_helpguide",
       "target": "frontend_src_components_helpguide_sections",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/components/HelpGuide.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_components_helpguide",
+      "target": "frontend_src_components_ui_tabs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/components/HelpGuide.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_components_helpguide",
+      "target": "frontend_src_components_ui_tabs_tabpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/src/components/HelpGuide.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_src_components_helpguide",
+      "target": "frontend_src_components_ui_tabs_tabs",
       "confidence_score": 1.0
     },
     {
@@ -24776,10 +24812,10 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/src/components/HelpGuide.jsx",
-      "source_location": "L181",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "frontend_src_components_helpguide_indexforpath",
+      "source": "frontend_src_components_helpguide_sectionforpath",
       "target": "frontend_src_components_helpguide_sections"
     },
     {

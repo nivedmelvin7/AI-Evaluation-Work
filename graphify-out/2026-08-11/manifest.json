@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "frontend/package.json": {
-    "mtime": 1786489256.7306397,
-    "ast_hash": "7b847916d9e2c6eefd6b0d9dbff25975",
+    "mtime": 1784477158.8898127,
+    "ast_hash": "0990731a4804731d9873e8b018def486",
     "semantic_hash": ""
   },
   "frontend/src/App.jsx": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "frontend/src/components/HelpGuide.jsx": {
-    "mtime": 1786488121.4798815,
-    "ast_hash": "4f8d1ea725a9e357b89c5e7098a80fe9",
+    "mtime": 1786487192.4272192,
+    "ast_hash": "d10312faef40d580358d41ffb3dfe3ba",
     "semantic_hash": ""
   },
   "tests/test_config.py": {

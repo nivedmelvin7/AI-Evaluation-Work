@@ -1,5 +1,7 @@
 # Engineering Report Evaluation API
 
+https://github.com/user-attachments/assets/46071687-1db7-42ea-ac93-50fa4860d543
+
 AI-powered multi-agent pipeline for evaluating engineering reports (EE990/EE997/EE998/EE900 — University of Strathclyde).
 
 ---
